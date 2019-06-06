@@ -47,9 +47,7 @@ class transport:
         self._data['lang']}&transfers={self.transfers}&transport={self._data["transport_types"]}"""
         log.warning(self.url)
 
-    def code(self):
-        pass
-
+    
     async def request(self):
         async with aiohttp.ClientSession() as session:
             async with session.get(self.url) as response:
