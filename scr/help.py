@@ -1,23 +1,15 @@
-import os
-from aiogram.utils.helper import Helper, HelperMode, ListItem
+package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogram", "aiosqlite", "aiosocks",
+                 "aiosocksy",
+                 "aiohttp_socks"]
 
-package = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogram", "aiosqlite", "aiosocks", "aiosocksy",
-           "aiohttp_socks"]
+token: str = "545171444:AAHg8QcGzRxeW2TobW1oxV8lt_d2dKu-plA"
 
-token = " "
-
-
-mes = {
+mes: dict = {
     "start": "message start",
-    "help":"message help",
+    "help": "message help",
 
 }
+import aiohttp
+good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
+login = aiohttp.BasicAuth(login='mtpro_xyz', password='mtpro_xyz_bot')
 
-class st(Helper):
-    mode = HelperMode.snake_case
-    TEST_STATE_0 = ListItem()
-    TEST_STATE_1 = ListItem()
-    TEST_STATE_2 = ListItem()
-    TEST_STATE_3 = ListItem()
-    TEST_STATE_4 = ListItem()
-    TEST_STATE_5 = ListItem()
