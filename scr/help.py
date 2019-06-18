@@ -2,7 +2,7 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
                  "aiosocksy",
                  "aiohttp_socks"]
 
-token: str = "545171444:AAHg8QcGzRxeW2TobW1oxV8lt_d2dKu-plA"
+token: str = " "
 
 mes: dict = {
     "start": "message start",
