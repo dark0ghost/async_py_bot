@@ -14,16 +14,19 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from model import orm_async_sqlite3
+from aiogram.types import ParseMode
+
 
 print("bild")
-
-logging.basicConfig(filename="log_base.log",level=logging.DEBUG)
+#startset
+logging.basicConfig(filename="log_base.log", level=logging.DEBUG)
 log = logging.getLogger("bot")
+state = help.state()
 
-
+# set proxy
 async def setproxy():
     global proxy_list
-    proxy_list= []
+    proxy_list = []
     connector = ProxyConnector()
     li = await async_proxy.main()
     for proxy in li:
@@ -44,29 +47,42 @@ async def setproxy():
         await setproxy()
 
 
+
+
+"""
+fix :
+
+RuntimeError: There is no current event loop in thread 'MainThread'.
+
+"""
 loop = asyncio.get_event_loop()
 
 db = orm_async_sqlite3.sqlite("data3.db3")
 
-
 asyncio.run(db.create_teblae())
-#asyncio.run(setproxy())
+# asyncio.run(setproxy())
+bot = Bot(token=help.token, loop=loop, proxy=help.good_proxy_link, proxy_auth=help.login)
 
-bot = Bot(token=help.token, loop=loop,proxy=help.good_proxy_link,proxy_auth=help.login)
-
-dp = Dispatcher(bot,storage=MemoryStorage())
+dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
 
 
 
+
+
+#endset
+
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
-    await bot.send_message(message.chat.id, text=help.mes["start"], )
+    await bot.send_message(message.chat.id, text=help.mes['start'])
+
+
 
 
 @dp.message_handler(commands=['help'])
 async def process_start_command(message: types.Message):
     await bot.send_message(message.chat.id, text=help.mes["help"], )
+
 
 @dp.callback_query_handler()
 async def back(message: types.Message):
@@ -78,23 +94,6 @@ async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.wait_closed()
 
 
-@dp.message_handler( commands=['setstate'])
-async def process_setstate_command(message: types.Message):
-   
-    argument = message.get_args()
-    state = dp.current_state(user=message.from_user.id)
-    if not argument:
-        await state.reset_state()
-        return await message.reply(message['state_reset'])
-
-    if (not argument.isdigit()) or (not int(argument) < len(help.state.all())):
-        return await message.reply(message['invalid_key'].format(key=argument))
-    print(state)
-    await state.set_state(help.state.all()[int(argument)])
-    await message.reply(message['state_change'], reply=False)
-
-
-
 if __name__ == '__main__':
     print("start")
-    executor.start_polling(dp,on_shutdown=shutdown)
+    executor.start_polling(dp, on_shutdown=shutdown)
