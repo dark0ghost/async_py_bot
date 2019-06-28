@@ -1,4 +1,3 @@
-import aiohttp
 
 from aiogram import Bot
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -7,7 +6,7 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
                  "aiosocksy",
                  "aiohttp_socks"]
 
-token: str = " "
+token: str = ""
 
 mes: dict = {
     "start": "message start",
@@ -29,6 +28,6 @@ async def get_link(bot: Bot):
 class state(StatesGroup):
     start: State = State()
     end: State = State()
+    conact: State = State()
+    geo:State = State()
     pass
-
-
