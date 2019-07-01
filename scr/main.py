@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-
+from typing import List
 
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, \
     InlineKeyboardButton
@@ -101,17 +101,8 @@ async def back(message: types.Message):
 
 @dp.message_handler(commands=['h'])
 async def check_language(message: types.Message):
-    locale = message.from_user.locale
-    print(1)
-    await message.reply(md.text(
-        md.bold('Info about your language:'),
-        md.text(' d', md.bold('Code:'), md.italic(locale.locale)),
-        md.text(' q', md.bold('Territory:'), md.italic(locale.territory or 'Unknown')),
-        md.text(' p', md.bold('Language name:'), md.italic(locale.language_name)),
-        md.text(' t', md.bold('English language name:'), md.italic(locale.english_name)),
-        sep='\n'))
-    print(2)
-
+    proxy: List[str] = await async_proxy.main()
+    await bot.send_message(message.chat.id,text=proxy,reply_markup=button.proxy(proxy))
 
 @dp.inline_handler()
 async def inline_echo(inline_query: types.InlineQuery):
