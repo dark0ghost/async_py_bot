@@ -11,7 +11,7 @@ token: str = ""
 mes: dict = {
     "start": "message start",
     "help": "message help",
-
+    "proxy":"public proxy for you",
 }
 
 good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
