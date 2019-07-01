@@ -1,8 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from typing import List
 
-from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, \
-    InlineKeyboardButton
+
 
 import help
 import aiohttp
@@ -18,9 +17,6 @@ from aiogram import Bot, Dispatcher, executor, md, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType
-
-
-
 
 print("bild")
 # startset
@@ -53,6 +49,12 @@ async def setproxy():
         log.info(f"log new rec")
         await setproxy()
 
+async def get_list_proxy():
+    global list_proxy_inline
+    list_proxy_inline = await async_proxy.main()
+    print(list_proxy_inline)
+    await asyncio.sleep(60)
+
 
 """
 fix :
@@ -62,9 +64,16 @@ RuntimeError: There is no current event loop in thread 'MainThread'.
 """
 loop = asyncio.get_event_loop()
 
+
 db = orm_async_sqlite3.sqlite("data3.db3")
 
 asyncio.run(db.create_teblae())
+
+
+"""
+  todo: db.create_contact
+"""
+
 # asyncio.run(setproxy())
 bot = Bot(token=help.token, loop=loop, proxy=help.good_proxy_link, proxy_auth=help.login,
           parse_mode=types.ParseMode.MARKDOWN)
@@ -78,8 +87,8 @@ dp.middleware.setup(LoggingMiddleware())
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
     m = message.get_args()
-    #await  state.conact.set()
-    await bot.send_message(message.chat.id, text=help.mes['start'],reply_markup=keyboard.get_contact()) #reply_markup=button.start())
+    # await  state.conact.set()
+    await bot.send_message(message.chat.id, text=help.mes['start'])
 
 
 @dp.message_handler(state=state.start)
@@ -96,32 +105,44 @@ async def process_start_command(message: types.Message):
 
 @dp.callback_query_handler()
 async def back(message: types.Message):
-    pass
+    """
+    todo
+    :param message:
+    :return:
+    """
 
 
-@dp.message_handler(commands=['h'])
+@dp.message_handler(commands=['proxy'])
 async def check_language(message: types.Message):
     proxy: List[str] = await async_proxy.main()
-    await bot.send_message(message.chat.id,text=proxy,reply_markup=button.proxy(proxy))
+    await bot.send_message(message.chat.id, text=help.mes["proxy"], reply_markup=button.proxy(proxy))
+
 
 @dp.inline_handler()
 async def inline_echo(inline_query: types.InlineQuery):
-    print(1)
+
     input_content = types.InputTextMessageContent("{await async_proxy.main()} ")
     item = types.InlineQueryResultArticle(id='1', title=f'bot {inline_query.query}',
                                           input_message_content=input_content)
     await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
 
+
 @dp.message_handler(content_types=ContentType.CONTACT)
 async def getcontact(message: types.Message):
+    """"
+   todo: make db content
+   """
 
-     print(message.contact)
 
 @dp.message_handler(state=state.geo)
-async def getgeo(message: types.Message,state1: FSMContext):
-     state1.finish()
+async def getgeo(message: types.Message, state1: FSMContext):
+    state1.finish()
+    pass
 
-     print(message.text)
+
+@dp.message_handler(commands=["re"])
+async def remove_board(message: types.Message):
+    await bot.send_message(message.chat.id,text="del board ",reply_markup=keyboard.remove_kaeyboard())
 
 async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
@@ -130,4 +151,4 @@ async def shutdown(dispatcher: Dispatcher):
 
 if __name__ == '__main__':
     print("start")
-    executor.start_polling(dp, on_shutdown=shutdown, loop=loop, )
+    executor.start_polling(dp, on_shutdown=shutdown, loop=loop)
