@@ -143,6 +143,21 @@ async def getgeo(message: types.Message, state1: FSMContext):
 @dp.message_handler(commands=["re"])
 async def remove_board(message: types.Message):
     await bot.send_message(message.chat.id,text="del board ",reply_markup=keyboard.remove_kaeyboard())
+    
+    @dp.message_handler(state=state.mail)
+async def get_mail(message: types.Message, state1: FSMContext):
+    e:help.e_mail = help.e_mail(message.text)
+    if e.is_e_mail():
+        message.reply("готово")
+        state1.finish()
+        """
+        todo: доделать записись в бд
+        
+        """
+    else:
+        bot.send_message(message.chat.id,text=f"{message.text} не является потчтой")
+    del e
+
 
 async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
