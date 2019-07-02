@@ -5,11 +5,11 @@ import help
 import aiohttp
 import logging
 import asyncio
-import button as b
+
 
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from model import async_proxy, orm_async_sqlite3
+from model import async_proxy, orm_async_sqlite3,E_mail,button as b,keyboard
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher, executor, md, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
@@ -22,7 +22,7 @@ logging.basicConfig(filename="log_base.log", level=logging.DEBUG)
 log = logging.getLogger("bot")
 state = help.state()
 button = b.button
-keyboard = b.keyboard
+keyboard = keyboard
 
 
 # set proxy
@@ -127,7 +127,7 @@ async def remove_board(message: types.Message):
 
 @dp.message_handler(state=state.mail)
 async def get_mail(message: types.Message, state1: FSMContext):
-    e: help.e_mail = help.e_mail(message.text)
+    e: E_mail.e_mail = E_mail.e_mail(message.text)
     if e.is_e_mail():
         message.reply("готово")
         state1.finish()
