@@ -1,6 +1,11 @@
 
+import aiohttp
+import re
+
 from aiogram import Bot
 from aiogram.dispatcher.filters.state import State, StatesGroup
+
+from typing import Tuple
 
 package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogram", "aiosqlite", "aiosocks",
                  "aiosocksy",
@@ -8,10 +13,12 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
 
 token: str = ""
 
+lang: Tuple[str] = ("ru", "en", "ua")
+
 mes: dict = {
     "start": "message start",
     "help": "message help",
-    "proxy":"public proxy for you",
+    "proxy": "public proxy for you"
 }
 
 good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
@@ -29,11 +36,12 @@ class state(StatesGroup):
     start: State = State()
     end: State = State()
     conact: State = State()
-    geo:State = State()
+    geo: State = State()
+    mail: State = State()
     pass
-  
-  
-  class e_mail:
+
+
+class e_mail:
     def __init__(self, mail: str):
         self.mail = mail
 
@@ -51,5 +59,6 @@ class state(StatesGroup):
 
     def is_yahoo(self):
         return True if ("yahoo.com" in (self.mail.split("@"))[1]) else False
+
     def get_mail(self):
         return self.mail
