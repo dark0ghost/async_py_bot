@@ -6,28 +6,33 @@ import aiohttp
 import logging
 import asyncio
 
-
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from model import async_proxy, orm_async_sqlite3,E_mail,button as b,keyboard
+from model import async_proxy, orm_async_sqlite3, E_mail, button, keyboard
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher, executor, md, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from aiogram.utils.callback_data import CallbackData
+from aiogram.utils.exceptions import MessageNotModified, Throttled
 from aiogram.dispatcher import FSMContext
 from aiogram.types import ContentType
 
 print("bild")
 # startset
-logging.basicConfig(filename="log_base.log", level=logging.DEBUG)
+logging.basicConfig(filename="log_base.log", level=logging.INFO)
 log = logging.getLogger("bot")
 state = help.state()
-button = b.button
-keyboard = keyboard
+Button = button.Button
+keyboard = keyboard.keyboard
+proxy_list: List[str] = []
+posts_cb = CallbackData('post', 'id', 'action')
+Button.posts_cb = posts_cb
+
 
 
 # set proxy
 async def setproxy():
-    global proxy_list
     proxy_list = []
     connector = ProxyConnector()
     li = await async_proxy.main()
@@ -46,13 +51,6 @@ async def setproxy():
     if len(proxy_list) < 5:
         log.info(f"log new rec")
         await setproxy()
-
-
-async def get_list_proxy():
-    global list_proxy_inline
-    list_proxy_inline = await async_proxy.main()
-    print(list_proxy_inline)
-    await asyncio.sleep(60)
 
 
 """
@@ -77,6 +75,7 @@ bot = Bot(token=help.token, loop=loop, proxy=help.good_proxy_link, proxy_auth=he
 
 dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
+dp.middleware.setup(LoggingMiddleware())
 
 
 # endset
@@ -93,7 +92,7 @@ async def process_start_command(message: types.Message):
 async def f(message: types.Message, state1: FSMContext):
     print(1)
     await state1.finish()
-    await  bot.send_message(message.chat.id, text="state")
+    await bot.send_message(message.chat.id, text="state")
 
 
 @dp.message_handler(commands=['help'])
@@ -103,8 +102,11 @@ async def process_start_command(message: types.Message):
 
 @dp.message_handler(commands=['proxy'])
 async def check_language(message: types.Message):
-    proxy: List[str] = await async_proxy.main()
-    await bot.send_message(message.chat.id, text=help.mes["proxy"], reply_markup=button.proxy(proxy))
+    proxy_list = await async_proxy.main()
+    await  bot.send_message(message.chat.id, text="text",
+                            reply_markup=Button.edit_proxy(proxy=proxy_list[0], text_button="не работает?",
+                                                           callback="edit"))
+    proxy_list.pop(0)
 
 
 @dp.message_handler(content_types=ContentType.CONTACT)
@@ -122,7 +124,7 @@ async def getgeo(message: types.Message, state1: FSMContext):
 
 @dp.message_handler(commands=["re"])
 async def remove_board(message: types.Message):
-    await bot.send_message(message.chat.id, text="del board ", reply_markup=keyboard.remove_kaeyboard)
+    await bot.send_message(message.chat.id, text="del board ", reply_markup=keyboard.remove_kaeyboard())
 
 
 @dp.message_handler(state=state.mail)
