@@ -32,7 +32,7 @@ keyboard = keyboard.keyboard
 proxy_list: List[str] = []
 posts_cb = CallbackData('post', 'id', 'action')
 Button.posts_cb = posts_cb
-basefilter:filter.Base_bot_filter = filter.base_bot_filter()
+basefilter:filter.Base_bot_filter = filter.Base_bot_filter()
 
 # start def
 # set proxy
