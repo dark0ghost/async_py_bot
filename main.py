@@ -6,9 +6,11 @@ import help
 import aiohttp
 import logging
 import asyncio
+import price
+import filter
 
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
+
+
 from model import async_proxy, orm_async_sqlite3, E_mail, button, keyboard
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram import Bot, Dispatcher, executor, md, types
@@ -17,6 +19,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
 from aiogram.utils.exceptions import MessageNotModified, Throttled
 from aiogram.dispatcher import FSMContext
+from aiogram.types.message import ContentTypes
 from aiogram.types import ContentType
 
 print("bild")
@@ -29,7 +32,7 @@ keyboard = keyboard.keyboard
 proxy_list: List[str] = []
 posts_cb = CallbackData('post', 'id', 'action')
 Button.posts_cb = posts_cb
-
+basefilter:filter.Base_bot_filter = filter.base_bot_filter()
 
 # start def
 # set proxy
@@ -80,7 +83,7 @@ bot = Bot(token=help.token, loop=loop,
 dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(LoggingMiddleware())
-
+dp.filters_factory.bind(basefilter)
 
 # endset
 
@@ -154,6 +157,27 @@ async def get_mail(message: types.Message, state1: FSMContext):
 
     del e
 
+@dp.message_handler(commands=['buy'])
+async def buy(message: types.Message):
+    print("buy")
+    await bot.send_invoice(message.chat.id, title='пожертвание',
+                           description='пожертвуй для дальнейший разработки',
+                           provider_token=help.PAYMENTS_PROVIDER_TOKEN,
+                           currency='rub',
+                           photo_url='https://e3.edimdoma.ru/data/recipes/0006/0497/60497-ed4_wide.jpg?1468399744',
+                           photo_height=512,  # !=0/None or picture won't be shown
+                           photo_width=512,
+                           photo_size=512,
+                           is_flexible=1,  # True If you need to set up Shipping Fee
+                           prices=price.price,
+                           start_parameter='time-machine-example',
+                           payload='HAPPY FRIDAYS COUPON')
+
+@dp.message_handler(content_types=ContentTypes.SUCCESSFUL_PAYMENT)
+async def got_payment(message: types.Message):
+    await bot.send_message(message.chat.id,text=help.mes["buy"],
+                           parse_mode='Markdown')
+
 
 # end message_handler
 
@@ -207,8 +231,23 @@ async def back(query: types.CallbackQuery, callback_data: dict):
         proxy_list.pop(0)
     print("end")
 
-    # end  callback_query_handler
+# end  callback_query_handler
 
+
+#start shipping_query_handler
+
+@dp.shipping_query_handler()
+async def shipping(shipping_query: types.ShippingQuery):
+    await bot.answer_shipping_query(shipping_query.id, ok=True, shipping_options=price.shipping_options,
+                                    error_message=f'доставка не работает!')
+#end shipping_query_handler
+
+#start pre_checkout_query_handler
+@dp.pre_checkout_query_handler()
+async def checkout(pre_checkout_query: types.PreCheckoutQuery):
+    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
+                                        error_message=help.mes["error_pay"])
+#end pre_checkout_query_handler
 
 if __name__ == '__main__':
     print("start")

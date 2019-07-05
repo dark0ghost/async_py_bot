@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 import aiohttp
 
 from aiogram import Bot
@@ -11,13 +12,17 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
 
 token: str = "545171444:AAHg8QcGzRxeW2TobW1oxV8lt_d2dKu-plA"
 
+PAYMENTS_PROVIDER_TOKEN:str = "632593626:TEST:i56982357197"
+
 lang: Tuple[str] = ("ru", "en", "ua")
 
 mes: dict = {
     "start": "message start",
     "help": "message help",
     "proxy": "public proxy for you",
-    "new_proxy":"new proxy"
+    "new_proxy":"new proxy",
+    "buy":"покупка произведена успешно",
+    "error_pay":"окупка не произошла",
 }
 
 good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
