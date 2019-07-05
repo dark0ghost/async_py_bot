@@ -10,12 +10,22 @@ class Button:
 
     @classmethod
     def button_all(cls, text_button: str, callback: str) -> InlineKeyboardMarkup:
+        """
+
+        :param text_button:
+        :param callback:
+        :return:
+        """
         inline_btn = InlineKeyboardButton(text=text_button,
                                           callback_data=cls.posts_cb.new(id=callback, action=text_button))
         inline_kb = InlineKeyboardMarkup().add(inline_btn)
         return inline_kb
 
     def proxy(list_proxy: List[str]) -> InlineKeyboardMarkup:
+        """
+
+        :return:
+        """
         inline_kb = InlineKeyboardMarkup()
         for i in list_proxy:
             s: str = i.replace("socks5://", "")
@@ -25,7 +35,13 @@ class Button:
         return inline_kb
 
     @classmethod
-    def butoons(cls, text: List[str], call_back: list) -> InlineKeyboardMarkup:
+    def butoons(cls, text: List[str], call_back: List[str]) -> InlineKeyboardMarkup:
+        """
+
+        :param text:
+        :param call_back:
+        :return:
+        """
         inline_kb: InlineKeyboardMarkup = InlineKeyboardMarkup()
         for val, i in enumerate(text):
             inb = InlineKeyboardButton(text=i, callback_data=cls.posts_cb.new(id=call_back[i]))
@@ -34,12 +50,19 @@ class Button:
 
     @classmethod
     def edit_proxy(cls, text_button: str, proxy: str, callback: str = "proxy") -> InlineKeyboardMarkup:
+        """
+
+        :param text_button:
+        :param proxy:
+        :param callback:
+        :return:
+        """
         proxy = proxy.replace("socks5://", "")
         server, port = proxy.split(":")
         inline_btn = InlineKeyboardButton(text=text_button,
-                                          callback_data=Button.posts_cb.new(id=callback, action=text_button))
+                                          callback_data=Button.posts_cb.new(id=callback, action=callback))
         link_beta: str = f"https://t.me/proxy?server={server}&port={port}"
         inline_kb = InlineKeyboardMarkup()
-        inline_kb.add(InlineKeyboardButton(text="proxy for you", url=link_beta))
+        inline_kb.add(InlineKeyboardButton(text=server, url=link_beta))
         inline_kb.add(inline_btn)
         return inline_kb
