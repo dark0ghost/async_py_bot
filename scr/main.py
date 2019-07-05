@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+from asyncio.events import AbstractEventLoop
 from typing import List
 
 import help
@@ -30,9 +31,9 @@ posts_cb = CallbackData('post', 'id', 'action')
 Button.posts_cb = posts_cb
 
 
-
+# start def
 # set proxy
-async def setproxy():
+async def setproxy() -> List[str]:
     proxy_list = []
     connector = ProxyConnector()
     li = await async_proxy.main()
@@ -53,15 +54,18 @@ async def setproxy():
         await setproxy()
 
 
+# end def
+
+
 """
 fix :
 
 RuntimeError: There is no current event loop in thread 'MainThread'.
 
 """
-loop = asyncio.get_event_loop()
+loop: AbstractEventLoop = asyncio.get_event_loop()
 
-db = orm_async_sqlite3.sqlite("data3.db3")
+db: orm_async_sqlite3.sqlite = orm_async_sqlite3.sqlite("data3.db3")
 
 asyncio.run(db.create_teblae())
 
@@ -90,7 +94,6 @@ async def process_start_command(message: types.Message):
 
 @dp.message_handler(state=state.start)
 async def f(message: types.Message, state1: FSMContext):
-    print(1)
     await state1.finish()
     await bot.send_message(message.chat.id, text="state")
 
@@ -165,16 +168,27 @@ async def shutdown(dispatcher: Dispatcher):
 
 # callback_query_handler
 
-@dp.callback_query_handler()
-async def back(message: types.Message):
+@dp.callback_query_handler(posts_cb.filter(action=['edit']))
+async def back(query: types.CallbackQuery, callback_data: dict):
     """
     todo
     :param message:
     :return:
     """
+    print("starts")
 
 
-# end  callback_query_handler
+    if len(proxy_list) < 1:
+        [proxy_list.append(i) for i in await async_proxy.main()]
+    else:
+        await query.message.edit_text(text=help.mes["new_proxy"],
+                                      reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
+                                                                     callback="edit"))
+        proxy_list.pop(0)
+    print("end")
+
+    # end  callback_query_handler
+
 
 if __name__ == '__main__':
     print("start")
