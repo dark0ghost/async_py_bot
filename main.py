@@ -111,6 +111,11 @@ async def check_language(message: types.Message):
                                                            callback="edit"))
     proxy_list.pop(0)
 
+@dp.message_handler(commands=['proxy_all'])
+async def check_language(message: types.Message):
+    proxy_list: List[str] = await async_proxy.main()
+    await bot.send_message(message.chat.id, text="text",
+                            reply_markup=Button.proxy(proxy_list))
 
 @dp.message_handler(content_types=ContentType.CONTACT)
 async def getcontact(message: types.Message):
