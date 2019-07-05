@@ -74,8 +74,8 @@ asyncio.run(db.create_teblae())
 """
 
 # asyncio.run(setproxy())
-bot = Bot(token=help.token, loop=loop, proxy=help.good_proxy_link, proxy_auth=help.login,
-          parse_mode=types.ParseMode.MARKDOWN)
+bot = Bot(token=help.token, loop=loop,
+          parse_mode=types.ParseMode.MARKDOWN,) #proxy=help.good_proxy_link, proxy_auth=help.login,)
 
 dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
@@ -111,6 +111,11 @@ async def check_language(message: types.Message):
                                                            callback="edit"))
     proxy_list.pop(0)
 
+@dp.message_handler(commands=['proxy_all'])
+async def check_language(message: types.Message):
+    proxy_list: List[str] = await async_proxy.main()
+    await bot.send_message(message.chat.id, text="text",
+                            reply_markup=Button.proxy(proxy_list))
 
 @dp.message_handler(content_types=ContentType.CONTACT)
 async def getcontact(message: types.Message):
@@ -129,6 +134,10 @@ async def getgeo(message: types.Message, state1: FSMContext):
 async def remove_board(message: types.Message):
     await bot.send_message(message.chat.id, text="del board ", reply_markup=keyboard.remove_kaeyboard())
 
+@dp.message_handler(commands=["log"])
+async def log(message: types.Message):
+    with open("log_base.log","r") as f:
+        message.reply(f.read())
 
 @dp.message_handler(state=state.mail)
 async def get_mail(message: types.Message, state1: FSMContext):
@@ -149,15 +158,27 @@ async def get_mail(message: types.Message, state1: FSMContext):
 # end message_handler
 
 
+
+
+
 # inline_handler
 
 @dp.inline_handler()
 async def inline_echo(inline_query: types.InlineQuery):
     input_content = types.InputTextMessageContent("{await async_proxy.main()} ")
-    item = types.InlineQueryResultArticle(id='1', title=f'bot {inline_query.query}',
-                                          input_message_content=input_content)
-    await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
-
+    """if len(proxy_list) < 1:
+        item = types.InlineQueryResultArticle(id='1', title='нет прокси',
+                                              input_message_content=input_content)
+        await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
+        #[proxy_list.append(i) for i in await async_proxy.main()]
+    else:
+        item = types.InlineQueryResultArticle(id='1', title=f'bot {inline_query.query}',
+                                              input_message_content=input_content,
+                                              reply_markup=Button.edit_proxy(text_button="не работает?",
+                                                                             proxy=proxy_list[0],
+                                                                             callback="edit"))
+        await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
+    """
 
 async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
@@ -176,7 +197,6 @@ async def back(query: types.CallbackQuery, callback_data: dict):
     :return:
     """
     print("starts")
-
 
     if len(proxy_list) < 1:
         [proxy_list.append(i) for i in await async_proxy.main()]
