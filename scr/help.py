@@ -18,7 +18,8 @@ lang: Tuple[str] = ("ru", "en", "ua")
 mes: dict = {
     "start": "message start",
     "help": "message help",
-    "proxy": "public proxy for you"
+    "proxy": "public proxy for you",
+    "new_proxy":"new proxy"
 }
 
 good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
