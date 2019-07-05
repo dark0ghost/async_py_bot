@@ -30,7 +30,6 @@ async def get_link(bot: Bot):
     link: str = f"t.me/{link_bot}/?ref="
     return link
 
-
 class state(StatesGroup):
     start: State = State()
     end: State = State()
