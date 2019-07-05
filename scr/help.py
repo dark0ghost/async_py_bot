@@ -1,6 +1,5 @@
-
+# This Python file uses the following encoding: utf-8
 import aiohttp
-import re
 
 from aiogram import Bot
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -11,7 +10,9 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
                  "aiosocksy",
                  "aiohttp_socks"]
 
-token: str = ""
+token: str = "545171444:AAHg8QcGzRxeW2TobW1oxV8lt_d2dKu-plA"
+
+PAYMENTS_PROVIDER_TOKEN:str = "632593626:TEST:i56982357197"
 
 lang: Tuple[str] = ("ru", "en", "ua")
 
@@ -19,7 +20,9 @@ mes: dict = {
     "start": "message start",
     "help": "message help",
     "proxy": "public proxy for you",
-    "new_proxy":"new proxy"
+    "new_proxy":"new proxy",
+    "buy":"покупка произведена успешно",
+    "error_pay":"окупка не произошла",
 }
 
 good_proxy_link: str = "socks5://exp1.s5overss.mtpro.xyz:39610"
@@ -32,7 +35,6 @@ async def get_link(bot: Bot):
     link: str = f"t.me/{link_bot}/?ref="
     return link
 
-
 class state(StatesGroup):
     start: State = State()
     end: State = State()
@@ -40,3 +42,6 @@ class state(StatesGroup):
     geo: State = State()
     mail: State = State()
     pass
+
+
+
