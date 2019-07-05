@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48e6df9f-0690-4c69-a43c-a16906e323df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../EE/EE.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/grapf.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
@@ -401,7 +399,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15700738" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

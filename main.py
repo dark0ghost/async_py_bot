@@ -74,8 +74,8 @@ asyncio.run(db.create_teblae())
 """
 
 # asyncio.run(setproxy())
-bot = Bot(token=help.token, loop=loop, proxy=help.good_proxy_link, proxy_auth=help.login,
-          parse_mode=types.ParseMode.MARKDOWN)
+bot = Bot(token=help.token, loop=loop,
+          parse_mode=types.ParseMode.MARKDOWN,) #proxy=help.good_proxy_link, proxy_auth=help.login,)
 
 dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
