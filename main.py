@@ -137,7 +137,7 @@ async def remove_board(message: types.Message):
 @dp.message_handler(commands=["log"])
 async def log(message: types.Message):
     with open("log_base.log","r") as f:
-        message.reply(f.read())
+         await message.reply(f.read())
 
 @dp.message_handler(state=state.mail)
 async def get_mail(message: types.Message, state1: FSMContext):
