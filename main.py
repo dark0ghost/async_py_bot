@@ -134,6 +134,10 @@ async def getgeo(message: types.Message, state1: FSMContext):
 async def remove_board(message: types.Message):
     await bot.send_message(message.chat.id, text="del board ", reply_markup=keyboard.remove_kaeyboard())
 
+@dp.message_handler(commands=["log"])
+async def log(message: types.Message):
+    with open("log_base.log","r") as f:
+        message.reply(f.read())
 
 @dp.message_handler(state=state.mail)
 async def get_mail(message: types.Message, state1: FSMContext):
