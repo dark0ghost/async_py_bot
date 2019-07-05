@@ -2,132 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48e6df9f-0690-4c69-a43c-a16906e323df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Egor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsonSchemas.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/E_mail.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/button.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/keyboard.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../EE/EE.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/help.py" beforeDir="false" afterPath="$PROJECT_DIR$/help.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/async_proxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/async_proxy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/orm_async_sqlite3.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/orm_async_sqlite3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/INSTALLER" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/METADATA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/RECORD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/WHEEL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram-2.0.1.dist-info/top_level.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/bot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/files.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/files.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/redis.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/redis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/rethinkdb.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/fsm_storage/rethinkdb.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/middlewares/i18n.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/middlewares/i18n.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/middlewares/logging.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/contrib/middlewares/logging.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/dispatcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/dispatcher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/builtin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/builtin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/filters/filters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/webhook.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/dispatcher/webhook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/chat_member.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/chat_member.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/encrypted_passport_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/encrypted_passport_element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/inline_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/inline_keyboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/message.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/mixins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/passport_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/passport_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/update.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/venue.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/types/venue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/auth_widget.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/auth_widget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/callback_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/callback_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/executor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/mixins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/payload.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiogram/utils/payload.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/INSTALLER" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/METADATA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/RECORD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/WHEEL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp-3.5.1.dist-info/top_level.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_frozenlist.cp37-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_frozenlist.cp37-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_helpers.cp37-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_helpers.cp37-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_http_parser.cp37-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_http_parser.cp37-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_http_writer.cp37-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_http_writer.cp37-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_websocket.cp37-win32.pyd" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/_websocket.cp37-win32.pyd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/abc.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/abc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_proto.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_proto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_reqrep.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_reqrep.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_ws.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/client_ws.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/connector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/cookiejar.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/cookiejar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/formdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/formdata.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/hdrs.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/hdrs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_websocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_websocket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_writer.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/http_writer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/locks.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/locks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/multipart.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/multipart.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/payload.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/payload.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/payload_streamer.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/payload_streamer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/pytest_plugin.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/pytest_plugin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/resolver.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/resolver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/streams.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/streams.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/tcp_helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/tcp_helpers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/test_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/test_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/tracing.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/tracing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/typedefs.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/typedefs.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_fileresponse.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_fileresponse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_log.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_middlewares.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_middlewares.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_protocol.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_protocol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_request.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_response.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_response.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_routedef.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_routedef.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_urldispatcher.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_urldispatcher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_ws.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/web_ws.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/aiohttp/worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/DESCRIPTION.rst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/INSTALLER" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/METADATA" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/RECORD" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/WHEEL" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi-2018.11.29.dist-info/top_level.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/cacert.pem" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/cacert.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/core.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/certifi/core.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yandex_api/api.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yandex_api/api.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yandex_api/yandex_api.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yandex_api/yandex_type/transport_class.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/grapf.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../grapf/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
@@ -172,7 +49,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/help.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
+            <state relative-caret-position="340">
               <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="27" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -202,20 +79,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+              <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/log_base.log">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246840">
-              <caret line="14520" column="3" selection-start-line="14520" selection-end-line="14520" selection-end-column="75" />
+            <state>
+              <caret column="19" selection-start-column="19" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -242,7 +119,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -281,6 +158,7 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/runtime.txt" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/Procfile" />
       </list>
     </option>
   </component>
@@ -321,6 +199,11 @@
             <path>
               <item name="bot" type="b2602c69:ProjectViewProjectNode" />
               <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="bot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
@@ -518,6 +401,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15700738" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -533,7 +417,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32936078" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.4853738" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="10" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -603,7 +487,6 @@
     <SUITE FILE_PATH="coverage/bot$test.coverage" NAME="test Coverage Results" MODIFIED="1559664534259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/help.py" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/proxy.py" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/requirements.txt" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/orm_async_sqlite3.py" />
@@ -727,23 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/help.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/log_base.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246840">
-          <caret line="14520" column="3" selection-start-line="14520" selection-end-line="14520" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/button.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="935">
@@ -751,6 +617,20 @@
           <folding>
             <element signature="e#55#123#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/log_base.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2176">
+          <caret line="14520" column="3" selection-start-line="14520" selection-end-line="14520" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runtime.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -764,17 +644,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/runtime.txt">
+    <entry file="file://$PROJECT_DIR$/help.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        <state relative-caret-position="340">
+          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="21" lean-forward="true" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+          <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" selection-start-column="19" selection-end-column="19" />
         </state>
       </provider>
     </entry>
