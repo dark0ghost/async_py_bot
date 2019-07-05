@@ -10,9 +10,9 @@ package: list = ["aiodns", "aiohttp", "async-timeout", "beautifulsoup4", "aiogra
                  "aiosocksy",
                  "aiohttp_socks"]
 
-token: str = "545171444:AAHg8QcGzRxeW2TobW1oxV8lt_d2dKu-plA"
+token: str = ""
 
-PAYMENTS_PROVIDER_TOKEN:str = "632593626:TEST:i56982357197"
+PAYMENTS_PROVIDER_TOKEN:str = ""
 
 lang: Tuple[str] = ("ru", "en", "ua")
 
