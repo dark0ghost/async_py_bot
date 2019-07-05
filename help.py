@@ -1,5 +1,4 @@
 import aiohttp
-import re
 
 from aiogram import Bot
 from aiogram.dispatcher.filters.state import State, StatesGroup
