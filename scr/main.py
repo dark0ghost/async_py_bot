@@ -204,11 +204,6 @@ async def inline_echo(inline_query: types.InlineQuery):
         await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
     """
 
-async def shutdown(dispatcher: Dispatcher):
-    await dispatcher.storage.close()
-    await dispatcher.storage.wait_closed()
-
-
 # end inline_handler
 
 # callback_query_handler
@@ -220,7 +215,6 @@ async def back(query: types.CallbackQuery, callback_data: dict):
     :param message:
     :return:
     """
-    print("starts")
 
     if len(proxy_list) < 1:
         [proxy_list.append(i) for i in await async_proxy.main()]
@@ -229,7 +223,6 @@ async def back(query: types.CallbackQuery, callback_data: dict):
                                       reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
                                                                      callback="edit"))
         proxy_list.pop(0)
-    print("end")
 
 # end  callback_query_handler
 
@@ -248,6 +241,10 @@ async def checkout(pre_checkout_query: types.PreCheckoutQuery):
     await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
                                         error_message=help.mes["error_pay"])
 #end pre_checkout_query_handler
+
+async def shutdown(dispatcher: Dispatcher):
+    await dispatcher.storage.close()
+    await dispatcher.storage.wait_closed()
 
 if __name__ == '__main__':
     print("start")
