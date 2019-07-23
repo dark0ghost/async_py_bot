@@ -82,7 +82,6 @@ bot = Bot(token=help.token, loop=loop,
 
 dp = Dispatcher(bot, storage=MemoryStorage())
 dp.middleware.setup(LoggingMiddleware())
-dp.middleware.setup(LoggingMiddleware())
 dp.filters_factory.bind(basefilter)
 
 # endset
