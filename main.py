@@ -6,40 +6,64 @@ import help
 import aiohttp
 import logging
 import asyncio
-import price
+
 import filter
 
-
-
-from model import async_proxy, orm_async_sqlite3, E_mail, button, keyboard
+from model import async_proxy, orm_async_sqlite3, button, keyboard, i18n, cb_api, Crypto_Price
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from aiogram import Bot, Dispatcher, executor, md, types
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from aiogram import Bot, Dispatcher, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
-from aiogram.utils.exceptions import MessageNotModified, Throttled
-from aiogram.dispatcher import FSMContext
-from aiogram.types.message import ContentTypes
-from aiogram.types import ContentType
 
 print("bild")
 # startset
+
+session: aiohttp.ClientSession = aiohttp.ClientSession()
+
+crypto_price = Crypto_Price.CryptoPrice(session)
+
+debug = True
+
+cb = cb_api.CenterBankApi(session)
+
 logging.basicConfig(filename="log_base.log", level=logging.INFO)
+
 log = logging.getLogger("bot")
+
 state = help.state()
-Button = button.Button
+
+Button = button.Button()
+
 keyboard = keyboard.keyboard
+
 proxy_list: List[str] = []
+
 posts_cb = CallbackData('post', 'id', 'action')
+
 Button.posts_cb = posts_cb
-basefilter:filter.Base_bot_filter = filter.Base_bot_filter()
+
+Basefilter: filter.Base_bot_filter = filter.Base_bot_filter()
+
+db: orm_async_sqlite3.sqlite = orm_async_sqlite3.sqlite("data_sqlite.db3")
+
+lazy_gettext = i18n.lazy_gettext
+
+lang: List[str] = []
+
+if (debug):
+    storage = MemoryStorage()
+else:
+    storage = RedisStorage2()
+
 
 # start def
 # set proxy
-async def setproxy() -> List[str]:
+async def setproxy(session: aiohttp.ClientSession) -> List[str]:
     proxy_list = []
     connector = ProxyConnector()
-    li = await async_proxy.main()
+    li = await async_proxy.main(session)
     for proxy in li:
         try:
             async with aiohttp.ClientSession(connector=connector, request_class=ProxyClientRequest) as session:
@@ -52,9 +76,20 @@ async def setproxy() -> List[str]:
             logging.exception(e)
             log.info(f"warning {proxy} not valid")
 
-    if len(proxy_list) < 5:
+    if len(proxy_list) < 2:
         log.info(f"log new rec")
         await setproxy()
+
+
+# asyncio.run(setproxy(session))
+
+async def task():
+    await db.create_teble()
+    await db.create_teble_lang()
+    # await db.insert_lang(lang='ru')
+    # await db.insert_lang(lang='en')
+    global lang
+    lang = await db.get_lang()
 
 
 # end def
@@ -62,193 +97,31 @@ async def setproxy() -> List[str]:
 
 """
 fix :
-
 RuntimeError: There is no current event loop in thread 'MainThread'.
-
 """
 loop: AbstractEventLoop = asyncio.get_event_loop()
-
-db: orm_async_sqlite3.sqlite = orm_async_sqlite3.sqlite("data3.db3")
-
-asyncio.run(db.create_teblae())
 
 """
   todo: db.create_contact
 """
 
-# asyncio.run(setproxy())
 bot = Bot(token=help.token, loop=loop,
-          parse_mode=types.ParseMode.MARKDOWN,) #proxy=help.good_proxy_link, proxy_auth=help.login,)
+          parse_mode=types.ParseMode.MARKDOWN,
+          proxy=help.good_proxy_link, proxy_auth=help.login, )
 
-dp = Dispatcher(bot, storage=MemoryStorage())
+dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
-dp.middleware.setup(LoggingMiddleware())
-dp.filters_factory.bind(basefilter)
+
+# dp.filters_factory.bind(basefilter)
+dp.middleware.setup(i18n.i18n)
+
+asyncio.run(task())
+
 
 # endset
 
-# message_handler
-@dp.message_handler(commands=['start'])
-async def process_start_command(message: types.Message):
-    m = message.get_args()
-    # await  state.conact.set()
-    await bot.send_message(message.chat.id, text=help.mes['start'])
-
-
-@dp.message_handler(state=state.start)
-async def f(message: types.Message, state1: FSMContext):
-    await state1.finish()
-    await bot.send_message(message.chat.id, text="state")
-
-
-@dp.message_handler(commands=['help'])
-async def process_start_command(message: types.Message):
-    await bot.send_message(message.chat.id, text=help.mes["help"], )
-
-
-@dp.message_handler(commands=['proxy'])
-async def check_language(message: types.Message):
-    proxy_list = await async_proxy.main()
-    await  bot.send_message(message.chat.id, text="text",
-                            reply_markup=Button.edit_proxy(proxy=proxy_list[0], text_button="не работает?",
-                                                           callback="edit"))
-    proxy_list.pop(0)
-
-@dp.message_handler(commands=['proxy_all'])
-async def check_language(message: types.Message):
-    proxy_list: List[str] = await async_proxy.main()
-    await bot.send_message(message.chat.id, text="text",
-                            reply_markup=Button.proxy(proxy_list))
-
-@dp.message_handler(content_types=ContentType.CONTACT)
-async def getcontact(message: types.Message):
-    """"
-   todo: make db content
-   """
-
-
-@dp.message_handler(state=state.geo)
-async def getgeo(message: types.Message, state1: FSMContext):
-    state1.finish()
-    pass
-
-
-@dp.message_handler(commands=["re"])
-async def remove_board(message: types.Message):
-    await bot.send_message(message.chat.id, text="del board ", reply_markup=keyboard.remove_kaeyboard())
-
-@dp.message_handler(commands=["log"])
-async def log(message: types.Message):
-    with open("log_base.log","r") as f:
-         await message.reply(f.read())
-
-@dp.message_handler(state=state.mail)
-async def get_mail(message: types.Message, state1: FSMContext):
-    e: E_mail.e_mail = E_mail.e_mail(message.text)
-    if e.is_e_mail():
-        message.reply("готово")
-        state1.finish()
-        """
-        todo: доделать записись в бд
-        
-        """
-    else:
-        bot.send_message(message.chat.id, text=f"{message.text} не является потчтой")
-
-    del e
-
-@dp.message_handler(commands=['buy'])
-async def buy(message: types.Message):
-    print("buy")
-    await bot.send_invoice(message.chat.id, title='пожертвание',
-                           description='пожертвуй для дальнейший разработки',
-                           provider_token=help.PAYMENTS_PROVIDER_TOKEN,
-                           currency='rub',
-                           photo_url='https://e3.edimdoma.ru/data/recipes/0006/0497/60497-ed4_wide.jpg?1468399744',
-                           photo_height=512,  # !=0/None or picture won't be shown
-                           photo_width=512,
-                           photo_size=512,
-                           is_flexible=1,  # True If you need to set up Shipping Fee
-                           prices=price.price,
-                           start_parameter='time-machine-example',
-                           payload='HAPPY FRIDAYS COUPON')
-
-@dp.message_handler(content_types=ContentTypes.SUCCESSFUL_PAYMENT)
-async def got_payment(message: types.Message):
-    await bot.send_message(message.chat.id,text=help.mes["buy"],
-                           parse_mode='Markdown')
-
-
-# end message_handler
-
-
-
-
-
-# inline_handler
-
-@dp.inline_handler()
-async def inline_echo(inline_query: types.InlineQuery):
-    input_content = types.InputTextMessageContent("{await async_proxy.main()} ")
-    """if len(proxy_list) < 1:
-        item = types.InlineQueryResultArticle(id='1', title='нет прокси',
-                                              input_message_content=input_content)
-        await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
-        #[proxy_list.append(i) for i in await async_proxy.main()]
-    else:
-        item = types.InlineQueryResultArticle(id='1', title=f'bot {inline_query.query}',
-                                              input_message_content=input_content,
-                                              reply_markup=Button.edit_proxy(text_button="не работает?",
-                                                                             proxy=proxy_list[0],
-                                                                             callback="edit"))
-        await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
-    """
 
 async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
-
-
-# end inline_handler
-
-# callback_query_handler
-
-@dp.callback_query_handler(posts_cb.filter(action=['edit']))
-async def back(query: types.CallbackQuery, callback_data: dict):
-    """
-    todo
-    :param message:
-    :return:
-    """
-    print("starts")
-
-    if len(proxy_list) < 1:
-        [proxy_list.append(i) for i in await async_proxy.main()]
-    else:
-        await query.message.edit_text(text=help.mes["new_proxy"],
-                                      reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
-                                                                     callback="edit"))
-        proxy_list.pop(0)
-    print("end")
-
-# end  callback_query_handler
-
-
-#start shipping_query_handler
-
-@dp.shipping_query_handler()
-async def shipping(shipping_query: types.ShippingQuery):
-    await bot.answer_shipping_query(shipping_query.id, ok=True, shipping_options=price.shipping_options,
-                                    error_message=f'доставка не работает!')
-#end shipping_query_handler
-
-#start pre_checkout_query_handler
-@dp.pre_checkout_query_handler()
-async def checkout(pre_checkout_query: types.PreCheckoutQuery):
-    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
-                                        error_message=help.mes["error_pay"])
-#end pre_checkout_query_handler
-
-if __name__ == '__main__':
-    print("start")
-    executor.start_polling(dp, on_shutdown=shutdown, loop=loop)
+    await session.close()

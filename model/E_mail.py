@@ -3,19 +3,19 @@ class e_mail:
         self.mail = mail
 
     def is_e_mail(self):
-        return True if (("@" in self.mail) and ("." in self.mail)) else False
+        return (("@" in self.mail) and ("." in self.mail))
 
     def is_gmail(self):
-        return True if ("gamil.com" in (self.mail.split("@"))[1]) else False
+        return  ("gmail.com" in (self.mail.split("@"))[1])
 
     def is_mail(self):
-        return True if ("mail.ru" in (self.mail.split("@"))[1]) else False
+        return  ("mail.ru" in (self.mail.split("@"))[1])
 
     def is_yandex(self):
-        return True if ("yandex.ru" in (self.mail.split("@"))[1]) else False
+        return ("yandex.ru" in (self.mail.split("@"))[1])
 
     def is_yahoo(self):
-        return True if ("yahoo.com" in (self.mail.split("@"))[1]) else False
+        return ("yahoo.com" in (self.mail.split("@"))[1])
 
     def get_mail(self):
         return self.mail

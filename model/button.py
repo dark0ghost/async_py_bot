@@ -6,10 +6,14 @@ from typing import List
 
 
 class Button:
-    posts_cb: CallbackData = CallbackData('post', 'id', 'action')
 
-    @classmethod
-    def button_all(cls, text_button: str, callback: str) -> InlineKeyboardMarkup:
+    def __init__(self):
+        self.posts_cb: CallbackData = CallbackData('post', 'id', 'action')
+
+    def __del__(self):
+        del self.posts_cb
+
+    def button_all(self, text_button: str, callback: str) -> InlineKeyboardMarkup:
         """
 
         :param text_button:
@@ -17,7 +21,7 @@ class Button:
         :return:
         """
         inline_btn = InlineKeyboardButton(text=text_button,
-                                          callback_data=cls.posts_cb.new(id=callback, action=text_button))
+                                          callback_data=self.posts_cb.new(id=callback, action=text_button),row_width=3)
         inline_kb = InlineKeyboardMarkup().add(inline_btn)
         return inline_kb
 
@@ -34,8 +38,7 @@ class Button:
             inline_kb.add(InlineKeyboardButton(server, url=link_beta))
         return inline_kb
 
-    @classmethod
-    def butoons(cls, text: List[str], call_back: List[str]) -> InlineKeyboardMarkup:
+    def buttons(self, text: List[str], call_back: List[str]) -> InlineKeyboardMarkup:
         """
 
         :param text:
@@ -44,12 +47,12 @@ class Button:
         """
         inline_kb: InlineKeyboardMarkup = InlineKeyboardMarkup()
         for val, i in enumerate(text):
-            inb = InlineKeyboardButton(text=i, callback_data=cls.posts_cb.new(id=call_back[i]))
-            inline_kb.add(inb)
+            inb = InlineKeyboardButton(text=i,
+                                       callback_data=self.posts_cb.new(id=hash(call_back[val]), action=call_back[val]),)
+            inline_kb.insert(inb)
         return inline_kb
 
-    @classmethod
-    def edit_proxy(cls, text_button: str, proxy: str, callback: str = "proxy") -> InlineKeyboardMarkup:
+    def edit_proxy(self, text_button: str, proxy: str, callback: str = "proxy") -> InlineKeyboardMarkup:
         """
 
         :param text_button:
@@ -60,7 +63,7 @@ class Button:
         proxy = proxy.replace("socks5://", "")
         server, port = proxy.split(":")
         inline_btn = InlineKeyboardButton(text=text_button,
-                                          callback_data=Button.posts_cb.new(id=callback, action=callback))
+                                          callback_data=self.posts_cb.new(id=callback, action=callback))
         link_beta: str = f"https://t.me/proxy?server={server}&port={port}"
         inline_kb = InlineKeyboardMarkup()
         inline_kb.add(InlineKeyboardButton(text=server, url=link_beta))

@@ -9,5 +9,5 @@ price: List[LabeledPrice] = [
 
 shipping_options: List[ShippingOption] = [
     ShippingOption(id='instant', title='почта Росси').add(LabeledPrice('3 года', 1000)),
-    ShippingOption(id='instant', title='тенькоф').add(LabeledPrice('почта Росси', 1000))
+    ShippingOption(id='insta', title='тенькоф').add(LabeledPrice('почта Росси', 1000))
 ]

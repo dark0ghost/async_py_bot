@@ -1,0 +1,5 @@
+
+    [sqlalchemy.dialects]
+    postgresql.asyncpg = gino.dialects.asyncpg:AsyncpgDialect
+    asyncpg = gino.dialects.asyncpg:AsyncpgDialect
+    

@@ -1,0 +1,3 @@
+POSTGRES_USER=eventstracker
+POSTGRES_PASSWORD=A3dSA24Dctf2v4HE
+PGDATA=/var/lib/postgresql/data/pgdata

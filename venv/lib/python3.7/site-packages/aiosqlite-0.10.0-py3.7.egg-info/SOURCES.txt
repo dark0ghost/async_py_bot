@@ -1,0 +1,17 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+aiosqlite/__init__.py
+aiosqlite/context.py
+aiosqlite/core.py
+aiosqlite.egg-info/PKG-INFO
+aiosqlite.egg-info/SOURCES.txt
+aiosqlite.egg-info/dependency_links.txt
+aiosqlite.egg-info/top_level.txt
+aiosqlite/tests/__init__.py
+aiosqlite/tests/__main__.py
+aiosqlite/tests/helpers.py
+aiosqlite/tests/perf.py
+aiosqlite/tests/smoke.py

@@ -1,6 +1,7 @@
 # This Python file uses the following encoding: utf-8
 
 from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButton
+from typing import List
 
 
 class keyboard:
@@ -28,3 +29,6 @@ class keyboard:
         return ReplyKeyboardMarkup(resize_keyboard=True).add(KeyboardButton(text=text_geo, request_location=True),
                                                              one_time_keyboard=True)
 
+    def get_lang(lang: List[str]):
+        print(lang)
+        return ReplyKeyboardMarkup([[KeyboardButton(text=item)] for item in lang], resize_keyboard=True)

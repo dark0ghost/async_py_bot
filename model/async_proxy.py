@@ -23,17 +23,15 @@ async def pars(obj):
     return zip(ip, a)
 
 
-async def main():
+async def main(session:aiohttp.ClientSession):
     links = ["http://www.gatherproxy.com/ru/sockslist", ]
-
-    async with aiohttp.ClientSession() as session:
-        listproxy = []
-        for link in links:
+    listproxy = []
+    for link in links:
             html = await request(session, link)
             socks5 = await pars(html)
             for i in socks5:
                 proxy = f"socks5://{i[0]}:{i[1]}"
                 listproxy.append(proxy)
 
-        return listproxy
+    return listproxy
 

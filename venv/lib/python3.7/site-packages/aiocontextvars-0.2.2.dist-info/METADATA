@@ -1,0 +1,130 @@
+Metadata-Version: 2.1
+Name: aiocontextvars
+Version: 0.2.2
+Summary: Asyncio support for PEP-567 contextvars backport.
+Home-page: https://github.com/fantix/aiocontextvars
+Author: Fantix King
+Author-email: fantix.king@gmail.com
+License: BSD license
+Keywords: aiocontextvars
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Requires-Python: >=3.5
+Requires-Dist: contextvars (==2.4) ; python_version < "3.7"
+
+==============
+aiocontextvars
+==============
+
+.. image:: https://img.shields.io/pypi/v/aiocontextvars.svg
+        :target: https://pypi.python.org/pypi/aiocontextvars
+
+.. image:: https://img.shields.io/travis/fantix/aiocontextvars.svg
+        :target: https://travis-ci.org/fantix/aiocontextvars
+
+**IMPORTANT:** This package will be deprecated after
+`contextvars asyncio backport`_ is fixed. Before then, this library
+experimentally provides the missing asyncio support for the
+``contextvars`` backport library. Please read more in Python 3.7 `contextvars
+documentation <https://docs.python.org/3/library/contextvars.html>`_.
+
+
+Compatibility
+-------------
+
+In Python 3.7 this package *is* 100% ``contextvars``.
+
+In Python 3.5 and 3.6, this package added asyncio support to the PEP-567
+backport package also named ``contextvars``, in a very different way than
+Python 3.7 ``contextvars`` implementation:
+
+1. ``call_soon()`` and family methods.
+
+Python 3.7 added keyword argument ``context`` to ``call_soon()`` and its family
+methods. By default those methods will copy (inherit) the current context and
+run the given method in that context. But ``aiocontextvars`` won't touch the
+loop, so in order to achieve the same effect, you'll need to::
+
+    loop.call_soon(copy_context().run, my_meth)
+
+2. Task local.
+
+Python 3.7 used above keyword argument ``context`` in ``Task`` to make sure
+that each step of a coroutine is ran in the same context inherited at the time
+its driving task was created. Meanwhile, ``aiocontextvars`` uses
+``Task.current_task()`` to achieve similar effect: it hacks asyncio and
+attaches a copied context to the task on its creation, and replaces thread
+local with current task instance to share the context. This behaves identically
+to Python 3.7 in most times. What you need to do is to import
+``aiocontextvars`` before creating loops.
+
+3. Custom tasks and loops.
+
+Because above hack is done by replacing ``asyncio.get_event_loop`` and
+``loop.create_task``, therefore tasks and loops created by custom/private API
+won't behave correctly as expected, e.g. ``uvloop.new_event_loop()`` or
+``asyncio.Task()``. Also, event loops created before importing
+``aiocontextvars`` are not patched either. So over all, you should import
+``aiocontextvars`` at the beginning before creating event loops, and always use
+``asyncio.*`` to operate loops/policies, and public asyncio API to create
+tasks.
+
+
+Credits
+-------
+
+Fantix King is the author and maintainer of this library. This library is open
+source software under BSD license.
+
+.. _contextvars asyncio backport: https://github.com/MagicStack/contextvars/issues/2
+
+
+=======
+History
+=======
+
+0.2.1 (2018-10-24)
+------------------
+
+* Changed to single module layout.
+* Updated README.
+
+0.2.0 (2018-09-09)
+------------------
+
+**This is a breaking change.** Most implementation is replaced with
+``contextvars``. In Python 3.5 and 3.6, ``aiocontextvars`` depends on
+``contextvars`` the PEP-567 backport in PyPI, and patches it to partially
+support asyncio; in Python 3.7 ``aiocontextvars`` is only a delegate to the
+built-in ``contextvars`` library.
+
+* Modified ``ContextVar.set()`` to return a token.
+* Added ``ContextVar.reset(token)``.
+* Removed ``ContextVar.delete()``.
+* Removed ``enable_inherit()`` and ``disable_inherit()``, inherit is always enabled.
+* Added ``copy_context()`` and ``Context.run()``.
+* Removed ``Context.current()`` and ``Context.inherited``.
+* Fixed issue that ``set_event_loop(None)`` fails (contributed by J.J. Jackson in #10 #11)
+
+0.1.2 (2018-04-04)
+------------------
+
+* Supported Python 3.5.
+
+0.1.1 (2017-12-03)
+------------------
+
+* Fixed setup.py
+
+0.1.0 (2017-12-03)
+------------------
+
+* First release on PyPI.
+
+
