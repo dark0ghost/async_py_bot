@@ -1,4 +1,4 @@
-#!/home/bot/venv/bin/python
+#!/home/project/bot/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

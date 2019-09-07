@@ -31,36 +31,45 @@ from yarl import URL
 
 from . import hdrs, http, payload
 from .abc import AbstractCookieJar
+from .client_exceptions import ClientConnectionError as ClientConnectionError
 from .client_exceptions import (
-    ClientConnectionError,
-    ClientConnectorCertificateError,
-    ClientConnectorError,
-    ClientConnectorSSLError,
-    ClientError,
-    ClientHttpProxyError,
-    ClientOSError,
-    ClientPayloadError,
-    ClientProxyConnectionError,
-    ClientResponseError,
-    ClientSSLError,
-    ContentTypeError,
-    InvalidURL,
-    ServerConnectionError,
-    ServerDisconnectedError,
-    ServerFingerprintMismatch,
-    ServerTimeoutError,
-    TooManyRedirects,
-    WSServerHandshakeError,
+    ClientConnectorCertificateError as ClientConnectorCertificateError,
 )
-from .client_reqrep import (
-    ClientRequest,
-    ClientResponse,
-    Fingerprint,
-    RequestInfo,
-    _merge_ssl_params,
+from .client_exceptions import ClientConnectorError as ClientConnectorError
+from .client_exceptions import (
+    ClientConnectorSSLError as ClientConnectorSSLError,
 )
-from .client_ws import ClientWebSocketResponse
-from .connector import BaseConnector, TCPConnector, UnixConnector
+from .client_exceptions import ClientError as ClientError
+from .client_exceptions import ClientHttpProxyError as ClientHttpProxyError
+from .client_exceptions import ClientOSError as ClientOSError
+from .client_exceptions import ClientPayloadError as ClientPayloadError
+from .client_exceptions import (
+    ClientProxyConnectionError as ClientProxyConnectionError,
+)
+from .client_exceptions import ClientResponseError as ClientResponseError
+from .client_exceptions import ClientSSLError as ClientSSLError
+from .client_exceptions import ContentTypeError as ContentTypeError
+from .client_exceptions import InvalidURL as InvalidURL
+from .client_exceptions import ServerConnectionError as ServerConnectionError
+from .client_exceptions import (
+    ServerDisconnectedError as ServerDisconnectedError,
+)
+from .client_exceptions import (
+    ServerFingerprintMismatch as ServerFingerprintMismatch,
+)
+from .client_exceptions import ServerTimeoutError as ServerTimeoutError
+from .client_exceptions import TooManyRedirects as TooManyRedirects
+from .client_exceptions import WSServerHandshakeError as WSServerHandshakeError
+from .client_reqrep import ClientRequest as ClientRequest
+from .client_reqrep import ClientResponse as ClientResponse
+from .client_reqrep import Fingerprint as Fingerprint
+from .client_reqrep import RequestInfo as RequestInfo
+from .client_reqrep import _merge_ssl_params
+from .client_ws import ClientWebSocketResponse as ClientWebSocketResponse
+from .connector import BaseConnector as BaseConnector
+from .connector import NamedPipeConnector as NamedPipeConnector
+from .connector import TCPConnector as TCPConnector
+from .connector import UnixConnector as UnixConnector
 from .cookiejar import CookieJar
 from .helpers import (
     DEBUG,
@@ -114,6 +123,7 @@ __all__ = (
     'BaseConnector',
     'TCPConnector',
     'UnixConnector',
+    'NamedPipeConnector',
     # client_ws
     'ClientWebSocketResponse',
     # client
@@ -434,16 +444,14 @@ class ClientSession:
                                          "with AUTH argument or credentials "
                                          "encoded in URL")
 
-                    session_cookies = self._cookie_jar.filter_cookies(url)
+                    all_cookies = self._cookie_jar.filter_cookies(url)
 
                     if cookies is not None:
                         tmp_cookie_jar = CookieJar()
                         tmp_cookie_jar.update_cookies(cookies)
                         req_cookies = tmp_cookie_jar.filter_cookies(url)
                         if req_cookies:
-                            session_cookies.load(req_cookies)
-
-                    cookies = session_cookies
+                            all_cookies.load(req_cookies)
 
                     if proxy is not None:
                         proxy = URL(proxy)
@@ -457,7 +465,7 @@ class ClientSession:
                     req = self._request_class(
                         method, url, params=params, headers=headers,
                         skip_auto_headers=skip_headers, data=data,
-                        cookies=cookies, auth=auth, version=version,
+                        cookies=all_cookies, auth=auth, version=version,
                         compress=compress, chunked=chunked,
                         expect100=expect100, loop=self._loop,
                         response_class=self._response_class,
@@ -1040,8 +1048,13 @@ class _SessionRequestContextManager:
         self._session = session
 
     async def __aenter__(self) -> ClientResponse:
-        self._resp = await self._coro
-        return self._resp
+        try:
+            self._resp = await self._coro
+        except BaseException:
+            await self._session.close()
+            raise
+        else:
+            return self._resp
 
     async def __aexit__(self,
                         exc_type: Optional[Type[BaseException]],

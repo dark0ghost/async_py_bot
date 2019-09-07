@@ -20,14 +20,13 @@ from .http import (
     WebSocketReader,
     WebSocketWriter,
     WSMessage,
-    WSMsgType,
-    ws_ext_gen,
-    ws_ext_parse,
 )
+from .http import WSMsgType as WSMsgType
+from .http import ws_ext_gen, ws_ext_parse
 from .log import ws_logger
 from .streams import EofStream, FlowControlDataQueue
 from .typedefs import JSONDecoder, JSONEncoder
-from .web_exceptions import HTTPBadRequest, HTTPException, HTTPMethodNotAllowed
+from .web_exceptions import HTTPBadRequest, HTTPException
 from .web_request import BaseRequest
 from .web_response import StreamResponse
 
@@ -46,6 +45,8 @@ class WebSocketReady:
 
 
 class WebSocketResponse(StreamResponse):
+
+    _length_check = False
 
     def __init__(self, *,
                  timeout: float=10.0, receive_timeout: Optional[float]=None,
@@ -129,8 +130,6 @@ class WebSocketResponse(StreamResponse):
                                                         bool,
                                                         bool]:
         headers = request.headers
-        if request.method != hdrs.METH_GET:
-            raise HTTPMethodNotAllowed(request.method, [hdrs.METH_GET])
         if 'websocket' != headers.get(hdrs.UPGRADE, '').lower().strip():
             raise HTTPBadRequest(
                 text=('No WebSocket UPGRADE hdr: {}\n Can '
@@ -179,7 +178,6 @@ class WebSocketResponse(StreamResponse):
         response_headers = CIMultiDict(  # type: ignore
             {hdrs.UPGRADE: 'websocket',
              hdrs.CONNECTION: 'upgrade',
-             hdrs.TRANSFER_ENCODING: 'chunked',
              hdrs.SEC_WEBSOCKET_ACCEPT: accept_val})
 
         notakeover = False

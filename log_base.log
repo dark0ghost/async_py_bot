@@ -9426,3 +9426,17 @@ INFO:aiogram.contrib.middlewares.logging:Unhandled callback query [ID:1664489410
 INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080846]: [success] (in 5782 ms)
 INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
 INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489407747498949] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080847]: [success] (in 1373 ms)
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489409919628591] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489410538655611] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080848]: [success] (in 794 ms)
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080849]: [success] (in 596 ms)
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489409018078057] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080850]: [success] (in 779 ms)
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489407341439355] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080851]: [success] (in 292 ms)
+INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489411271370154] from user [ID:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080852]: [success] (in 739 ms)
