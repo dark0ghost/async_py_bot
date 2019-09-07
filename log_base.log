@@ -9440,3 +9440,13 @@ INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489407341
 INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080851]: [success] (in 292 ms)
 INFO:aiogram.contrib.middlewares.logging:Received inline query [ID:1664489411271370154] from user [ID:387544140]
 INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080852]: [success] (in 739 ms)
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
