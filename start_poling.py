@@ -7,6 +7,7 @@ import handlers.inline_handlers
 import handlers.shoping_handler
 
 
+
 if __name__ == '__main__':
     print("start")
     executor.start_polling(dp, on_shutdown=shutdown, loop=loop)
