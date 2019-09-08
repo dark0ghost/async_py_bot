@@ -21,9 +21,9 @@ DOCTEST_FLAGS = (
 
 
 # def additional_tests():
-#     "Run the doc tests (README.txt and docs/*, if any exist)"
+#     "Run the doc tests (README.md.txt and docs/*, if any exist)"
 #     doctest_files = [
-#         os.path.abspath(resource_filename('bs4', 'README.txt'))]
+#         os.path.abspath(resource_filename('bs4', 'README.md.txt'))]
 #     if resource_exists('bs4', 'docs'):
 #         for name in resource_listdir('bs4', 'docs'):
 #             if name.endswith('.txt'):
