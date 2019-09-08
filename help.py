@@ -22,8 +22,8 @@ mes: dict = {
     "error_pay": "покупка не произошла",
 }
 
-good_proxy_link: str = "socks5://orbtl.s5.opennetwork.cc:999"
-login = aiohttp.BasicAuth(login='387544140', password='w61D1u5v')
+#good_proxy_link: str = "socks5://orbtl.s5.opennetwork.cc:999"
+#login = aiohttp.BasicAuth(login='387544140', password='w61D1u5v')
 
 
 async def get_link(bot: Bot, message: types.Message):

@@ -80,7 +80,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
         await setproxy()
 
 
-# asyncio.run(setproxy(session))
+
 
 async def task():
     await db.create_teble()
@@ -106,7 +106,7 @@ loop: AbstractEventLoop = asyncio.get_event_loop()
 
 bot = Bot(token=help.token, loop=loop,
           parse_mode=types.ParseMode.MARKDOWN,
-          proxy=help.good_proxy_link, proxy_auth=help.login, )
+          proxy=proxy_list[0])
 
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
