@@ -1,0 +1,5 @@
+data_sqlite.db3
+log_base.log
+venv
+__pycache__
+.idea
