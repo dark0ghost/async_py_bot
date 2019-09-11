@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48e6df9f-0690-4c69-a43c-a16906e323df" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/User.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/db_pg.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/model.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/description" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/message_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/message_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/help.py" beforeDir="false" afterPath="$PROJECT_DIR$/help.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_base.log" beforeDir="false" afterPath="$PROJECT_DIR$/log_base.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/Crypto_Price.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/Crypto_Price.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/E_mail.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/runtime.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -435,7 +421,7 @@
       <workItem from="1568144247654" duration="479000" />
       <workItem from="1568227865433" duration="1585000" />
       <workItem from="1568229485970" duration="1345000" />
-      <workItem from="1568230846058" duration="1239000" />
+      <workItem from="1568230846058" duration="1508000" />
     </task>
     <servers />
   </component>
