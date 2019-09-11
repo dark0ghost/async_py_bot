@@ -12,7 +12,7 @@ class CryptoPrice:
         :param session:
         """
         self.api_link: str = "https://api.coingecko.com/api/v3/"
-        self.obj: Dict = dict()
+        self.obj: Dict[str, str] = dict()
         self.session: aiohttp.ClientSession = session
 
     def __len__(self) -> int:
@@ -22,7 +22,7 @@ class CryptoPrice:
         """
         return len(self.obj)
 
-    async def coin_list(self) -> Dict:
+    async def coin_list(self) -> Dict[str,str]:
         """
         List all supported coins id, name and symbol (no pagination required)
         Use this to obtain all the coins’ id in order to make API calls
@@ -32,12 +32,12 @@ class CryptoPrice:
             data = await response.json(content_type="application/json", encoding="utf-8")
             for i in data:
                 self.obj[i["symbol"]] = {
-                    "name": i["name"],
-                    "id": i["id"]
+                    'name': i["name"],
+                    'id': i["id"]
                 }
         return self.obj
 
-    async def ping(self) -> Dict:
+    async def ping(self) -> Dict[str, str]:
         """
         Get status response from  api
         :return:
@@ -45,7 +45,7 @@ class CryptoPrice:
         async with self.session.get(self.api_link + "ping") as response:
             return await response.json()
 
-    async def exchanges(self) -> Dict:
+    async def exchanges(self) -> Dict[str, str]:
         """
 
         :return:
@@ -53,11 +53,11 @@ class CryptoPrice:
         async with self.session.get(self.api_link + "exchanges") as response:
             return await response.json()
 
-    async def exchanges_list(self) -> Dict:
+    async def exchanges_list(self) -> Dict[str, str]:
         async with self.session.get(self.api_link + "exchanges/list") as response:
             return await response.json()
 
-    async def fetch_global(self) -> Dict:
+    async def fetch_global(self) -> Dict[str, str]:
         """
         Get cryptocurrency global data
 
@@ -75,7 +75,7 @@ class CryptoPrice:
         async with self.session.get(self.api_link + "exchange_rates") as response:
             return (await response.json())['rates']
 
-    async def events_types(self) -> Dict:
+    async def events_types(self) -> Dict[str, str]:
         """
 
 
@@ -84,7 +84,7 @@ class CryptoPrice:
         async with self.session.get(self.api_link + "events/types") as response:
             return await response.json()
 
-    async def events_countries(self) -> Dict:
+    async def events_countries(self) -> Dict[str, str]:
         """
 
         :return:
@@ -94,7 +94,7 @@ class CryptoPrice:
             return await response.json()
 
     async def events(self, country_code: str = '', Type: str = '', page: int = 100, upcoming_events_only: str = '',
-                     rom_date: str = '', to_date: str = "") -> Dict:
+                     rom_date: str = '', to_date: str = "") -> Dict[str, str]:
         """
 
         :param to_date:
@@ -108,7 +108,7 @@ class CryptoPrice:
                 self.api_link + f"events/countries?country_code={country_code}&type={Type}&page={page}&upcoming_events_only={upcoming_events_only}&romdate={rom_date}&to_date={to_date}") as response:
             return await response.json()
 
-    async def status_updates_coin(self, id_coin: str = "bitcoin", per_page: int = 1, page: int = 1) -> Dict:
+    async def status_updates_coin(self, id_coin: str = "bitcoin", per_page: int = 1, page: int = 1) -> Dict[str, str]:
         """
         :param page: int
         :param per_page: int
@@ -118,7 +118,7 @@ class CryptoPrice:
                 self.api_link + f"coins/{id_coin}/status_updates?per_page={per_page}&page={page}") as response:
             return await response.json()
 
-    async def info_from_addres(self, id: int, contract_address: str) -> Dict:
+    async def info_from_addres(self, id: int, contract_address: str) -> Dict[str, str]:
         """
         Asset platform (only ethereum is supported at this moment)
         Get coin info from contract address
@@ -129,7 +129,7 @@ class CryptoPrice:
         async with self.session.get(self.api_link + f"coins/{id}/contract/{contract_address}") as response:
             return await response.json()
 
-    async def market_chart(self, id_: str, contract_address: str, vs_currency: str = "", days: str = "") -> Dict:
+    async def market_chart(self, id_: str, contract_address: str, vs_currency: str = "", days: str = "") -> Dict[str, str]:
         """
         Get historical market data include price, market cap, and 24h volume (granularity auto)
         Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.
@@ -143,7 +143,7 @@ class CryptoPrice:
             return await response.json()
 
     async def market_chart_range(self, id_: str, contract_address: str, vs_currency: str = "", from_: str = "",
-                                 to: str = "") -> Dict:
+                                 to: str = "") -> Dict[str, str]:
         """
         Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto)
         Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.
@@ -157,7 +157,7 @@ class CryptoPrice:
                 self.api_link + f"coins/{id_}/contract/{contract_address}/market_chart?vs_currency={vs_currency}&from={from_}&to={to}") as response:
             return await response.json()
 
-    async def history_coin(self, coin: str, date: str, local: str = "") -> Dict:
+    async def history_coin(self, coin: str, date: str, local: str = "") -> Dict[str, str]:
         """
         Get historical data (name, price, market, stats) at a given date for a coin
         :param coin:
@@ -170,7 +170,7 @@ class CryptoPrice:
             return await response.json()
 
     async def tickers(self, coin: str, exchange_ids: str = '', include_exchange_logo: str = '', page: int = 1,
-                      order: str = "") -> Dict:
+                      order: str = "") -> Dict[str, str]:
         """
         Get coin tickers (paginated to 100 items)
 
@@ -191,7 +191,7 @@ class CryptoPrice:
             return await response.json()
 
     async def current_data(self, coin: str, localization: str = '', tickers: bool = False, market_data: bool = False,
-                           community_data: bool = False, developer_data: bool = False, sparkline: bool = False) -> Dict:
+                           community_data: bool = False, developer_data: bool = False, sparkline: bool = False) -> Dict[str, str]:
         """
         Get current data (name, price, market, ... including exchange tickers) for a coin
         :param sparkline:
@@ -208,7 +208,7 @@ class CryptoPrice:
             return await response.json()
 
     async def coins_markets(self, vs_currency: str = "usd", order: str = "market_cap_desc", per_page: int = 100,
-                            page: int = 1, sparkline: bool = "false", price_change_percentage: str = "24h") -> Dict:
+                            page: int = 1, sparkline: bool = "false", price_change_percentage: str = "24h") -> Dict[str, str]:
         """
         Use this to obtain all the coins market data (price, market cap, volume)
         :param vs_currency:
@@ -223,7 +223,8 @@ class CryptoPrice:
                 self.api_link + f"coins/markets?vs_currency={vs_currency}&order={order}&per_page={per_page}&page={page}&sparkline={sparkline}&price_change_percentage={price_change_percentage}") as response:
             return await response.json()
 
-    async def simple_token_price(self, contract_addresses: str, coin: str = "ethereum", vs_currency: str = "usd") -> Dict:
+    async def simple_token_price(self, contract_addresses: str, coin: str = "ethereum",
+                                 vs_currency: str = "usd") -> Dict[str, str]:
         """
         Get current price of tokens (using contract addresses) for a given platform in any other currency that you need.
         :param contract_addresses:
@@ -238,7 +239,7 @@ class CryptoPrice:
 
     async def simple_price(self, ids: str, vs_currestring: str = "usd", include_market_cap: str = "false",
                            include_24hr_vol: str = "false", include_24hr_change: str = "false",
-                           include_last_updated_at: str = "false") -> Dict:
+                           include_last_updated_at: str = "false") -> Dict[str, str]:
         """
         Get the current price of any cryptocurrencies in any other supported currencies that you need.
         :param include_last_updated_at:
@@ -255,10 +256,8 @@ class CryptoPrice:
         ) as response:
             return await response.json()
 
-    async def supported_vs_currencies(self) -> Dict:
+    async def supported_vs_currencies(self) -> Dict[str, str]:
         async with self.session.get(
-            self.api_link+"simple/supported_vs_currencies"
+                self.api_link + "simple/supported_vs_currencies"
         ) as response:
             return await response.json()
-
-

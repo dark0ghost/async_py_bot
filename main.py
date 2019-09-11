@@ -2,13 +2,15 @@
 from asyncio.events import AbstractEventLoop
 from typing import List
 
+from gino import Gino
+
 import help
 import aiohttp
 import logging
 import asyncio
 import filter
 
-from model import async_proxy, orm_async_sqlite3, button, keyboard, i18n, cb_api, Crypto_Price
+from model import async_proxy, orm_async_sqlite3, button, keyboard, i18n, cb_api, Crypto_Price, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -18,6 +20,7 @@ from aiogram.utils.callback_data import CallbackData
 
 print("bild")
 # startset
+postregs: Gino = db_pg
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
@@ -80,13 +83,15 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
         await setproxy()
 
 
-
-
 async def task():
     await db.create_teble()
     await db.create_teble_lang()
     # await db.insert_lang(lang='ru')
     # await db.insert_lang(lang='en')
+
+    await db.set_bind(help.POSTGRES)
+    await db.gino.create_all()
+
     global lang
     lang = await db.get_lang()
 
@@ -106,7 +111,7 @@ loop: AbstractEventLoop = asyncio.get_event_loop()
 
 bot = Bot(token=help.token, loop=loop,
           parse_mode=types.ParseMode.MARKDOWN,
-          proxy=proxy_list[0])
+          proxy=help.good_proxy_link, proxy_auth=help.login)
 
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())

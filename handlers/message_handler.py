@@ -6,11 +6,11 @@ import price
 
 from aiogram import types
 from aiogram.types.message import ContentTypes
-from model import async_proxy, E_mail
+from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import db, dp, bot, state, Button, keyboard,lazy_gettext, cb, session
+from main import db, dp, bot, state, Button, keyboard, lazy_gettext, cb, session, lang
 from model.i18n import i18n
 
 
@@ -89,18 +89,12 @@ async def log(message: types.Message):
 
 @dp.message_handler(state=state.mail)
 async def get_mail(message: types.Message, state1: FSMContext):
-    e: E_mail.e_mail = E_mail.e_mail(message.text)
-    if e.is_e_mail():
-        message.reply(lazy_gettext("good"))
-        state1.finish()
-        """
-        todo: smtp requests
-
-        """
-    else:
-        bot.send_message(message.chat.id, text=lazy_gettext("{message} bad mail").format(message=message.text))
-
-    del e
+    """
+    todo: mail auth
+    :param message:
+    :param state1:
+    :return:
+    """
 
 
 @dp.message_handler(commands=['buy'])
