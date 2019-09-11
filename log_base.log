@@ -9461,3 +9461,26 @@ WARNING:aiogram:Goodbye!
 WARNING:aiogram:Goodbye!
 WARNING:aiogram:Goodbye!
 WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.contrib.middlewares.logging:Received message [ID:1085] in chat [private:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080859]: [success] (in 2435 ms)
+INFO:aiogram.contrib.middlewares.logging:Received callback query [ID:1664489408281885944] from user [ID:387544140] for message [ID:1086] in chat [private:387544140] originally posted by user [ID:545171444]
+INFO:aiogram.contrib.middlewares.logging:Unhandled callback query [ID:1664489408281885944] from user [ID:387544140] for message [ID:1086] in chat [private:387544140] originally posted by user [ID:545171444]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080860]: [success] (in 347 ms)
+INFO:aiogram.contrib.middlewares.logging:Received message [ID:1087] in chat [private:387544140]
+INFO:aiogram.contrib.middlewares.logging:Process update [ID:446080861]: [success] (in 2568 ms)
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!
+INFO:aiogram:Bot: Умный-дом [@Smarthouse_Ru_bot]
+INFO:aiogram.dispatcher.dispatcher:Start polling.
+INFO:aiogram.dispatcher.dispatcher:Stop polling...
+WARNING:aiogram:Goodbye!

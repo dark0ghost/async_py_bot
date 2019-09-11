@@ -2,11 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48e6df9f-0690-4c69-a43c-a16906e323df" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/model/User.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/db_pg.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/model.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/description" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/message_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/message_handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/help.py" beforeDir="false" afterPath="$PROJECT_DIR$/help.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log_base.log" beforeDir="false" afterPath="$PROJECT_DIR$/log_base.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/async_proxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/async_proxy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/Crypto_Price.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/Crypto_Price.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/E_mail.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runtime.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +97,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.start_poling">
+  <component name="RunManager" selected="Python.db_pg">
     <configuration type="docker-deploy" factoryName="dockerfile" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
@@ -101,28 +111,6 @@
           <option name="sourceFilePath" value="Dockerfile" />
         </settings>
       </deployment>
-      <method v="2" />
-    </configuration>
-    <configuration name="Crypto_Price" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="bot" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/model" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model/Crypto_Price.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -169,7 +157,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="cb_api.pyx" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="db_pg" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="bot" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -182,7 +170,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model/cb_api.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model/db_pg.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -261,9 +249,27 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yml.adminer: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
+          <option name="services">
+            <list>
+              <option value="adminer" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="postgres" />
+            </list>
+          </option>
           <option name="sourceFilePath" value="docker-compose.yml" />
         </settings>
       </deployment>
@@ -312,23 +318,23 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml[web, postgres]: Compose Deployment (2)" />
       <item itemvalue="Docker.docker-compose.yml[web, postgres]: Compose Deployment (1)" />
+      <item itemvalue="Docker.docker-compose.yml[web, postgres]: Compose Deployment (2)" />
       <item itemvalue="Docker.docker-compose.yml[web, postgres]: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.adminer: Compose Deployment" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.start_poling" />
-      <item itemvalue="Python.cb_api.pyx" />
-      <item itemvalue="Python.Crypto_Price" />
       <item itemvalue="Python.async_proxy" />
+      <item itemvalue="Python.start_poling" />
+      <item itemvalue="Python.db_pg" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.db_pg" />
         <item itemvalue="Python.start_poling" />
+        <item itemvalue="Docker.docker-compose.yml.adminer: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
         <item itemvalue="Python.async_proxy" />
-        <item itemvalue="Python.Crypto_Price" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Python.cb_api.pyx" />
       </list>
     </recent_temporary>
   </component>
@@ -337,12 +343,7 @@
       <serviceView>
         <option name="contentProportion" value="0.28223187" />
         <treeState>
-          <expand>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@b97b1a8" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-          </expand>
+          <expand />
           <select />
         </treeState>
       </serviceView>
@@ -430,6 +431,11 @@
       <workItem from="1567882932959" duration="3757000" />
       <workItem from="1567889344934" duration="1617000" />
       <workItem from="1567937850945" duration="1007000" />
+      <workItem from="1568142399538" duration="427000" />
+      <workItem from="1568144247654" duration="479000" />
+      <workItem from="1568227865433" duration="1585000" />
+      <workItem from="1568229485970" duration="1345000" />
+      <workItem from="1568230846058" duration="1239000" />
     </task>
     <servers />
   </component>
@@ -468,14 +474,15 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bot$stepik.coverage" NAME="stepik Coverage Results" MODIFIED="1566814413454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
-    <SUITE FILE_PATH="coverage/bot$start_poling.coverage" NAME="start_poling Coverage Results" MODIFIED="1567938545329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/bot$start_poling.coverage" NAME="start_poling Coverage Results" MODIFIED="1568230937149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/bot$async_proxy.coverage" NAME="async_proxy Coverage Results" MODIFIED="1567938429071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
     <SUITE FILE_PATH="coverage/bot$message_handler.coverage" NAME="message_handler Coverage Results" MODIFIED="1567071906677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/handlers" />
     <SUITE FILE_PATH="coverage/bot$cb_api_pyx.coverage" NAME="cb_api.pyx Coverage Results" MODIFIED="1567332602328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
-    <SUITE FILE_PATH="coverage/bot$main.coverage" NAME="main Coverage Results" MODIFIED="1567156633696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
+    <SUITE FILE_PATH="coverage/bot$main.coverage" NAME="main Coverage Results" MODIFIED="1568229974634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
     <SUITE FILE_PATH="coverage/bot$name_HideMy_proxy.coverage" NAME="name.HideMy.proxy Coverage Results" MODIFIED="1566593422855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
     <SUITE FILE_PATH="coverage/bot$i18n.coverage" NAME="i18n Coverage Results" MODIFIED="1567070594107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
     <SUITE FILE_PATH="coverage/bot$orm_async_sqlite3.coverage" NAME="orm_async_sqlite3 Coverage Results" MODIFIED="1567155739885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
+    <SUITE FILE_PATH="coverage/bot$db_pg.coverage" NAME="db_pg Coverage Results" MODIFIED="1568230943703" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
     <SUITE FILE_PATH="coverage/bot$scratch.coverage" NAME="scratch Coverage Results" MODIFIED="1566758470097" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$APPLICATION_CONFIG_DIR$/scratches" />
     <SUITE FILE_PATH="coverage/bot$Crypto_Price.coverage" NAME="Crypto_Price Coverage Results" MODIFIED="1567709990859" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/model" />
   </component>
