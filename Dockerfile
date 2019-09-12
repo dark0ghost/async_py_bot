@@ -12,8 +12,5 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-ENV botrun main.py
-ENV POSTGRES_HOST postgresql://postgres:A3dSA24Dctf2v4HE@eventstracker:5432/postgres
-ENV PYTHONUNBUFFERED 1
 
 RUN echo "run"

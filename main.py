@@ -10,7 +10,7 @@ import logging
 import asyncio
 import filter
 
-from model import async_proxy, orm_async_sqlite3, button, keyboard, i18n, cb_api, Crypto_Price, db_pg
+from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -34,7 +34,7 @@ logging.basicConfig(filename="log_base.log", level=logging.INFO)
 
 log = logging.getLogger("bot")
 
-state = help.state()
+state = help.States()
 
 Button = button.Button()
 
@@ -47,8 +47,6 @@ posts_cb = CallbackData('post', 'id', 'action')
 Button.posts_cb = posts_cb
 
 Basefilter: filter.Base_bot_filter = filter.Base_bot_filter()
-
-db: orm_async_sqlite3.sqlite = orm_async_sqlite3.sqlite("data_sqlite.db3")
 
 lazy_gettext = i18n.lazy_gettext
 
@@ -84,16 +82,13 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
 
 
 async def task():
-    await db.create_teble()
-    await db.create_teble_lang()
-    # await db.insert_lang(lang='ru')
-    # await db.insert_lang(lang='en')
-
-    #await postregs.gino.create_all()
-
+    await postregs.bind(help.POSTGRES)
+    await postregs.gino.create_all()
 
     global lang
-    lang = await db.get_lang()
+
+
+# lang = await
 
 
 # end def
