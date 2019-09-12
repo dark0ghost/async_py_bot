@@ -89,8 +89,8 @@ async def task():
     # await db.insert_lang(lang='ru')
     # await db.insert_lang(lang='en')
 
-    await db.set_bind(help.POSTGRES)
-    await db.gino.create_all()
+    #await postregs.gino.create_all()
+
 
     global lang
     lang = await db.get_lang()
