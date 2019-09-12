@@ -68,7 +68,7 @@ async def check_language(message: types.Message):
 
 @dp.message_handler(text=lazy_gettext(singular="курсы валют", enable_cache=False))
 async def get_val(message: types.Message):
-    date = await cb.Bild()
+    date = await cb.build_list_coin()
     await message.reply(text=lazy_gettext(singular="доступные валюты", enable_cache=False),
                         reply_markup=Button.buttons(Button, text=list(date.keys()), call_back=list(date.keys())))
 

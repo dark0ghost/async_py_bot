@@ -16,7 +16,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     # but for example i'll generate it based on text because I know, that
     # only text will be passed in this example
     text = inline_query.query
-    res = await  bankapi.Bild()
+    res = await  bankapi.build_list_coin()
     crypto = await crypto_price.coin_list()
     result_id: str = hashlib.md5(text.encode()).hexdigest()
     if text in res.keys():
@@ -34,7 +34,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
         input_content = InputTextMessageContent(
             lazy_gettext("""название {name}\n`стоимость 1 {name} - {valvue}₽`\nдата {date} """
                          ).format(name=text, valvue=price, date=bankapi.date)
-            )
+        )
         item = InlineQueryResultArticle(
             id=result_id,
             title=lazy_gettext('{name} - {price}').format(name=text, price=price),
