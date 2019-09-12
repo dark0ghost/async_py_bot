@@ -6,15 +6,14 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from typing import Tuple
 
-token: str = " "
+token: str = ""
 
-PAYMENTS_PROVIDER_TOKEN: str = "632593626:TEST:i56982357197"
+PAYMENTS_PROVIDER_TOKEN: str = ""
 
 Qiwi_TOKEN: str = ""
 
-POSTGRES: str = " "
+POSTGRES: str = ""
 lang: Tuple[str, str, str] = ("ru", "en", "ua")
-
 
 mes: dict = {
     "start": "message start",
@@ -29,7 +28,7 @@ good_proxy_link: str = "socks5://orbtl.s5.opennetwork.cc:999"
 login: aiohttp.BasicAuth = aiohttp.BasicAuth(login='387544140', password='w61D1u5v')
 
 
-async def get_link(bot: Bot, message: types.Message):
+async def get_link(bot: Bot, message: types.Message) -> str:
     """
      return ref link
     :param bot:

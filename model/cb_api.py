@@ -7,13 +7,14 @@ class CenterBankApi:
     """
     class implements api cbr
     """
+
     def __init__(self, session: aiohttp.ClientSession) -> None:
         self.link = "https://www.cbr-xml-daily.ru/daily_json.js"
         self.obj = dict()
         self.date: str = ""
         self.session: aiohttp.ClientSession = session
 
-    async def get_json(self) -> Dict[str, str, str]:
+    async def get_json(self) -> Dict[str, Dict[str, str]]:
         """
         get json from https://www.cbr-xml-daily.ru/daily_json.js
         :return:
@@ -21,12 +22,12 @@ class CenterBankApi:
         async with self.session.get(self.link) as response:
             return await response.json(content_type=None, encoding="utf-8")
 
-    async def build_list_coin(self) -> Dict[str, str]:
+    async def build_list_coin(self) -> Dict[str, Dict[str, str]]:
         """
         build dict from  json
         :return:
         """
-        response: Dict[str, str, str] = await self.get_json()
+        response: Dict[str, Dict[str, str]] = await self.get_json()
         self.date: str = response['Date']
         for i in response["Valute"].items():
             self.obj[i[0]] = {
@@ -41,3 +42,6 @@ class CenterBankApi:
         :return:
         """
         return len(self.obj)
+
+
+

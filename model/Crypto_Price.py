@@ -22,7 +22,7 @@ class CryptoPrice:
         """
         return len(self.obj)
 
-    async def coin_list(self) -> Dict[str,str]:
+    async def coin_list(self) -> Dict[str, str]:
         """
         List all supported coins id, name and symbol (no pagination required)
         Use this to obtain all the coins’ id in order to make API calls
@@ -31,10 +31,7 @@ class CryptoPrice:
         async with self.session.get(url=self.api_link + 'coins/list') as response:
             data = await response.json(content_type="application/json", encoding="utf-8")
             for i in data:
-                self.obj[i["symbol"]] = {
-                    'name': i["name"],
-                    'id': i["id"]
-                }
+                self.obj[i["symbol"]]: Dict[str, str] = dict(name=i["name"], id=i["id"])
         return self.obj
 
     async def ping(self) -> Dict[str, str]:
@@ -66,7 +63,7 @@ class CryptoPrice:
         async with self.session.get(self.api_link + "global") as response:
             return await response.json()
 
-    async def exchange_rates(self) -> Dict:
+    async def exchange_rates(self) -> Dict[str, str]:
         """
         Get BTC-to-Currency exchange rates
 
@@ -129,7 +126,8 @@ class CryptoPrice:
         async with self.session.get(self.api_link + f"coins/{id}/contract/{contract_address}") as response:
             return await response.json()
 
-    async def market_chart(self, id_: str, contract_address: str, vs_currency: str = "", days: str = "") -> Dict[str, str]:
+    async def market_chart(self, id_: str, contract_address: str, vs_currency: str = "", days: str = "") -> Dict[
+        str, str]:
         """
         Get historical market data include price, market cap, and 24h volume (granularity auto)
         Minutely data will be used for duration within 1 day, Hourly data will be used for duration between 1 day and 90 days, Daily data will be used for duration above 90 days.
