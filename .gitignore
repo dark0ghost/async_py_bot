@@ -1,11 +1,11 @@
-data_sqlite.db3
+*.db3
 postgres/
-log_base.log
+*.log
 venv
 __pycache__
 *.py[cod]
 *$py.class
-
+*.pot
 .idea
 *.so
 
