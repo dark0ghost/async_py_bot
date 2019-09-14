@@ -10,7 +10,7 @@ import logging
 import asyncio
 import filter
 
-from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg
+from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -19,12 +19,14 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
 
 print("bild")
-# startset
-postregs: Gino = db_pg
+# start set
+postgres: Gino = db_pg
+
+checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail="smtp.gmail.com", port=587)
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
-crypto_price = Crypto_Price.CryptoPrice(session)
+crypto_price: Crypto_Price.CryptoPrice = Crypto_Price.CryptoPrice(session)
 
 debug = True
 
@@ -46,9 +48,9 @@ posts_cb = CallbackData('post', 'id', 'action')
 
 Button.posts_cb = posts_cb
 
-Basefilter: filter.Base_bot_filter = filter.Base_bot_filter()
+Base_filter: filter.Base_bot_filter = filter.Base_bot_filter()
 
-lazy_gettext = i18n.lazy_gettext
+lazy_get_text = i18n.lazy_gettext
 
 lang: List[str] = []
 
@@ -59,7 +61,7 @@ else:
 
 
 # start def
-# set proxy
+
 async def setproxy(session: aiohttp.ClientSession) -> List[str]:
     proxy_list = []
     connector = ProxyConnector()
@@ -80,19 +82,16 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
         log.info(f"log new rec")
         await setproxy()
 
-
 async def task():
-    await postregs.bind(help.POSTGRES)
-    await postregs.gino.create_all()
+    await postgres.bind(help.POSTGRES)
+    await postgres.gino.create_all()
 
     global lang
 
-
-# lang = await
+    # lang = await
 
 
 # end def
-
 
 """
 fix :
@@ -100,24 +99,18 @@ RuntimeError: There is no current event loop in thread 'MainThread'.
 """
 loop: AbstractEventLoop = asyncio.get_event_loop()
 
-"""
-  todo: db.create_contact
-"""
-
 bot = Bot(token=help.token, loop=loop,
           parse_mode=types.ParseMode.MARKDOWN,
           proxy=help.good_proxy_link, proxy_auth=help.login)
 
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
-
-# dp.filters_factory.bind(basefilter)
 dp.middleware.setup(i18n.i18n)
 
 asyncio.run(task())
 
 
-# endset
+# end set
 
 
 async def shutdown(dispatcher: Dispatcher):
