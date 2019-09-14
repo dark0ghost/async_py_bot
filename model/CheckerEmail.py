@@ -8,6 +8,14 @@ from random import random, choice
 class CheckerEmail:
     """
     class for check email
+    use :
+      check:CheckerEmail = CheckerEmail(hostname_mail="smt.com", port=93)
+      check.change_len_code(new_len_code=5)
+      check.get_random_code()
+      code: int = check.get_code()
+      await check.async_send_message # in async def
+      # or sync code
+      check.sync_send_message
     """
 
     def __init__(self, hostname_mail, port):
@@ -15,19 +23,22 @@ class CheckerEmail:
         :param hostname_mail:
         :param port:
         """
-        self.code: int = 5534
+        self.code: str = ""
         self.host_name: str = hostname_mail
         self.port: int = port
         self.message: MIMEText = MIMEText("test")
+        self.len_code: int = 1
 
-    def get_random_code(self, len_code=1):
+    def change_len_code(self, new_len_code):
+        self.len_code = new_len_code
+
+    def get_random_code(self):
         """
-        :param len_code:
         :return:
         """
         alphacode = list(str(random()).replace(".", ""))
-        for i in range(len_code):
-            self.code += choice(alphacode)
+        for i in range(self.len_code):
+            self.code += str(choice(alphacode))
 
     def get_code(self):
         """
@@ -63,4 +74,6 @@ class CheckerEmail:
         :return:
         """
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.send_message())
+        loop.run_until_complete(self.async_send_message())
+
+
