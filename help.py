@@ -10,7 +10,7 @@ token: str = ""
 
 PAYMENTS_PROVIDER_TOKEN: str = ""
 
-Qiwi_TOKEN: str = ""
+TOKEN_QIWI: str = ""
 
 POSTGRES: str = ""
 lang: Tuple[str, str, str] = ("ru", "en", "ua")

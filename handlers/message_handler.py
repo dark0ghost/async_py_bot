@@ -10,7 +10,7 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import db, dp, bot, state, Button, keyboard, lazy_gettext, cb, session, lang
+from main import db, dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang
 from model.i18n import i18n
 
 
@@ -27,7 +27,7 @@ async def cmd_language(message: types.Message, state: FSMContext):
     # track('command', message.from_user, command='language')
     await state.set_state('wait_language')
     await message.reply(
-        lazy_gettext('Choose the language in which you are more comfortable to communicate'),
+        lazy_get_text('Choose the language in which you are more comfortable to communicate'),
         reply_markup=keyboard.get_lang(lang)
     )
 
@@ -37,11 +37,11 @@ async def wait_language(message: types.Message, state: FSMContext, user: User):
     # track('command', message.from_user, command='done_language')
     if message.text in lang:
         await user.set_language(message.text)
-        lazy_gettext.ctx_locale.set(message.text)
-        await message.reply(lazy_gettext('New language is: <b>English</b>'), reply_markup=types.ReplyKeyboardRemove())
+        lazy_get_text.ctx_locale.set(message.text)
+        await message.reply(lazy_get_text('New language is: <b>English</b>'), reply_markup=types.ReplyKeyboardRemove())
         await state.finish()
     else:
-        await message.reply(lazy_gettext('Bad choice.'), reply_markup=keyboard.get_lang(lang))
+        await message.reply(lazy_get_text('Bad choice.'), reply_markup=keyboard.get_lang(lang))
 
 
 @dp.message_handler(commands=['help'])
@@ -62,20 +62,20 @@ async def check_language(message: types.Message):
 @dp.message_handler(commands=['proxy_all'])
 async def check_language(message: types.Message):
     proxy_list: List[str] = await async_proxy.main(session=session)
-    await bot.send_message(message.chat.id, text=lazy_gettext("text"),
+    await bot.send_message(message.chat.id, text=lazy_get_text("text"),
                            reply_markup=Button.proxy(proxy_list))
 
 
-@dp.message_handler(text=lazy_gettext(singular="курсы валют", enable_cache=False))
+@dp.message_handler(text=lazy_get_text(singular="курсы валют", enable_cache=False))
 async def get_val(message: types.Message):
     date = await cb.build_list_coin()
-    await message.reply(text=lazy_gettext(singular="доступные валюты", enable_cache=False),
+    await message.reply(text=lazy_get_text(singular="доступные валюты", enable_cache=False),
                         reply_markup=Button.buttons(Button, text=list(date.keys()), call_back=list(date.keys())))
 
 
 @dp.message_handler(commands=["re"])
 async def remove_board(message: types.Message):
-    await bot.send_message(message.chat.id, text=lazy_gettext("del board"), reply_markup=keyboard.remove_kaeyboard())
+    await bot.send_message(message.chat.id, text=lazy_get_text("del board"), reply_markup=keyboard.remove_kaeyboard())
 
 
 @dp.message_handler(commands=["log"])
@@ -116,5 +116,5 @@ async def buy(message: types.Message):
 
 @dp.message_handler(content_types=ContentTypes.SUCCESSFUL_PAYMENT)
 async def got_payment(message: types.Message):
-    await bot.send_message(message.chat.id, text=lazy_gettext(help.mes["buy"]),
+    await bot.send_message(message.chat.id, text=lazy_get_text(help.mes["buy"]),
                            parse_mode='Markdown')
