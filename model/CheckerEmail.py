@@ -18,7 +18,7 @@ class CheckerEmail:
       check.sync_send_message
     """
 
-    def __init__(self, hostname_mail, port):
+    def __init__(self, hostname_mail, port) -> None:
         """
         :param hostname_mail:
         :param port:
@@ -29,10 +29,10 @@ class CheckerEmail:
         self.message: MIMEText = MIMEText("test")
         self.len_code: int = 1
 
-    def change_len_code(self, new_len_code):
+    def change_len_code(self, new_len_code) -> None:
         self.len_code = new_len_code
 
-    def get_random_code(self):
+    def get_random_code(self) -> None:
         """
         :return:
         """
@@ -40,14 +40,14 @@ class CheckerEmail:
         for i in range(self.len_code):
             self.code += str(choice(alphacode))
 
-    def get_code(self):
+    def get_code(self) -> int:
         """
         return  self.code
         :return:
         """
         return self.code
 
-    def build_message(self, text, from_mail, to, subject):
+    def build_message(self, text, from_mail, to, subject) -> None:
         """
 
         :param text:
@@ -61,14 +61,14 @@ class CheckerEmail:
         self.message["To"] = to
         self.message["Subject"] = subject
 
-    async def async_send_message(self):
+    async def async_send_message(self) -> None:
         """
         asunc out
         :return:
         """
         await aiosmtplib.send(self.message, hostname=self.host_name, port=self.port)
 
-    def sync_send_message(self):
+    def sync_send_message(self) -> None:
         """
         for sync sync code
         :return:
