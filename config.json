@@ -1,0 +1,26 @@
+{
+  "token": "",
+  "PAYMENTS_PROVIDER_TOKEN":"",
+  "TOKEN_QIWI": "",
+  "POSTGRES": "",
+  "lang":["ru","en"],
+  "mes": {
+    "start": "message start",
+    "help": "message help",
+    "proxy": "public proxy for you",
+    "new_proxy": "new proxy",
+    "buy": "покупка произведена успешно",
+    "error_pay": "покупка не произошла"
+  },
+  "good_proxy_link": "socks5://orbtl.s5.opennetwork.cc:999",
+  "login": {
+    "login": 387544140,
+    "password": "w61D1u5v"
+  },
+  "smtp": {
+    "login": "",
+    "password": "",
+    "host": "",
+    "port": ""
+  }
+}

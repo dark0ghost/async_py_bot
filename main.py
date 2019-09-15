@@ -17,12 +17,15 @@ from aiogram import Bot, Dispatcher, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
+from State import States
 
-print("bild")
+print("build")
 # start set
 postgres: Gino = db_pg
 
 checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail="smtp.gmail.com", port=587)
+
+checker_mail.change_len_code(new_len_code=5)
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
@@ -36,7 +39,7 @@ logging.basicConfig(filename="log_base.log", level=logging.INFO)
 
 log = logging.getLogger("bot")
 
-state = help.States()
+state = States()
 
 Button = button.Button()
 
@@ -54,7 +57,7 @@ lazy_get_text = i18n.lazy_gettext
 
 lang: List[str] = []
 
-if (debug):
+if debug:
     storage = MemoryStorage()
 else:
     storage = RedisStorage2()
@@ -81,6 +84,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
     if len(proxy_list) < 2:
         log.info(f"log new rec")
         await setproxy()
+
 
 async def task():
     await postgres.bind(help.POSTGRES)
@@ -117,3 +121,4 @@ async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
     await session.close()
+

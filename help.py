@@ -41,12 +41,3 @@ async def get_link(bot: Bot, message: types.Message) -> str:
     return link
 
 
-class States(StatesGroup):
-    """
-    class for set up state user
-    """
-    start: State = State()
-    end: State = State()
-    contact: State = State()
-    geo: State = State()
-    mail: State = State()

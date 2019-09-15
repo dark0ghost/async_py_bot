@@ -14,8 +14,5 @@ class User(db_pg.Model):
 
 class UserLang(db_pg.Model):
     __tablename__ = 'users_bot'
-    id = db_pg.Column(db_pg.Integer(),primary_key=True)
+    id = db_pg.Column(db_pg.Integer(), primary_key=True)
     lang = db_pg.Column(db_pg.Unicode())
-
-
-

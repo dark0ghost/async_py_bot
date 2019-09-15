@@ -10,7 +10,7 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import db, dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang
+from main import dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang,checker_mail
 from model.i18n import i18n
 
 
@@ -118,3 +118,12 @@ async def buy(message: types.Message):
 async def got_payment(message: types.Message):
     await bot.send_message(message.chat.id, text=lazy_get_text(help.mes["buy"]),
                            parse_mode='Markdown')
+
+@dp.message_handler(state="get_mail")
+async def get_mail(message: types.Message, state: FSMContext):
+    mail = message.text
+    checker_mail.
+
+
+
+
