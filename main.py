@@ -23,7 +23,7 @@ print("build")
 # start set
 postgres: Gino = db_pg
 
-checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail="smtp.gmail.com", port=587)
+checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host, port=help.smtp_password)
 
 checker_mail.change_len_code(new_len_code=5)
 
@@ -87,7 +87,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
 
 
 async def task():
-    await postgres.bind(help.POSTGRES)
+    await postgres.set_bind(help.POSTGRES)
     await postgres.gino.create_all()
 
     global lang

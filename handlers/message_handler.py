@@ -83,20 +83,6 @@ async def log(message: types.Message):
     if filter.is_master(message):
         await bot.send_document(message.chat.id, document=open("./log_base.log"))
 
-
-# await bot.send_file("./log_base.log")
-
-
-@dp.message_handler(state=state.mail)
-async def get_mail(message: types.Message, state1: FSMContext):
-    """
-    todo: mail auth
-    :param message:
-    :param state1:
-    :return:
-    """
-
-
 @dp.message_handler(commands=['buy'])
 async def buy(message: types.Message):
     print("buy")
@@ -120,9 +106,14 @@ async def got_payment(message: types.Message):
                            parse_mode='Markdown')
 
 @dp.message_handler(state="get_mail")
-async def get_mail(message: types.Message, state: FSMContext):
+async def get_mail(message: types.Message, state: FSMContext, user: User):
     mail = message.text
-    checker_mail.
+    checker_mail.get_random_code()
+    async with state.proxy() as data:
+      data["passcode"] = checker_mail.get_code()
+    checker_mail.build_message(text="pass code")
+    await checker_mail.async_send_message()
+
 
 
 
