@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3'
 
 services:
   bot:
@@ -14,15 +14,17 @@ services:
     command:
           "sh -ac 'cd /usr/src/app && python3 start_poling.py'; ls"
   postgres:
+    container_name: postgres
     image:
-     postgres:10
+       postgres:10
     volumes:
       - "./postgres/data:/var/lib/postgresql/data/pgdata"
     environment:
-      - POSTGRES_USER:eventstracker
-      - POSTGRES_PASSWORD:A3dSA24Dctf2v4HE
+      POSTGRES_USER: "eventstracker"
+      POSTGRES_PASSWORD: "A3dSA24Dctf2v4HE"
+      PGDATA: "./postgres/data:/var/lib/postgresql/data/pgdata"
     restart:
-       always
+        always
     ports:
         - 5432:5432
   redis:
@@ -34,6 +36,7 @@ services:
       - 6379:6379
     command:
        redis-server --appendonly yes
+
   adminer:
     image:
        adminer

@@ -21,7 +21,7 @@ from State import States
 
 print("build")
 # start set
-postgres: Gino = db_pg
+postgres: Gino = db_pg.db_pg
 
 checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host, port=help.smtp_password)
 
@@ -87,6 +87,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
 
 
 async def task():
+    print(help.POSTGRES)
     await postgres.set_bind(help.POSTGRES)
     await postgres.gino.create_all()
 

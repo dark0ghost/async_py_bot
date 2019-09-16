@@ -10,7 +10,7 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang,checker_mail
+from main import dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail
 from model.i18n import i18n
 
 
@@ -18,7 +18,7 @@ from model.i18n import i18n
 async def process_start_command(message: types.Message):
     m = message.get_args()
     print(m)
-    await  state.geo.set()
+    await state.geo.set()
     await bot.send_message(message.chat.id, text=help.mes['start'], )
 
 
@@ -83,6 +83,7 @@ async def log(message: types.Message):
     if filter.is_master(message):
         await bot.send_document(message.chat.id, document=open("./log_base.log"))
 
+
 @dp.message_handler(commands=['buy'])
 async def buy(message: types.Message):
     print("buy")
@@ -105,16 +106,13 @@ async def got_payment(message: types.Message):
     await bot.send_message(message.chat.id, text=lazy_get_text(help.mes["buy"]),
                            parse_mode='Markdown')
 
+
 @dp.message_handler(state="get_mail")
 async def get_mail(message: types.Message, state: FSMContext, user: User):
     mail = message.text
     checker_mail.get_random_code()
     async with state.proxy() as data:
-      data["passcode"] = checker_mail.get_code()
-    checker_mail.build_message(text="pass code")
+        data["passcode"] = checker_mail.get_code()
+    checker_mail.build_message(text="pass code", from_mail=help.smtp_login, to=mail, subject="test")
     await checker_mail.async_send_message()
-
-
-
-
-
+    await state.v_mail.set()
