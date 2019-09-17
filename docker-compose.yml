@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 
 services:
   bot:
@@ -14,7 +14,7 @@ services:
     command:
           "sh -ac 'cd /usr/src/app && python3 start_poling.py'; ls"
   postgres:
-    container_name: postgres
+    container_name: postgresql
     image:
        postgres:10
     volumes:
@@ -28,14 +28,18 @@ services:
     ports:
         - 5432:5432
   redis:
+    container_name: redis
     image:
-     redis:5
-    restart:
-      always
+      redis:alpine
+    environment:
+      vm.overcommit_memory: 1
     ports:
-      - 6379:6379
-    command:
-       redis-server --appendonly yes
+      - "6379:6379"
+    volumes:
+      - ../data/redis:/data
+    entrypoint: redis-server --appendonly yes
+    restart: always
+    hostname: redis
 
   adminer:
     image:

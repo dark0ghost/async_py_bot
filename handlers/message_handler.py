@@ -10,15 +10,14 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import dp, bot, state, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail
+from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail
 from model.i18n import i18n
 
 
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message):
     m = message.get_args()
-    print(m)
-    await state.geo.set()
+    await State.get_mail.set()
     await bot.send_message(message.chat.id, text=help.mes['start'], )
 
 
@@ -107,12 +106,25 @@ async def got_payment(message: types.Message):
                            parse_mode='Markdown')
 
 
-@dp.message_handler(state="get_mail")
-async def get_mail(message: types.Message, state: FSMContext, user: User):
+@dp.message_handler(state=State.get_mail)
+async def get_mail(message: types.Message, state: FSMContext):
+    await message.reply("send code")
+    print(1)
     mail = message.text
-    checker_mail.get_random_code()
     async with state.proxy() as data:
-        data["passcode"] = checker_mail.get_code()
+        data["passcode"] = checker_mail.get_random_code()
     checker_mail.build_message(text="pass code", from_mail=help.smtp_login, to=mail, subject="test")
+
     await checker_mail.async_send_message()
     await state.v_mail.set()
+    print(3)
+
+
+@dp.message_handler(state=State.v_mail)
+async def V_mail(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        if message.text == data["passcode"]:
+            print(data["passcode"])
+            await message.reply("good")
+        else:
+            await message.reply("warning")
