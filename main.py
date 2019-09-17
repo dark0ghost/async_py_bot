@@ -21,9 +21,11 @@ from State import States
 
 print("build")
 # start set
-postgres: Gino = db_pg
+postgres: Gino = db_pg.db_pg
 
-checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host, port=help.smtp_password)
+checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host,
+                                                                    port=help.smtp_port, password=help.smtp_password,
+                                                                    login=help.smtp_login)
 
 checker_mail.change_len_code(new_len_code=5)
 
@@ -39,7 +41,7 @@ logging.basicConfig(filename="log_base.log", level=logging.INFO)
 
 log = logging.getLogger("bot")
 
-state = States()
+State = States()
 
 Button = button.Button()
 
@@ -57,10 +59,12 @@ lazy_get_text = i18n.lazy_gettext
 
 lang: List[str] = []
 
-if debug:
+"""if debug:
     storage = MemoryStorage()
 else:
     storage = RedisStorage2()
+"""
+storage = MemoryStorage()
 
 
 # start def
@@ -111,7 +115,8 @@ dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
 
-asyncio.run(task())
+
+# asyncio.run(task())
 
 
 # end set
@@ -121,4 +126,3 @@ async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
     await session.close()
-
