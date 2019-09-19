@@ -93,6 +93,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
 async def task():
     await postgres.set_bind(help.POSTGRES)
     await postgres.gino.create_all()
+   # await checker_mail.connect_smtp(True)
 
     global lang
 

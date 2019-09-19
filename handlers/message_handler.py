@@ -113,18 +113,19 @@ async def get_mail(message: types.Message, state: FSMContext):
     mail = message.text
     async with state.proxy() as data:
         data["passcode"] = checker_mail.get_random_code()
-    checker_mail.build_message(text="pass code", from_mail=help.smtp_login, to=mail, subject="test")
+        checker_mail.build_message(text=data["passcode"], from_mail=help.smtp_login, to=mail, subject="test")
 
-    await checker_mail.async_send_message()
-    await state.v_mail.set()
-    print(3)
+    await checker_mail.async_send_message(start_tls=1)
+    await State.mail_ver.set()
 
 
-@dp.message_handler(state=State.v_mail)
+@dp.message_handler(state=State.mail_ver)
 async def V_mail(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text == data["passcode"]:
-            print(data["passcode"])
             await message.reply("good")
+
+
         else:
             await message.reply("warning")
+
