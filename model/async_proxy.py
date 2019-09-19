@@ -34,3 +34,4 @@ async def main(session: aiohttp.ClientSession):
             listproxy.append(proxy)
 
     return listproxy
+

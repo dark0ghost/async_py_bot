@@ -1,7 +1,7 @@
 aiocontextvars==0.2.2
 aiodns==2.0.0
 aiogram==2.3
-aiohttp==3.5.4
+aiohttp
 aiohttp-socks==0.2.2
 aioredis==1.2.0
 aiosmtplib==1.1.0

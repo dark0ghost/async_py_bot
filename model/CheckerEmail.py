@@ -1,5 +1,4 @@
 import asyncio
-import aiosmtplib
 
 from email.mime.text import MIMEText
 from random import random, choice
@@ -32,7 +31,7 @@ class CheckerEmail:
             loop = asyncio.get_event_loop()
         self.host_name: str = hostname_mail
         self.port: int = port
-        self.message: MIMEText = MIMEText("test")
+        self.message: MIMEText
         self.len_code: int = 1
         self.client = SMTP(password=password, username=login, loop=loop)
 
@@ -44,7 +43,7 @@ class CheckerEmail:
         """
         self.len_code = new_len_code
 
-    def get_random_code(self) -> None:
+    def get_random_code(self) -> int:
         """
         :return:
         """
@@ -67,24 +66,21 @@ class CheckerEmail:
         self.message["To"] = to
         self.message["Subject"] = subject
 
-    async def async_send_message(self, start_tls=True, use_tls=False) -> None:
+
+    async def async_send_message(self, start_tls=False, use_tls=False) -> None:
         """
         asunc out
         :return:
         """
-
         await self.client.connect(hostname=self.host_name, port=self.port, use_tls=use_tls, start_tls=start_tls)
-
-        if self.port == 587:
-            await self.client.starttls()
-
         async with self.client:
-            await self.client.send_message(self.message, )
+            await self.client.send_message(self.message)
+            print(200)
 
-    def sync_send_message(self, start_tls=True, use_tls=False) -> None:
+    def sync_send_message(self) -> None:
         """
         for sync sync code
 
         """
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self.async_send_message(start_tls, use_tls))
+        loop.run_until_complete(self.async_send_message())

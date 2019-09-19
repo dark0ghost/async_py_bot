@@ -10,4 +10,4 @@ class States(StatesGroup):
     contact: State = State()
     geo: State = State()
     get_mail: State = State()
-    v_mail: State = State()
+    mail_ver: State = State()
