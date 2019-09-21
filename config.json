@@ -12,15 +12,48 @@
     "buy": "покупка произведена успешно",
     "error_pay": "покупка не произошла"
   },
-  "good_proxy_link": "socks5://orbtl.s5.opennetwork.cc:999",
+  "good_proxy_link": "",
   "login": {
-    "login": 387544140,
-    "password": "w61D1u5v"
+    "login": "",
+    "password": ""
   },
   "smtp": {
     "login": "",
     "password": "",
     "host": "",
-    "port": ""
-  }
+    "port": 587
+  },
+  "google": {
+    "key": "",
+    "config": {
+      "apiKey": "",
+      "authDomain": "",
+      "databaseURL": "",
+      "projectId": "",
+      "storageBucket": "",
+      "messagingSenderId": "",
+      "appId": ""
+    },
+    "firebase": {
+      "id": "",
+      "socket": ""
+    }
+  },
+  "github": {
+    "client_id": "",
+    "client_secret": ""
+  },
+  "facebook": {
+    "client_id": "",
+    "client_secret": ""
+  },
+  "twitter": {
+    "consumer_key": "",
+    "consumer_secret": ""
+  },
+  "school": {
+    "api_token": "",
+    "meta": ""
+  },
+  "key_accept": ""
 }
