@@ -3,12 +3,14 @@ aiocontextvars==0.2.2
 aiodns==2.0.0
 aiogram==2.3
 aiohttp==3.6.1
+aiohttp-session==2.8.0
 aiohttp-socks==0.2.2
 aioredis==1.2.0
 aiosmtplib==1.1.0
 aiosocks==0.2.6
 aiosocksy==0.1.2
 aiosqlite==0.10.0
+asn1crypto==0.24.0
 async-timeout==3.0.1
 asyncio==3.4.3
 asyncpg==0.18.3
@@ -16,9 +18,11 @@ atpublic==1.0
 attrs==19.1.0
 Babel==2.7.0
 beautifulsoup4==4.8.0
+cchardet==2.1.4
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
+cryptography==2.7
 gino==0.8.3
 hiredis==1.0.0
 idna==2.8
@@ -26,6 +30,7 @@ multidict==4.5.2
 pycares==3.0.0
 pycparser==2.19
 pytz==2019.2
+six==1.12.0
 soupsieve==1.9.3
 SQLAlchemy==1.3.8
 typing==3.7.4.1
