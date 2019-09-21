@@ -1,0 +1,30 @@
+<!DOCTYPE>
+<head>
+<script src="localhost:8000/api/vue.js"></script>
+       <script  type="application/javascript">
+ const vue = new Vue({
+  template: '<div>{{ hi }}</div>'
+})
+
+
+
+       </script>
+</head>
+<body>
+
+ <a href='/'>back</a><br/><br/>
+        <ul>
+        <li>ID: {u.id}</li>
+        <li>Username: {u.username}</li>
+        <li>First, last name: {u.first_name}, {u.last_name}</li>
+        <li>Gender: {u.gender}</li>
+        <li>Email: {u.email}</li>
+        <li>Link: {u.link}</li>
+        <li>Picture: {u.picture}</li>
+        <li>Country, city: {u.country}, {u.city}</li>
+        </ul>
+
+
+ <pre>%s</pre>
+<pre>%s</pre>
+</body>
