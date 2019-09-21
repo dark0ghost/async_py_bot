@@ -4,7 +4,7 @@ import ujson as json
 
 from aiogram import Bot, types
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Union
 
 # or config.json
 with open("config_pro.json", "r") as file:
@@ -30,7 +30,10 @@ smtp_password: str = file_dict["smtp"]["password"]
 smtp_host: str = file_dict["smtp"]["host"]
 smtp_port: str = file_dict["smtp"]["port"]
 
+key: str = file_dict["key_accept"]
+
 google_token: str = file_dict["google"]["key"]
+
 
 async def get_link(bot: Bot, message: types.Message) -> str:
     """

@@ -1,7 +1,14 @@
 import asyncio
-
-from aiohttp import web
 import html
+import os
+import ujson
+import base64
+import uvloop
+
+from cryptography import fernet
+from aiohttp_session import setup, get_session, session_middleware
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
+from aiohttp import web
 from pprint import pformat
 from aioauth_client import (
     FacebookClient,
@@ -11,7 +18,14 @@ from aioauth_client import (
     TwitterClient
 )
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open(os.path.join(BASE_DIR.replace("model", ""), 'config_pro.json'), "r") as f:
+    json = ujson.loads(f.read())
+key = json["key_accept"]
+
 app = web.Application()
+
 clients = {
     'twitter': {
         'class': TwitterClient,
@@ -47,6 +61,9 @@ clients = {
 
 
 async def index(request):
+    # session = await get_session(request)
+    # session["chat_id"] = request.query["chat_id"]
+    print(request.query["chat_id"])
     return web.Response(text="""
         <ul>
             <li><a href="/oauth/bitbucket">Login with Bitbucket</a></li>
@@ -58,8 +75,6 @@ async def index(request):
     """, content_type="text/html")
 
 
-# Simple Github (OAuth2) example (not connected to app)
-
 async def github(request):
     github = GithubClient(
         client_id='b6281b6fe88fa4c313e6',
@@ -70,6 +85,7 @@ async def github(request):
 
     # Get access token
     code = request.query['code']
+
     token, _ = await github.get_access_token(code)
     assert token
 
@@ -84,7 +100,6 @@ async def oauth(request):
     if provider not in clients:
         raise web.HTTPNotFound(reason='Unknown provider')
 
-    # Create OAuth1/2 client
     Client = clients[provider]['class']
     params = clients[provider]['init']
     client = Client(**params)
@@ -128,19 +143,28 @@ async def oauth(request):
     ).format(u=user)
     text += "<pre>%s</pre>" % html.escape(pformat(info))
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
+
     return web.Response(text=text, content_type='text/html')
+
+
+
+async def get_token(request):
+    if request.query["key"] == key:
+        return web.json_response({"12": "asdh"})
 
 
 app.router.add_route('GET', '/', index)
 app.router.add_route('GET', '/oauth/{provider}', oauth)
+app.router.add_route('GET', '/api', get_token)
 
+
+#loop = uvloop.new_event_loop()
 loop = asyncio.get_event_loop()
-f = loop.create_server(app.make_handler(), '127.0.0.1', 5000)
+f = loop.create_server(app.make_handler(), json["web"]["host_api"], json["web"]["port"])
 srv = loop.run_until_complete(f)
 print('serving on', srv.sockets[0].getsockname())
+
 try:
     loop.run_forever()
 except KeyboardInterrupt:
     pass
-
-# pylama:ignore=D
