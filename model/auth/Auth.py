@@ -23,8 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(BASE_DIR.replace("model", ""), 'config_pro.json'), "r") as f:
     json = ujson.loads(f.read())
 key = json["key_accept"]
-
+routs = web.RouteTableDef()
 app = web.Application()
+
+
 
 clients = {
     'twitter': {
@@ -145,7 +147,9 @@ async def oauth(request):
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
 
     return web.Response(text=text, content_type='text/html')
-
+@routs.get("/api/vue.js")
+async def get_vue(request):
+    return web.FileResponse(path="./templates/vue.js")
 
 
 async def get_token(request):
@@ -156,6 +160,7 @@ async def get_token(request):
 app.router.add_route('GET', '/', index)
 app.router.add_route('GET', '/oauth/{provider}', oauth)
 app.router.add_route('GET', '/api', get_token)
+app.add_routes(routs)
 
 
 #loop = uvloop.new_event_loop()
