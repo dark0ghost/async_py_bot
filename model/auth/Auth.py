@@ -1,7 +1,6 @@
 import asyncio
 import html
 import os
-
 import aiohttp_jinja2
 import aiohttp_session
 import jinja2
@@ -10,6 +9,7 @@ import base64
 import uvloop
 from aiohttp_session.redis_storage import RedisStorage
 from aioredis import create_pool
+
 
 from cryptography import fernet
 from aiohttp_session import setup, get_session, session_middleware
@@ -161,11 +161,11 @@ async def oauth(request):
 
 
 @routs.get("/api/vue.js")
-async def get_vue(request):
+async def get_vue(request) -> web.FileResponse:
     return web.FileResponse(path="./templates/vue.js")
 
 
-async def get_token(request):
+async def get_token(request) -> web.json_response:
     if request.query["key"] == key:
         return web.json_response({"12": "asdh"})
 
@@ -182,7 +182,6 @@ async def setup() -> None:
 
 
 asyncio.run(setup())
-
 
 # loop = asyncio.get_event_loop()
 asyncio.set_event_loop(loop)

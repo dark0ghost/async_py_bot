@@ -3,6 +3,7 @@
 import filter
 import help
 import price
+import faces as faceapp
 
 from aiogram import types
 from aiogram.types.message import ContentTypes
@@ -10,7 +11,7 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail
+from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, BASE_DIR
 from model.i18n import i18n
 
 
@@ -129,3 +130,10 @@ async def V_mail(message: types.Message, state: FSMContext):
         else:
             await message.reply("warning")
 
+
+@dp.message_handler(commands="make")
+async def facep(message: types.Message):
+    file = open(BASE_DIR + "/staticfile/1.jpg", "rb")
+    image = faceapp.FaceAppImage(file=file)
+    happy = image.apply_filter('old', cropped=True)
+    await message.reply(happy)
