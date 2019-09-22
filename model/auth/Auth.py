@@ -1,9 +1,15 @@
 import asyncio
 import html
 import os
+
+import aiohttp_jinja2
+import aiohttp_session
+import jinja2
 import ujson
 import base64
 import uvloop
+from aiohttp_session.redis_storage import RedisStorage
+from aioredis import create_pool
 
 from cryptography import fernet
 from aiohttp_session import setup, get_session, session_middleware
@@ -19,6 +25,7 @@ from aioauth_client import (
 )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+loop = uvloop.new_event_loop()
 
 with open(os.path.join(BASE_DIR.replace("model", ""), 'config_pro.json'), "r") as f:
     json = ujson.loads(f.read())
@@ -26,7 +33,7 @@ key = json["key_accept"]
 routs = web.RouteTableDef()
 app = web.Application()
 
-
+aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader('./templates/'))
 
 clients = {
     'twitter': {
@@ -63,9 +70,13 @@ clients = {
 
 
 async def index(request):
-    # session = await get_session(request)
-    # session["chat_id"] = request.query["chat_id"]
+    context = {}
+    session = await get_session(request)
+    session["chat_id"] = request.query["chat_id"]
     print(request.query["chat_id"])
+    return aiohttp_jinja2.render_template('index.html',
+                                          request,
+                                          context)
     return web.Response(text="""
         <ul>
             <li><a href="/oauth/bitbucket">Login with Bitbucket</a></li>
@@ -147,6 +158,8 @@ async def oauth(request):
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
 
     return web.Response(text=text, content_type='text/html')
+
+
 @routs.get("/api/vue.js")
 async def get_vue(request):
     return web.FileResponse(path="./templates/vue.js")
@@ -163,8 +176,16 @@ app.router.add_route('GET', '/api', get_token)
 app.add_routes(routs)
 
 
-#loop = uvloop.new_event_loop()
-loop = asyncio.get_event_loop()
+async def setup() -> None:
+    pool = await create_pool(('127.0.0.1', 6379), db=0)
+    aiohttp_session.setup(app, RedisStorage(pool))
+
+
+asyncio.run(setup())
+
+
+# loop = asyncio.get_event_loop()
+asyncio.set_event_loop(loop)
 f = loop.create_server(app.make_handler(), json["web"]["host_api"], json["web"]["port"])
 srv = loop.run_until_complete(f)
 print('serving on', srv.sockets[0].getsockname())
