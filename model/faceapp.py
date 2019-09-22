@@ -5,6 +5,7 @@ import random
 
 from typing import Dict
 from aiohttp import FormData
+
 from model.exception_class import FaceAppException
 
 
@@ -71,14 +72,3 @@ class FaceApp:
         raise FaceAppException('invalid filter')
 
 
-import asyncio
-
-
-async def h():
-    s = aiohttp.ClientSession()
-    a = FaceApp(s)
-    print(await a.get_code("./static/1.jpg"))
-    await s.close()
-
-
-asyncio.run(h())
