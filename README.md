@@ -2,7 +2,7 @@
 
 
 ## How to install:
-	```git clone https://github.com/dark0ghost/async_py_bot.git```
+	git clone https://github.com/dark0ghost/async_py_bot.git
 
 ## How to use:
 ```
