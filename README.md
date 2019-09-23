@@ -11,7 +11,7 @@ write config.json
 docker-compose run bot postgres redis 
 ```
 
-##function bot
+## Function bot:
 """
 /start -> send start mes,set state ver mail
 ...
