@@ -12,10 +12,10 @@ docker-compose run bot postgres redis
 ```
 
 ## Function bot:
-"""
+'''
 /start -> send start mes,set state ver mail
 ...
-"""
+'''
  
  
   
