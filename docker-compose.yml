@@ -31,15 +31,17 @@ services:
     container_name: redis
     image:
       redis:alpine
-    environment:
-      vm.overcommit_memory: 1
     ports:
       - "6379:6379"
+    command:
+        - 'redis-server'
+        - '--loglevel ${REDIS_LOGLEVEL:-warning}'
+        - '--databases 2'
+        - '--maxmemory ${REDIS_MAXMEM:-50mb}'
+        - '--maxmemory-policy ${REDIS_POLICY:-noeviction}'
     volumes:
       - ../data/redis:/data
-    entrypoint: redis-server --appendonly yes
     restart: always
-    hostname: redis
 
   adminer:
     image:

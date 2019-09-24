@@ -46,28 +46,27 @@ log = logging.getLogger("bot")
 
 State = States()
 
-Button = button.Button()
+Button: button.Button = button.Button()
 
-keyboard = keyboard.keyboard
+keyboard: keyboard.keyboard = keyboard.keyboard()
 
 proxy_list: List[str] = []
 
-posts_cb = CallbackData('post', 'id', 'action')
+posts_cb: CallbackData = CallbackData('post', 'id', 'action')
 
 Button.posts_cb = posts_cb
 
 Base_filter: filter.Base_bot_filter = filter.Base_bot_filter()
 
-lazy_get_text = i18n.lazy_gettext
+lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext
 
 lang: List[str] = []
 
-"""if debug:
+if debug:
     storage = MemoryStorage()
 else:
     storage = RedisStorage2()
-"""
-storage = MemoryStorage()
+
 
 
 # start def
