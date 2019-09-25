@@ -4,9 +4,9 @@ from gino import Gino
 db_pg = Gino()
 
 
-
 class User(db_pg.Model):
     __tablename__ = 'users_bot'
+
     id = db_pg.Column(db_pg.Integer(), primary_key=True)
     nickname = db_pg.Column(db_pg.Unicode(), default='noname')
     email = db_pg.Column(db_pg.Unicode())
@@ -15,5 +15,18 @@ class User(db_pg.Model):
 
 class UserLang(db_pg.Model):
     __tablename__ = 'users_lang'
+
     id = db_pg.Column(db_pg.Integer(), primary_key=True)
     lang = db_pg.Column(db_pg.Unicode())
+
+
+class AccessToken(db_pg.Model):
+    __tablename__  = 'access_token'
+
+    id = db_pg.Column(db_pg.Integer(), primary_key=True)
+    chat_id = db_pg.Column(db_pg.Integer(), primary_key=True)
+
+    token_github = db_pg.Column(db_pg.Unicode(), default='0')
+    token_facebook = db_pg.Column(db_pg.Unicode(), default='0')
+    token_google = db_pg.Column(db_pg.Unicode(), default='0')
+    token_twitter = db_pg.Column(db_pg.Unicode(), default='0')

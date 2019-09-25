@@ -10,7 +10,7 @@ from aiogram import types
 @dp.callback_query_handler(posts_cb.filter(action=['edit']))
 async def back(query: types.CallbackQuery, callback_data: dict):
     """
-    todo
+    :param callback_data:
     :param message:
     :return:
     """

@@ -15,6 +15,7 @@ from aiohttp_session import setup, get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp import web
 from pprint import pformat
+from model.db_pg import AccessToken
 from aioauth_client import (
     FacebookClient,
     GithubClient,
@@ -69,25 +70,15 @@ clients = {
 }
 
 
-@aiohttp_jinja2.template('index.html')
+@aiohttp_jinja2.template('login.html')
 async def index(request):
-    print(1)
     context = {}
     session = await get_session(request)
     session["chat_id"] = request.query["chat_id"]
     print(request.query["chat_id"])
-    """return aiohttp_jinja2.render_template('index.html',
-      request,
-        context)"""
-    return web.Response(text="""
-        <ul>
-            <li><a href="/oauth/bitbucket">Login with Bitbucket</a></li>
-            <li><a href="/oauth/facebook">Login with Facebook</a></li>
-            <li><a href="/oauth/github">Login with Github</a></li>
-            <li><a href="/oauth/google">Login with Google</a></li>
-            <li><a href="/oauth/twitter">Login with Twitter</a></li>
-        </ul>
-    """, content_type="text/html")
+    return aiohttp_jinja2.render_template('login.html',
+                                          request,
+                                          context)
 
 
 async def github(request):
@@ -115,7 +106,6 @@ async def oauth(request):
     if provider not in clients:
         raise web.HTTPNotFound(reason='Unknown provider')
     session = await get_session(request)
-    print(session)
 
     Client = clients[provider]['class']
     params = clients[provider]['init']
@@ -161,6 +151,8 @@ async def oauth(request):
     text += "<pre>%s</pre>" % html.escape(pformat(info))
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
 
+    # await AccessToken.create(chat_id=session["chat_id"])
+    print(meta)
     return web.Response(text=text, content_type='text/html')
 
 

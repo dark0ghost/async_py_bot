@@ -2,7 +2,7 @@
 import hashlib
 
 from aiogram import types
-from main import dp, bot, lazy_get_text, cb as bankapi, crypto_price
+from main import dp, bot, lazy_get_text, cb as bank_api, crypto_price
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
@@ -16,12 +16,12 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     # but for example i'll generate it based on text because I know, that
     # only text will be passed in this example
     text = inline_query.query
-    res = await  bankapi.build_list_coin()
+    res = await bank_api.build_list_coin()
     crypto = await crypto_price.coin_list()
     result_id: str = hashlib.md5(text.encode()).hexdigest()
     if text in res.keys():
         input_content = InputTextMessageContent(lazy_get_text("""название {name}\n`стоимость 1 {name} - {valvue}₽`\n__дата {date}\n по данным центробанка (https://www.cbr.ru)__
-        """).format(name=text, valvue=res[text]["valvue"], date=bankapi.date))
+        """).format(name=text, valvue=res[text]["valvue"], date=bank_api.date))
 
         item = InlineQueryResultArticle(
             id=result_id,
@@ -33,7 +33,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
         price = (await crypto_price.simple_price(ids=id_coin, vs_currestring="rub"))[id_coin]["rub"]
         input_content = InputTextMessageContent(
             lazy_get_text("""название {name}\n`стоимость 1 {name} - {valvue}₽`\nдата {date} """
-                          ).format(name=text, valvue=price, date=bankapi.date)
+                          ).format(name=text, valvue=price, date=bank_api.date)
         )
         item = InlineQueryResultArticle(
             id=result_id,
@@ -45,7 +45,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
         price = (await crypto_price.simple_price(ids=id_coin, vs_currestring="rub"))[id_coin]["rub"]
         input_content = InputTextMessageContent(
             lazy_get_text("""название {name}\n`стоимость 1 {name}:\n{btc} btc\n$ {usd} `\nдата {date} """
-                          ).format(name=text, btc=(1 / price), usd=(1 / res["USD"]["valvue"]), date=bankapi.date)
+                          ).format(name=text, btc=(1 / price), usd=(1 / res["USD"]["valvue"]), date=bank_api.date)
         )
         item = InlineQueryResultArticle(
             id=result_id,

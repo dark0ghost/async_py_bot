@@ -10,13 +10,19 @@ class CheckerEmail:
     """
     class for check email
     use :
-      check:CheckerEmail = CheckerEmail(hostname_mail="smt.com", port=93)
-      check.change_len_code(new_len_code=5)
-      check.get_random_code()
-      code: int = check.get_code()
-      await check.async_send_message # in async def
-      # or sync code
-      check.sync_send_message
+           from CheckerMailPy import CheckerEmail
+            from email.mime.text import MIMEText
+
+            async def async_start() -> None:
+                checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=smtp_host,
+                                                                    port=smtp_port, password=smtp_password,
+                                                                    login=smtp_login)
+                check.change_len_code(new_len_code=5)
+                check.get_random_code()
+                code: int = check.get_code()
+                await check.async_send_message()
+                # or sync code
+                check.sync_send_message()
     """
 
     def __init__(self, hostname_mail: str, port: int, login: str, password: str, loop=None) -> None:
@@ -65,7 +71,6 @@ class CheckerEmail:
         self.message["From"] = from_mail
         self.message["To"] = to
         self.message["Subject"] = subject
-
 
     async def async_send_message(self, start_tls=False, use_tls=False) -> None:
         """
