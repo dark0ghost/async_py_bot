@@ -30,3 +30,6 @@ class AccessToken(db_pg.Model):
     token_facebook = db_pg.Column(db_pg.Unicode(), default='0')
     token_google = db_pg.Column(db_pg.Unicode(), default='0')
     token_twitter = db_pg.Column(db_pg.Unicode(), default='0')
+
+
+

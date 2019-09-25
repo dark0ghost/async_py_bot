@@ -74,8 +74,11 @@ clients = {
 async def index(request):
     context = {}
     session = await get_session(request)
-    session["chat_id"] = request.query["chat_id"]
-    print(request.query["chat_id"])
+    try:
+        session["chat_id"] = request.query["chat_id"]
+    except Exception as e:
+       return web.json_response({"error": f"{e}", "code": "404"})
+
     return aiohttp_jinja2.render_template('login.html',
                                           request,
                                           context)
