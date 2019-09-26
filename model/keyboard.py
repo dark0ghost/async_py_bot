@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardRemove, ReplyKeyboardMarkup, KeyboardButt
 from typing import List
 
 
-class keyboard:
+class Keyboard:
     # resize_keyboard=True, one_time_keyboard=True
     def keyboard_all(text: str) -> ReplyKeyboardMarkup:
         button_hi = KeyboardButton(text=text)

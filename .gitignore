@@ -10,6 +10,7 @@ __pycache__
 *.so
 config_pro.json
 /model/auth/templates/vue.js
+/model/auth/templates/jquery.js
 
 
 # Distribution / packaging

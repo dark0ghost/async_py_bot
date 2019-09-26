@@ -3,7 +3,6 @@
 import filter
 import help
 import price
-import faces as faceapp
 
 from aiogram import types
 from aiogram.types.message import ContentTypes

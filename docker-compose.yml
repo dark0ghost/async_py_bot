@@ -13,6 +13,9 @@ services:
         - ".:/usr/src/app"
     command:
           "sh -ac 'cd /usr/src/app && python3 start_poling.py'; ls"
+  web:
+    restart:  on-failure
+    command: "python auth.py"
   postgres:
     container_name: postgresql
     image:

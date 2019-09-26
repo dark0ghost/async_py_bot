@@ -48,7 +48,7 @@ State = States()
 
 Button: button.Button = button.Button()
 
-keyboard: keyboard.keyboard = keyboard.keyboard()
+keyboard = keyboard.Keyboard
 
 proxy_list: List[str] = []
 
@@ -66,7 +66,6 @@ if debug:
     storage = MemoryStorage()
 else:
     storage = RedisStorage2()
-
 
 
 # start def

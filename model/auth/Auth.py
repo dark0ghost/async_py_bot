@@ -15,7 +15,12 @@ from aiohttp_session import setup, get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from aiohttp import web
 from pprint import pformat
-from model.db_pg import AccessToken
+
+from typing import Dict
+
+from gino import Gino
+
+from model.db_pg import AccessToken, db_pg
 from aioauth_client import (
     FacebookClient,
     GithubClient,
@@ -24,6 +29,7 @@ from aioauth_client import (
     TwitterClient
 )
 
+postgres: Gino = db_pg
 loop = uvloop.new_event_loop()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -70,21 +76,24 @@ clients = {
 }
 
 
+@aiohttp_jinja2.template('error.html')
 @aiohttp_jinja2.template('login.html')
-async def index(request):
+async def index(request) -> aiohttp_jinja2.render_template:
     context = {}
     session = await get_session(request)
     try:
         session["chat_id"] = request.query["chat_id"]
     except Exception as e:
-       return web.json_response({"error": f"{e}", "code": "404"})
+        context["code"] = 404
+        context["error"] = e
+        return aiohttp_jinja2.render_template("error.html", request, context)
 
     return aiohttp_jinja2.render_template('login.html',
                                           request,
                                           context)
 
 
-async def github(request):
+async def github(request) -> web.Response:
     github_auth = GithubClient(
         client_id='b6281b6fe88fa4c313e6',
         client_secret='21ff23d9f1cad775daee6a38d230e1ee05b04f7c',
@@ -104,7 +113,8 @@ async def github(request):
     return web.Response(body=body, content_type='application/json')
 
 
-async def oauth(request):
+async def oauth(request) -> aiohttp_jinja2.render_template or web.HTTPNotFound:
+    context: Dict[str, str] = {}
     provider = request.match_info.get('provider')
     if provider not in clients:
         raise web.HTTPNotFound(reason='Unknown provider')
@@ -153,8 +163,9 @@ async def oauth(request):
     ).format(u=user)
     text += "<pre>%s</pre>" % html.escape(pformat(info))
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
-
-    # await AccessToken.create(chat_id=session["chat_id"])
+    print(session["chat_id"])
+    await AccessToken.create(chat_id=session["chat_id"], token_google=meta["access_token"],
+                             token_github=meta["access_token"])
     print(meta)
     return web.Response(text=text, content_type='text/html')
 
@@ -175,6 +186,11 @@ async def get_token(request) -> web.json_response:
         return web.json_response({"12": "asdh"})
 
 
+@routs.get("/api/jquery.js")
+async def mdb():
+    return web.FileResponse(path="./templates/mdb.css")
+
+
 app.router.add_route('GET', '/', index)
 app.router.add_route('GET', '/oauth/{provider}', oauth)
 app.add_routes(routs)
@@ -183,6 +199,8 @@ app.add_routes(routs)
 async def setup_session() -> None:
     pool = await create_pool(('localhost', 6379), db=0)
     aiohttp_session.setup(app, RedisStorage(pool))
+    await postgres.set_bind(json["POSTGRES"])
+    await postgres.gino.create_all()
 
 
 async def shutdown(app_) -> None:
