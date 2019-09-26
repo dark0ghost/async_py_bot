@@ -3,7 +3,6 @@
 import filter
 import help
 import price
-import faces as faceapp
 
 from aiogram import types
 from aiogram.types.message import ContentTypes
@@ -12,7 +11,7 @@ from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
 from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, BASE_DIR
-from model.i18n import i18n
+
 
 
 @dp.message_handler(commands=['start'])
