@@ -2,13 +2,14 @@ version: '3.3'
 
 services:
   bot:
+    build:
+      context: .
+      dockerfile:
+        Dockerfile
     restart:
        on-failure
     volumes:
         - ".:/usr/src/app"
-
-
-
 
   postgres:
     container_name: postgresql
@@ -16,10 +17,8 @@ services:
        postgres:10
     volumes:
       - "./postgres/data:/var/lib/postgresql/data/pgdata"
-    environment:
-      POSTGRES_USER: "eventstracker"
-      POSTGRES_PASSWORD: "A3dSA24Dctf2v4HE"
-      PGDATA: "./postgres/data:/var/lib/postgresql/data/pgdata"
+    env_file:
+      - ./pg.conf
     restart:
         always
     ports:
