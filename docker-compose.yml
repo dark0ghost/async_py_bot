@@ -6,30 +6,24 @@ services:
       context: .
       dockerfile:
         Dockerfile
-
     restart:
        on-failure
     volumes:
         - ".:/usr/src/app"
-    command:
-          "sh -ac 'cd /usr/src/app && python3 start_poling.py'; ls"
-  web:
-    restart:  on-failure
-    command: "python auth.py"
+
   postgres:
     container_name: postgresql
     image:
        postgres:10
     volumes:
       - "./postgres/data:/var/lib/postgresql/data/pgdata"
-    environment:
-      POSTGRES_USER: "eventstracker"
-      POSTGRES_PASSWORD: "A3dSA24Dctf2v4HE"
-      PGDATA: "./postgres/data:/var/lib/postgresql/data/pgdata"
+    env_file:
+      - ./pg.conf
     restart:
         always
     ports:
         - 5432:5432
+
   redis:
     container_name: redis
     image:
