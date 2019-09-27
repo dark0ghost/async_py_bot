@@ -21,8 +21,8 @@ class UserLang(db_pg.Model):
 
 
 class AccessToken(db_pg.Model):
-    __tablename__ = 'access_token'
+    __tablename__ = 'access_token_auth'
 
-    chat_id = db_pg.Column(db_pg.Integer(), primary_key=True)
+    chat_id = db_pg.Column(db_pg.Integer())
     token_github = db_pg.Column(db_pg.Unicode(), default='0')
     token_google = db_pg.Column(db_pg.Unicode(), default='0')
