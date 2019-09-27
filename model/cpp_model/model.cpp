@@ -5,11 +5,15 @@
 #include <vector>
 #include <algorithm>
 #include "neuron.h"
-
+#include <boost/python.hpp>
+#endif _MYNN_H_
 
 using namespace std;
 
-
-#endif /*_MYNN_H_*/
+BOOST_PYTHON_MODULE(hello_ext)
+{
+    using namespace boost::python;
+    def("greet", greet);
+}
 
 
