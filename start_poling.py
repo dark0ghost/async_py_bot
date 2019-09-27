@@ -1,10 +1,13 @@
 from main import dp, loop, shutdown
 from aiogram import executor
+import imaplib
+"""
 import handlers.message_handler
 import handlers.pre_checkout_query_handler
 import handlers.callback_handlers
 import handlers.inline_handlers
 import handlers.shoping_handler
+"""
 
 if __name__ == '__main__':
     print("start")
