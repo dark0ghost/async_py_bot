@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+import os
 
 import filter
 import help
@@ -10,8 +11,7 @@ from model import async_proxy
 from typing import List
 from aiogram.types import ContentType, User
 from aiogram.dispatcher import FSMContext
-from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, BASE_DIR
-
+from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, BASE_DIR, catApi
 
 
 @dp.message_handler(commands=['start'])
@@ -113,7 +113,7 @@ async def get_mail(message: types.Message, state: FSMContext):
     mail = message.text
     async with state.proxy() as data:
         data["passcode"] = checker_mail.get_random_code()
-        checker_mail.build_message(text=data["passcode"], from_mail=help.smtp_login, to=mail, subject="test")
+        checker_mail.build_message(text=data["pass_code"], from_mail=help.smtp_login, to=mail, subject="test")
 
     await checker_mail.async_send_message(start_tls=1)
     await State.mail_ver.set()
@@ -122,17 +122,15 @@ async def get_mail(message: types.Message, state: FSMContext):
 @dp.message_handler(state=State.mail_ver)
 async def V_mail(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        if message.text == data["passcode"]:
+        if message.text == data["pass_code"]:
             await message.reply("good")
-
-
         else:
             await message.reply("warning")
 
 
-@dp.message_handler(commands="make")
-async def facep(message: types.Message):
-    file = open(BASE_DIR + "/staticfile/1.jpg", "rb")
-    image = faceapp.FaceAppImage(file=file)
-    happy = image.apply_filter('old', cropped=True)
-    await message.reply(happy)
+@dp.message_handler(commands=["cat"])
+async def cat(message: types.Message):
+    print(os.path.abspath("staticfile/cat.jpg"))
+    await catApi.get_photo()
+    await bot.send_photo(chat_id=message.chat.id,
+                         photo=open(os.path.abspath("staticfile/cat.jpg"), "rb"))
