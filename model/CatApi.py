@@ -40,7 +40,7 @@ import asyncio
 
 async def start():
     s = aiohttp.ClientSession()
-    f = CatApi(session=s, token="71391b68-9913-4963-b9ca-e65e7a65cc0f")
+    f = CatApi(session=s, token="")
     print(await f.get_photo())
     await s.close()
 
