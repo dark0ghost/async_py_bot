@@ -33,6 +33,9 @@ smtp_port: str = file_dict["smtp"]["port"]
 key: str = file_dict["key_accept"]
 
 google_token: str = file_dict["google"]["key"]
+domain = file_dict["web"]["domain"]
+
+cat_api = file_dict["cat_api"]["token"]
 
 
 async def get_link(bot: Bot, message: types.Message) -> str:

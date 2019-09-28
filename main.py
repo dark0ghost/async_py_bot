@@ -11,13 +11,14 @@ import logging
 import asyncio
 import filter
 
-from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail
+from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
 from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
+
 from State import States
 
 print("build")
@@ -35,6 +36,8 @@ checker_mail.change_len_code(new_len_code=5)
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
 crypto_price: Crypto_Price.CryptoPrice = Crypto_Price.CryptoPrice(session)
+
+catApi = CatApi.CatApi(session=session)
 
 debug = True
 
