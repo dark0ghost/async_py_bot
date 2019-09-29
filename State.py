@@ -13,3 +13,4 @@ class States(StatesGroup):
     mail_ver: State = State()
     save_json: State = State()
     search_json: State = State()
+    send_paste: State = State()

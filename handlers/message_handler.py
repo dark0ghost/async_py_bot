@@ -12,7 +12,8 @@ from aiogram.types.message import ContentTypes
 import filter
 import help
 import price
-from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box
+from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
+    pastebian
 from model import async_proxy
 
 
@@ -140,8 +141,12 @@ async def cat(message: types.Message):
 
 @dp.message_handler(commands=["json"])
 async def save_json(message: types.Message, state: FSMContext):
-    await State.save_json.set()
-    await message.reply(lazy_get_text("send json"))
+    try:
+        await message.reply(await io_json_box.create_box(text=message.reply_to_message.text))
+        return
+    except:
+        await State.save_json.set()
+        await message.reply(lazy_get_text("send json"))
 
 
 @dp.message_handler(state=State.save_json)
@@ -159,6 +164,24 @@ async def search_json(message: types.Message, state: FSMContext):
 @dp.message_handler(state=State.search_json)
 async def save_json(message: types.Message, state: FSMContext):
     await message.reply(
-        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'",""),
+        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'", ""),
         parse_mode=types.ParseMode.MARKDOWN)
+    await state.finish()
+
+
+@dp.message_handler(commands=["paste"])
+async def return_paste(message: types.Message):
+    try:
+        pastebian.generate_data(paste=message.reply_to_message.text)
+        await message.reply(await pastebian.send_paste())
+        return
+    except:
+        await State.send_paste.set()
+        await message.reply(lazy_get_text("send paste"))
+
+
+@dp.message_handler(state=State.send_paste)
+async def _paste(message: types.Message, state: FSMContext):
+    pastebian.generate_data(paste=message.text)
+    await message.reply(await pastebian.send_paste())
     await state.finish()

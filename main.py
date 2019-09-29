@@ -11,6 +11,7 @@ import logging
 import asyncio
 import filter
 
+from model.com.pastebin import Pastebin
 from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi, IoJsonBox
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
@@ -42,6 +43,8 @@ crypto_price: Crypto_Price.CryptoPrice = Crypto_Price.CryptoPrice(session)
 catApi = CatApi.CatApi(session=session)
 
 debug = True
+
+pastebian: Pastebin = Pastebin.Pastebian(token= help.pastebian, session=session)
 
 cb = cb_api.CenterBankApi(session)
 

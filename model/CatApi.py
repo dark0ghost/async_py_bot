@@ -4,9 +4,17 @@ import aiohttp
 
 class CatApi:
     def __init__(self, session: aiohttp.ClientSession) -> None:
+        """
+
+        :param session:
+        """
         self.session: aiohttp.ClientSession = session
 
     async def get_photo(self) -> str:
+        """
+
+        :return:
+        """
         async with self.session.get(
                 "https://api.thecatapi.com/v1/images/search?limit=5&page=10&order=Desc") as response:
             json = await response.json()

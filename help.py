@@ -37,6 +37,8 @@ domain = file_dict["web"]["domain"]
 
 cat_api = file_dict["cat_api"]["token"]
 
+pastebian = file_dict["pastebin"]
+
 
 async def get_link(bot: Bot, message: types.Message) -> str:
     """
