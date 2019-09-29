@@ -25,5 +25,7 @@ class IOJsonBox:
             return url
 
     async def get_data_link(self, url: str):
-        async with self.session.get(url=url) as response:
-            return await response.text()
+        if "https://jsonbox.io/" in url:
+            async with self.session.get(url=url) as response:
+                return await response.text()
+        return "invalid url"

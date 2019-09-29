@@ -12,3 +12,4 @@ class States(StatesGroup):
     get_mail: State = State()
     mail_ver: State = State()
     save_json: State = State()
+    search_json: State = State()

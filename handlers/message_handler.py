@@ -1,5 +1,7 @@
 # This Python file uses the following encoding: utf-8
+import html
 import os
+from pprint import pformat
 from typing import List
 
 from aiogram import types
@@ -145,4 +147,18 @@ async def save_json(message: types.Message, state: FSMContext):
 @dp.message_handler(state=State.save_json)
 async def save_json(message: types.Message, state: FSMContext):
     await message.reply(await io_json_box.create_box(text=message.text))
+    await state.finish()
+
+
+@dp.message_handler(commands=["search_json"])
+async def search_json(message: types.Message, state: FSMContext):
+    await State.search_json.set()
+    await message.reply(lazy_get_text("send URL json"))
+
+
+@dp.message_handler(state=State.search_json)
+async def save_json(message: types.Message, state: FSMContext):
+    await message.reply(
+        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", "\n").replace("'",""),
+        parse_mode=types.ParseMode.MARKDOWN)
     await state.finish()
