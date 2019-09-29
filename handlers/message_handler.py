@@ -1,17 +1,17 @@
 # This Python file uses the following encoding: utf-8
 import os
+from typing import List
+
+from aiogram import types
+from aiogram.dispatcher import FSMContext
+from aiogram.types import User
+from aiogram.types.message import ContentTypes
 
 import filter
 import help
 import price
-
-from aiogram import types
-from aiogram.types.message import ContentTypes
+from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box
 from model import async_proxy
-from typing import List
-from aiogram.types import ContentType, User
-from aiogram.dispatcher import FSMContext
-from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, BASE_DIR, catApi
 
 
 @dp.message_handler(commands=['start'])
@@ -134,3 +134,15 @@ async def cat(message: types.Message):
     await catApi.get_photo()
     await bot.send_photo(chat_id=message.chat.id,
                          photo=open(os.path.abspath("staticfile/cat.jpg"), "rb"))
+
+
+@dp.message_handler(commands=["json"])
+async def save_json(message: types.Message, state: FSMContext):
+    await State.save_json.set()
+    await message.reply(lazy_get_text("send json"))
+
+
+@dp.message_handler(state=State.save_json)
+async def save_json(message: types.Message, state: FSMContext):
+    await message.reply(await io_json_box.create_box(text=message.text))
+    await state.finish()

@@ -7,11 +7,11 @@
   "mes": {
     "start": "message start",
     "help": "message help",
-    "proxy": "public proxy for you",
-    "new_proxy": "new proxy",
-    "buy": "покупка произведена успешно",
+   "buy": "покупка произведена успешно",
     "error_pay": "покупка не произошла"
   },
+  "proxy": "public proxy for you",
+  "new_proxy": "new proxy",
   "good_proxy_link": "",
   "login": {
     "login": "",

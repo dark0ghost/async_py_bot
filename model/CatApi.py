@@ -1,27 +1,10 @@
-from typing import Dict
 
-import aiofiles
 import aiohttp
 
 
 class CatApi:
-    def __init__(self, session: aiohttp.ClientSession, token: str = ""):
-        self.token: str = token
+    def __init__(self, session: aiohttp.ClientSession) -> None:
         self.session: aiohttp.ClientSession = session
-        self.api_url: str = "https://api.thecatapi.com/v1/images"
-        self.headers: Dict[str, str] = {
-            'x-api-key': self.token
-
-        }
-
-    async def auth(self):
-        """
-        no work
-        :return:
-        """
-        async with self.session.post(url=self.api_url, headers=self.headers, data="1.1.1.1") as response:
-            json = await response.json()
-            return json["status"] == 200
 
     async def get_photo(self) -> str:
         async with self.session.get(
@@ -34,16 +17,18 @@ class CatApi:
                 return "/staticfile/cat.jpg"
 
 
+
+
 """
 import asyncio
 
-
 async def start():
     s = aiohttp.ClientSession()
-    f = CatApi(session=s, token="71391b68-9913-4963-b9ca-e65e7a65cc0f")
+    f = CatApi(session=s)
     print(await f.get_photo())
     await s.close()
 
 
 asyncio.run(start())
 """
+

@@ -11,3 +11,4 @@ class States(StatesGroup):
     geo: State = State()
     get_mail: State = State()
     mail_ver: State = State()
+    save_json: State = State()

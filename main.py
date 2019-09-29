@@ -11,7 +11,7 @@ import logging
 import asyncio
 import filter
 
-from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi
+from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi, IoJsonBox
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -34,6 +34,8 @@ checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mai
 checker_mail.change_len_code(new_len_code=5)
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
+
+io_json_box: IoJsonBox = IoJsonBox.IOJsonBox(session)
 
 crypto_price: Crypto_Price.CryptoPrice = Crypto_Price.CryptoPrice(session)
 

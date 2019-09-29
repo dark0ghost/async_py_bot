@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "neuron.h"
 #include <boost/python.hpp>
-#endif _MYNN_H_
+#endif 
 
 using namespace std;
 
