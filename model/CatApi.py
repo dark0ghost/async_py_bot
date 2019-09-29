@@ -19,16 +19,3 @@ class CatApi:
 
 
 
-"""
-import asyncio
-
-async def start():
-    s = aiohttp.ClientSession()
-    f = CatApi(session=s)
-    print(await f.get_photo())
-    await s.close()
-
-
-asyncio.run(start())
-"""
-
