@@ -159,6 +159,6 @@ async def search_json(message: types.Message, state: FSMContext):
 @dp.message_handler(state=State.search_json)
 async def save_json(message: types.Message, state: FSMContext):
     await message.reply(
-        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", "\n").replace("'",""),
+        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'",""),
         parse_mode=types.ParseMode.MARKDOWN)
     await state.finish()
