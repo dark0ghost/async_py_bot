@@ -1,10 +1,9 @@
 import aiohttp
 from typing import Dict
 
-import asyncio
 
 
-class Pastebian:
+class Pastebin:
     def __init__(self, token: str, session: aiohttp.ClientSession) -> None:
         """
 
@@ -75,11 +74,13 @@ class Pastebian:
                                      }
         return self.data
 
-    async def send_paste(self) -> str:
-        async with self.session.post(url=self.api_url, data=self.data) as response:
-             return  await response.text(encoding="UTF-8")
+    async def send_paste(self, data: Dict[str, str] = None) -> str:
+        if data is not None:
+            async with self.session.post(url=self.api_url, data=self.data) as response:
+                return await response.text(encoding="UTF-8")
+        else:
+            async with self.session.post(url=self.api_url, data=data) as response:
+                return await response.text(encoding="UTF-8")
 
     async def close(self) -> None:
         await self.session.close()
-
-

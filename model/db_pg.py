@@ -1,4 +1,3 @@
-import asyncio
 from gino import Gino
 
 db_pg = Gino()
@@ -26,3 +25,10 @@ class AccessToken(db_pg.Model):
     chat_id = db_pg.Column(db_pg.Integer())
     token_github = db_pg.Column(db_pg.Unicode(), default='0')
     token_google = db_pg.Column(db_pg.Unicode(), default='0')
+
+
+class PastebianTable(db_pg.Model):
+    __tablename__ = 'PastebianTable'
+
+    chat_id = db_pg.Column(db_pg.Integer())
+    paste = db_pg.Column(db_pg.Unicode())

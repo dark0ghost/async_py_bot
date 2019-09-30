@@ -26,6 +26,8 @@ print("build")
 # start set
 postgres: Gino = db_pg.db_pg
 
+
+
 BASE_DIR: str = (os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/bot"
 
 checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host,
@@ -44,7 +46,7 @@ catApi = CatApi.CatApi(session=session)
 
 debug = True
 
-pastebian: Pastebin = Pastebin.Pastebian(token= help.pastebian, session=session)
+pastebin: Pastebin = Pastebin.Pastebin(token=help.pastebian, session=session)
 
 cb = cb_api.CenterBankApi(session)
 
@@ -75,7 +77,7 @@ if debug:
 else:
     storage = RedisStorage2()
 
-
+pastebin_table = db_pg.PastebianTable()
 # start def
 
 async def setproxy(session: aiohttp.ClientSession) -> List[str]:

@@ -2,13 +2,18 @@
 import hashlib
 
 from aiogram import types
-from main import dp, bot, lazy_get_text, cb as bank_api, crypto_price
+from main import dp, bot, lazy_get_text, cb as bank_api, crypto_price, pastebin,io_json_box
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
 
 @dp.inline_handler()
 async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
+    """
+
+    :param inline_query:
+    :return:
+    """
     # id affects both preview and content,
     # so it has to be unique for each result
     # (Unique identifier for this result, 1-64 Bytes)
@@ -52,8 +57,32 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name}:{price} btc ').format(name=text, price=(1 / price)),
             input_message_content=input_content
         )
+    elif "pastebin" in text:
 
+        paste = text.split(":")[-1]
+        print(paste)
+        h = pastebin.generate_data(paste=paste)
+        link = await pastebin.send_paste(data=h)
+        input_content = InputTextMessageContent(link)
+        result_id: str = hashlib.md5(text.encode()).hexdigest()
+        item = InlineQueryResultArticle(
+            id=result_id,
+            title=lazy_get_text(link),
+            input_message_content=input_content
+        )
 
+    elif "jsonbox" in text:
+
+        paste = text.split(":")[1]
+        print(paste)
+        link = await io_json_box.create_box(text=paste)
+        input_content = InputTextMessageContent(link)
+        result_id: str = hashlib.md5(text.encode()).hexdigest()
+        item = InlineQueryResultArticle(
+            id=result_id,
+            title=lazy_get_text(link),
+            input_message_content=input_content
+        )
 
     else:
 
@@ -66,4 +95,4 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             input_message_content=input_content
         )
 
-    await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
+    return await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)

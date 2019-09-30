@@ -21,10 +21,11 @@ class Button:
         :return:
         """
         inline_btn = InlineKeyboardButton(text=text_button,
-                                          callback_data=self.posts_cb.new(id=callback, action=text_button),row_width=3)
+                                          callback_data=self.posts_cb.new(id=callback, action=text_button), row_width=3)
         inline_kb = InlineKeyboardMarkup().add(inline_btn)
         return inline_kb
 
+    @staticmethod
     def proxy(list_proxy: List[str]) -> InlineKeyboardMarkup:
         """
 
@@ -48,7 +49,8 @@ class Button:
         inline_kb: InlineKeyboardMarkup = InlineKeyboardMarkup()
         for val, i in enumerate(text):
             inb = InlineKeyboardButton(text=i,
-                                       callback_data=self.posts_cb.new(id=hash(call_back[val]), action=call_back[val]),)
+                                       callback_data=self.posts_cb.new(id=hash(call_back[val]),
+                                                                       action=call_back[val]), )
             inline_kb.insert(inb)
         return inline_kb
 

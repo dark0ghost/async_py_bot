@@ -2,7 +2,7 @@
 import html
 import os
 from pprint import pformat
-from typing import List
+from typing import List, Any
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -13,19 +13,20 @@ import filter
 import help
 import price
 from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebian
+    pastebin, pastebin_table
 from model import async_proxy
 
 
 @dp.message_handler(commands=['start'])
-async def process_start_command(message: types.Message):
+async def process_start_command(message: types.Message) -> None:
     m = message.get_args()
     await State.get_mail.set()
-    await bot.send_message(message.chat.id, text=help.mes['start'], )
+    await bot.send_message(message.chat.id, text=help.mes['start'],
+                           reply_markup=keyboard.keyboard_all(lazy_get_text("отмена")))
 
 
 @dp.message_handler(commands=['language'])
-async def cmd_language(message: types.Message, state: FSMContext):
+async def cmd_language(message: types.Message, state: FSMContext) -> None:
     # track('command', message.from_user, command='language')
     await state.set_state('wait_language')
     await message.reply(
@@ -35,7 +36,7 @@ async def cmd_language(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state='wait_language')
-async def wait_language(message: types.Message, state: FSMContext, user: User):
+async def wait_language(message: types.Message, state: FSMContext, user: User) -> None:
     # track('command', message.from_user, command='done_language')
     if message.text in lang:
         await user.set_language(message.text)
@@ -47,12 +48,12 @@ async def wait_language(message: types.Message, state: FSMContext, user: User):
 
 
 @dp.message_handler(commands=['help'])
-async def process_start_command(message: types.Message):
+async def process_start_command(message: types.Message) -> None:
     await bot.send_message(message.chat.id, text=help.mes["help"], )
 
 
 @dp.message_handler(commands=['proxy'])
-async def check_language(message: types.Message):
+async def check_language(message: types.Message) -> None:
     proxy_list = await async_proxy.main(session)
     print(message.chat.id)
     await bot.send_message(message.chat.id, text=proxy_list[0],
@@ -62,32 +63,32 @@ async def check_language(message: types.Message):
 
 
 @dp.message_handler(commands=['proxy_all'])
-async def check_language(message: types.Message):
+async def check_language(message: types.Message) -> None:
     proxy_list: List[str] = await async_proxy.main(session=session)
     await bot.send_message(message.chat.id, text=lazy_get_text("text"),
                            reply_markup=Button.proxy(proxy_list))
 
 
 @dp.message_handler(text=lazy_get_text(singular="курсы валют", enable_cache=False))
-async def get_val(message: types.Message):
+async def get_val(message: types.Message) -> None:
     date = await cb.build_list_coin()
     await message.reply(text=lazy_get_text(singular="доступные валюты", enable_cache=False),
                         reply_markup=Button.buttons(Button, text=list(date.keys()), call_back=list(date.keys())))
 
 
 @dp.message_handler(commands=["re"])
-async def remove_board(message: types.Message):
-    await bot.send_message(message.chat.id, text=lazy_get_text("del board"), reply_markup=keyboard.remove_kaeyboard())
+async def remove_board(message: types.Message) -> None:
+    await bot.send_message(message.chat.id, text=lazy_get_text("del board"), reply_markup=keyboard.remove_keyboard())
 
 
 @dp.message_handler(commands=["log"])
-async def log(message: types.Message):
+async def log(message: types.Message) -> None:
     if filter.is_master(message):
         await bot.send_document(message.chat.id, document=open("./log_base.log"))
 
 
 @dp.message_handler(commands=['buy'])
-async def buy(message: types.Message):
+async def buy(message: types.Message) -> None:
     print("buy")
     await bot.send_invoice(message.chat.id, title='donate',
                            description='donate',
@@ -104,13 +105,14 @@ async def buy(message: types.Message):
 
 
 @dp.message_handler(content_types=ContentTypes.SUCCESSFUL_PAYMENT)
-async def got_payment(message: types.Message):
+async def got_payment(message: types.Message) -> None:
     await bot.send_message(message.chat.id, text=lazy_get_text(help.mes["buy"]),
                            parse_mode='Markdown')
 
 
 @dp.message_handler(state=State.get_mail)
-async def get_mail(message: types.Message, state: FSMContext):
+async def get_mail(message: types.Message, state: FSMContext) -> None:
+ if message.text != lazy_get_text("отмена"):
     await message.reply("send code")
     print(1)
     mail = message.text
@@ -118,12 +120,14 @@ async def get_mail(message: types.Message, state: FSMContext):
         data["passcode"] = checker_mail.get_random_code()
         checker_mail.build_message(text=data["pass_code"], from_mail=help.smtp_login, to=mail, subject="test")
 
-    await checker_mail.async_send_message(start_tls=1)
+    await checker_mail.async_send_message(start_tls=True)
     await State.mail_ver.set()
+ await message.reply(text=lazy_get_text("ok"),reply_markup=keyboard.remove_keyboard())
+ await state.finish()
 
 
 @dp.message_handler(state=State.mail_ver)
-async def V_mail(message: types.Message, state: FSMContext):
+async def V_mail(message: types.Message, state: FSMContext) -> None:
     async with state.proxy() as data:
         if message.text == data["pass_code"]:
             await message.reply("good")
@@ -132,7 +136,7 @@ async def V_mail(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(commands=["cat"])
-async def cat(message: types.Message):
+async def cat(message: types.Message) -> None:
     print(os.path.abspath("staticfile/cat.jpg"))
     await catApi.get_photo()
     await bot.send_photo(chat_id=message.chat.id,
@@ -140,7 +144,7 @@ async def cat(message: types.Message):
 
 
 @dp.message_handler(commands=["json"])
-async def save_json(message: types.Message, state: FSMContext):
+async def save_json(message: types.Message) -> None:
     try:
         await message.reply(await io_json_box.create_box(text=message.reply_to_message.text))
         return
@@ -150,31 +154,47 @@ async def save_json(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(state=State.save_json)
-async def save_json(message: types.Message, state: FSMContext):
+async def save_json(message: types.Message, state: FSMContext) -> None:
     await message.reply(await io_json_box.create_box(text=message.text))
     await state.finish()
 
 
 @dp.message_handler(commands=["search_json"])
-async def search_json(message: types.Message, state: FSMContext):
-    await State.search_json.set()
-    await message.reply(lazy_get_text("send URL json"))
+async def search_json(message: types.Message) -> None:
+    try:
+        await message.reply(
+            (pformat(await io_json_box.get_data_link(url=message.reply_to_message.text))).replace(",", ",\n").replace(
+                "'", "").replace(
+                "{",
+                "{\n").replace(
+                "}", "\n}").replace("[\n", "").replace("]", "\n]"),
+            parse_mode=types.ParseMode.MARKDOWN)
+
+    except Exception:
+        await State.search_json.set()
+        await message.reply(lazy_get_text("send URL json"),
+                            reply_markup=keyboard.keyboard_all(text=lazy_get_text("no search")))
 
 
 @dp.message_handler(state=State.search_json)
-async def save_json(message: types.Message, state: FSMContext):
-    await message.reply(
-        (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'", ""),
-        parse_mode=types.ParseMode.MARKDOWN)
+async def save_json(message: types.Message, state: FSMContext) -> None:
+    if message.text != "no search":
+        await message.reply(
+            (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'", "").replace(
+                "{",
+                "{\n").replace(
+                "}", "\n}").replace("[\n", "").replace("]", "\n]"),
+            parse_mode=types.ParseMode.MARKDOWN, reply_markup=keyboard.remove_keyboard())
+    else:
+        await message.reply(lazy_get_text("ok"), reply_markup=keyboard.remove_keyboard())
     await state.finish()
 
 
 @dp.message_handler(commands=["paste"])
-async def return_paste(message: types.Message):
+async def return_paste(message: types.Message) -> None:
     try:
-        pastebian.generate_data(paste=message.reply_to_message.text)
-        await message.reply(await pastebian.send_paste())
-        return
+        h = pastebin.generate_data(paste=message.reply_to_message.text)
+        await message.reply(await pastebin.send_paste(data=h))
     except:
         await State.send_paste.set()
         await message.reply(lazy_get_text("send paste"))
@@ -182,6 +202,21 @@ async def return_paste(message: types.Message):
 
 @dp.message_handler(state=State.send_paste)
 async def _paste(message: types.Message, state: FSMContext):
-    pastebian.generate_data(paste=message.text)
-    await message.reply(await pastebian.send_paste())
-    await state.finish()
+    h = pastebin.generate_data(paste=message.text)
+    await message.reply(await pastebin.send_paste(data=h))
+    return await state.finish()
+
+
+@dp.message_handler(commands=["make_paste"])
+async def make_paste(message: types.Message) -> Button.buttons:
+    try:
+        pastebin_table.update(chat_id=message.chat.id, paste=message.reply_to_message.text)
+        return await message.answer(text=lazy_get_text("какой формат?"),
+                                    reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
+                                                                call_back=["pastebin",
+                                                                           "jsonbox"]))
+
+    except Exception as e:
+        # await message.reply(text=lazy_get_text("no replay message"))
+        await message.reply(e)
+        return None
