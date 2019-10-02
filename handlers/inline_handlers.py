@@ -57,32 +57,6 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name}:{price} btc ').format(name=text, price=(1 / price)),
             input_message_content=input_content
         )
-    elif "pastebin" in text:
-
-        paste = text.split(":")[-1]
-        print(paste)
-        h = pastebin.generate_data(paste=paste)
-        link = await pastebin.send_paste(data=h)
-        input_content = InputTextMessageContent(link)
-        result_id: str = hashlib.md5(text.encode()).hexdigest()
-        item = InlineQueryResultArticle(
-            id=result_id,
-            title=lazy_get_text(link),
-            input_message_content=input_content
-        )
-
-    elif "jsonbox" in text:
-
-        paste = text.split(":")[1]
-        print(paste)
-        link = await io_json_box.create_box(text=paste)
-        input_content = InputTextMessageContent(link)
-        result_id: str = hashlib.md5(text.encode()).hexdigest()
-        item = InlineQueryResultArticle(
-            id=result_id,
-            title=lazy_get_text(link),
-            input_message_content=input_content
-        )
 
     else:
 

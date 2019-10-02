@@ -163,7 +163,6 @@ async def oauth(request) -> aiohttp_jinja2.render_template or web.HTTPNotFound:
     ).format(u=user)
     text += "<pre>%s</pre>" % html.escape(pformat(info))
     text += "<pre>%s</pre>" % html.escape(pformat(meta))
-    print(session["chat_id"])
     if "google" in user.picture:
 
         await AccessToken.create(chat_id=int(session["chat_id"]), token_google=meta["access_token"])

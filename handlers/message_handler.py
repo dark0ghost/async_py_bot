@@ -4,6 +4,7 @@ import os
 from pprint import pformat
 from typing import List, Any
 
+import asyncio
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import User
@@ -12,9 +13,12 @@ from aiogram.types.message import ContentTypes
 import filter
 import help
 import price
+
+
 from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, pastebin_table
+    pastebin, postgres
 from model import async_proxy
+from model.db_pg import PastebinTable
 
 
 @dp.message_handler(commands=['start'])
@@ -112,18 +116,18 @@ async def got_payment(message: types.Message) -> None:
 
 @dp.message_handler(state=State.get_mail)
 async def get_mail(message: types.Message, state: FSMContext) -> None:
- if message.text != lazy_get_text("отмена"):
-    await message.reply("send code")
-    print(1)
-    mail = message.text
-    async with state.proxy() as data:
-        data["passcode"] = checker_mail.get_random_code()
-        checker_mail.build_message(text=data["pass_code"], from_mail=help.smtp_login, to=mail, subject="test")
+    if message.text != lazy_get_text("отмена"):
+        await message.reply("send code")
+        print(1)
+        mail = message.text
+        async with state.proxy() as data:
+            data["passcode"] = checker_mail.get_random_code()
+            checker_mail.build_message(text=data["pass_code"], from_mail=help.smtp_login, to=mail, subject="test")
 
-    await checker_mail.async_send_message(start_tls=True)
-    await State.mail_ver.set()
- await message.reply(text=lazy_get_text("ok"),reply_markup=keyboard.remove_keyboard())
- await state.finish()
+        await checker_mail.async_send_message(start_tls=True)
+        await State.mail_ver.set()
+    await message.reply(text=lazy_get_text("ok"), reply_markup=keyboard.remove_keyboard())
+    await state.finish()
 
 
 @dp.message_handler(state=State.mail_ver)
@@ -209,14 +213,17 @@ async def _paste(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["make_paste"])
 async def make_paste(message: types.Message) -> Button.buttons:
-    try:
-        pastebin_table.update(chat_id=message.chat.id, paste=message.reply_to_message.text)
-        return await message.answer(text=lazy_get_text("какой формат?"),
-                                    reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
-                                                                call_back=["pastebin",
-                                                                           "jsonbox"]))
+    #   try:
+    print(postgres.info)
+    s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
+    print(s)
+    return await message.answer(text=lazy_get_text("какой формат?"),
+                                reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
+                                                            call_back=["pastebin",
+                                                                       "jsonbox"]))
 
-    except Exception as e:
+
+"""except Exception as e:
         # await message.reply(text=lazy_get_text("no replay message"))
         await message.reply(e)
-        return None
+        return None"""

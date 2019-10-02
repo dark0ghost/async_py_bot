@@ -10,6 +10,7 @@ import aiohttp
 import logging
 import asyncio
 import filter
+import uvloop
 
 from model.com.pastebin import Pastebin
 from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi, IoJsonBox
@@ -22,17 +23,17 @@ from aiogram.utils.callback_data import CallbackData
 
 from State import States
 
+
 print("build")
 # start set
 postgres: Gino = db_pg.db_pg
-
-
 
 BASE_DIR: str = (os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/bot"
 
 checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host,
                                                                     port=help.smtp_port, password=help.smtp_password,
                                                                     login=help.smtp_login)
+
 
 checker_mail.change_len_code(new_len_code=5)
 
@@ -77,7 +78,7 @@ if debug:
 else:
     storage = RedisStorage2()
 
-pastebin_table = db_pg.PastebianTable()
+
 # start def
 
 async def setproxy(session: aiohttp.ClientSession) -> List[str]:
@@ -104,7 +105,6 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
 async def task():
     await postgres.set_bind(help.POSTGRES)
     await postgres.gino.create_all()
-    # await checker_mail.connect_smtp(True)
 
     global lang
 
@@ -117,7 +117,8 @@ async def task():
 fix :
 RuntimeError: There is no current event loop in thread 'MainThread'.
 """
-loop: AbstractEventLoop = asyncio.get_event_loop()
+loop: AbstractEventLoop = uvloop.new_event_loop()
+asyncio.set_event_loop(loop=loop)
 
 bot = Bot(token=help.token, loop=loop,
           parse_mode=types.ParseMode.MARKDOWN,
@@ -128,13 +129,19 @@ dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
 
 
-# asyncio.run(task())
+asyncio.run(task())
 
 
 # end set
 
 
 async def shutdown(dispatcher: Dispatcher):
+    """
+
+    :param dispatcher:
+    :return:
+    """
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
     await session.close()
+    await postgres.pop_bind().close()

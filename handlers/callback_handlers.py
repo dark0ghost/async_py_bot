@@ -3,7 +3,7 @@ from typing import Dict
 
 import help
 
-from main import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box,pastebin_table
+from main import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box
 from model import async_proxy
 from aiogram import types
 
@@ -25,7 +25,7 @@ async def back(query: types.CallbackQuery):
 
 @dp.callback_query_handler(posts_cb.filter(action=["pastebin"]))
 async def pastebin_(query: types.CallbackQuery) -> None:
-    print(await pastebin_table.query.where(pastebin_table.chat_id.contains(query.message.chat.id)).gino.all())
+  #  print(await pastebin_table.query.where(pastebin_table.chat_id.contains(query.message.chat.id)).gino.all())
     h = pastebin.generate_data(paste=query.message.text)
     link = await pastebin.send_paste(data=h)
     await query.message.edit_text(text=link)
@@ -33,4 +33,5 @@ async def pastebin_(query: types.CallbackQuery) -> None:
 
 @dp.callback_query_handler(posts_cb.filter(action=["jsonbox"]))
 async def json_box(query: types.CallbackQuery):
-    print(await pastebin_table.query.where(pastebin_table.chat_id.contains(query.message.chat.id)).gino.all())
+    print(query)
+    print(await Paste_bin_table.select("paste").where(Paste_bin_table.chat_id == query.message.chat.id).gino.scalar())

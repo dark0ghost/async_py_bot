@@ -27,8 +27,10 @@ class AccessToken(db_pg.Model):
     token_google = db_pg.Column(db_pg.Unicode(), default='0')
 
 
-class PastebianTable(db_pg.Model):
-    __tablename__ = 'PastebianTable'
+class PastebinTable(db_pg.Model):
+    __tablename__ = 'PastebinTable'
 
     chat_id = db_pg.Column(db_pg.Integer())
     paste = db_pg.Column(db_pg.Unicode())
+
+
