@@ -15,7 +15,7 @@ import helps
 import price
 
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, bind
+    pastebin, postgres
 from model import async_proxy
 from model.db_pg import PastebinTable
 
@@ -213,9 +213,8 @@ async def _paste(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["make_paste"])
 async def make_paste(message: types.Message) -> Button.buttons:
-    #   try:
-    if not bind:
-        await postgres.connect(helps.POSTGRES)
+
+    await postgres.connect(helps.POSTGRES)
 
     s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
     print(s)

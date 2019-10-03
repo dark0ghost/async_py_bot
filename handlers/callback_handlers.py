@@ -3,9 +3,11 @@ from typing import Dict
 
 import helps
 
-from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box
+from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box, postgres
 from model import async_proxy
 from aiogram import types
+
+from model.db_pg import PastebinTable
 
 
 @dp.callback_query_handler(posts_cb.filter(action=['edit']))
@@ -25,13 +27,19 @@ async def back(query: types.CallbackQuery):
 
 @dp.callback_query_handler(posts_cb.filter(action=["pastebin"]))
 async def pastebin_(query: types.CallbackQuery) -> None:
-  #  print(await pastebin_table.query.where(pastebin_table.chat_id.contains(query.message.chat.id)).gino.all())
-    h = pastebin.generate_data(paste=query.message.text)
+    paste = await PastebinTable.select("paste").where(PastebinTable.chat_id == query.message.chat.id).gino.scalar()
+    h = pastebin.generate_data(paste=paste)
     link = await pastebin.send_paste(data=h)
     await query.message.edit_text(text=link)
+    await paste.delete()
+
 
 
 @dp.callback_query_handler(posts_cb.filter(action=["jsonbox"]))
 async def json_box(query: types.CallbackQuery):
-    print(query)
-    print(await Paste_bin_table.select("paste").where(Paste_bin_table.chat_id == query.message.chat.id).gino.scalar())
+    await postgres.connect(helps.POSTGRES)
+    text = await PastebinTable.select("paste").where(PastebinTable.chat_id == query.message.chat.id).gino.scalar()
+    print(text)
+    await query.message.edit_text(await io_json_box.create_box(
+        text=text))
+    await text.delete()
