@@ -2,7 +2,7 @@
 import hashlib
 
 from aiogram import types
-from main import dp, bot, lazy_get_text, cb as bank_api, crypto_price, pastebin,io_json_box
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, pastebin,io_json_box
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 

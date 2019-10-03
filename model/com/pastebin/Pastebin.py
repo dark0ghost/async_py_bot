@@ -2,11 +2,9 @@ import aiohttp
 from typing import Dict
 
 
-
 class Pastebin:
     def __init__(self, token: str, session: aiohttp.ClientSession) -> None:
         """
-
         :param token:
         :param session:
         """

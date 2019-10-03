@@ -1,4 +1,4 @@
-from main import dp, loop, shutdown
+from core import dp, loop, shutdown
 from aiogram import executor
 import importlib
 

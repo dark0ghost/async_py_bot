@@ -1,36 +1,60 @@
 from gino import Gino
 
-db_pg = Gino()
+
+class Postgres:
+    db_pg = Gino()
+
+    def __init__(self) -> None:
+        """
+           :return:
+        """
+        self.db_pg: Gino = Postgres.db_pg
+        self.bind: Gino.set_bind = None
+
+    async def connect(self, url: str) -> Gino:
+        """
+
+        :param url:
+        :return:
+        """
+        self.bind = await self.db_pg.set_bind(url)
+        await self.db_pg.gino.create_all()
+        return self.bind
+
+    def return_bind(self) -> Gino:
+        """
+
+        :return:
+        """
+        return self.bind
 
 
-class User(db_pg.Model):
+class User(Postgres.db_pg.Model):
     __tablename__ = 'users_bot'
 
-    id = db_pg.Column(db_pg.Integer(), primary_key=True)
-    nickname = db_pg.Column(db_pg.Unicode(), default='noname')
-    email = db_pg.Column(db_pg.Unicode())
-    _meta = db_pg.Column(db_pg.Unicode(), default="none")
+    id = Postgres.db_pg.Column(Postgres.db_pg.Integer(), primary_key=True)
+    nickname = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default='noname')
+    email = Postgres.db_pg.Column(Postgres.db_pg.Unicode())
+    _meta = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default="none")
 
 
-class UserLang(db_pg.Model):
+class UserLang(Postgres.db_pg.Model):
     __tablename__ = 'users_lang'
 
-    id = db_pg.Column(db_pg.Integer(), primary_key=True)
-    lang = db_pg.Column(db_pg.Unicode())
+    id = Postgres.db_pg.Column(Postgres.db_pg.Integer(), primary_key=True)
+    lang = Postgres.db_pg.Column(Postgres.db_pg.Unicode())
 
 
-class AccessToken(db_pg.Model):
+class AccessToken(Postgres.db_pg.Model):
     __tablename__ = 'access_token_auth'
 
-    chat_id = db_pg.Column(db_pg.Integer())
-    token_github = db_pg.Column(db_pg.Unicode(), default='0')
-    token_google = db_pg.Column(db_pg.Unicode(), default='0')
+    chat_id = Postgres.db_pg.Column(Postgres.db_pg.Integer())
+    token_github = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default='0')
+    token_google = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default='0')
 
 
-class PastebinTable(db_pg.Model):
+class PastebinTable(Postgres.db_pg.Model):
     __tablename__ = 'PastebinTable'
 
-    chat_id = db_pg.Column(db_pg.Integer())
-    paste = db_pg.Column(db_pg.Unicode())
-
-
+    chat_id = Postgres.db_pg.Column(Postgres.db_pg.Integer())
+    paste = Postgres.db_pg.Column(Postgres.db_pg.Unicode())

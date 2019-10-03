@@ -11,12 +11,11 @@ from aiogram.types import User
 from aiogram.types.message import ContentTypes
 
 import filter
-import help
+import helps
 import price
 
-
-from main import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres
+from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
+    pastebin, postgres, bind
 from model import async_proxy
 from model.db_pg import PastebinTable
 
@@ -25,7 +24,7 @@ from model.db_pg import PastebinTable
 async def process_start_command(message: types.Message) -> None:
     m = message.get_args()
     await State.get_mail.set()
-    await bot.send_message(message.chat.id, text=help.mes['start'],
+    await bot.send_message(message.chat.id, text=helps.mes['start'],
                            reply_markup=keyboard.keyboard_all(lazy_get_text("отмена")))
 
 
@@ -53,7 +52,7 @@ async def wait_language(message: types.Message, state: FSMContext, user: User) -
 
 @dp.message_handler(commands=['help'])
 async def process_start_command(message: types.Message) -> None:
-    await bot.send_message(message.chat.id, text=help.mes["help"], )
+    await bot.send_message(message.chat.id, text=helps.mes["help"], )
 
 
 @dp.message_handler(commands=['proxy'])
@@ -96,7 +95,7 @@ async def buy(message: types.Message) -> None:
     print("buy")
     await bot.send_invoice(message.chat.id, title='donate',
                            description='donate',
-                           provider_token=help.PAYMENTS_PROVIDER_TOKEN,
+                           provider_token=helps.PAYMENTS_PROVIDER_TOKEN,
                            currency='rub',
                            photo_url='https://e3.edimdoma.ru/data/recipes/0006/0497/60497-ed4_wide.jpg?1468399744',
                            photo_height=512,  # !=0/None or picture won't be shown
@@ -110,7 +109,7 @@ async def buy(message: types.Message) -> None:
 
 @dp.message_handler(content_types=ContentTypes.SUCCESSFUL_PAYMENT)
 async def got_payment(message: types.Message) -> None:
-    await bot.send_message(message.chat.id, text=lazy_get_text(help.mes["buy"]),
+    await bot.send_message(message.chat.id, text=lazy_get_text(helps.mes["buy"]),
                            parse_mode='Markdown')
 
 
@@ -122,7 +121,7 @@ async def get_mail(message: types.Message, state: FSMContext) -> None:
         mail = message.text
         async with state.proxy() as data:
             data["passcode"] = checker_mail.get_random_code()
-            checker_mail.build_message(text=data["pass_code"], from_mail=help.smtp_login, to=mail, subject="test")
+            checker_mail.build_message(text=data["pass_code"], from_mail=helps.smtp_login, to=mail, subject="test")
 
         await checker_mail.async_send_message(start_tls=True)
         await State.mail_ver.set()
@@ -152,7 +151,8 @@ async def save_json(message: types.Message) -> None:
     try:
         await message.reply(await io_json_box.create_box(text=message.reply_to_message.text))
         return
-    except:
+    except Exception as e:
+        print(e)
         await State.save_json.set()
         await message.reply(lazy_get_text("send json"))
 
@@ -197,11 +197,11 @@ async def save_json(message: types.Message, state: FSMContext) -> None:
 @dp.message_handler(commands=["paste"])
 async def return_paste(message: types.Message) -> None:
     try:
-        h = pastebin.generate_data(paste=message.reply_to_message.text)
-        await message.reply(await pastebin.send_paste(data=h))
-    except:
+
+        await message.reply(await pastebin.send_paste(data=pastebin.generate_data(paste=message.reply_to_message.text)))
+    except Exception as e:
         await State.send_paste.set()
-        await message.reply(lazy_get_text("send paste"))
+        await message.reply(lazy_get_text(f"send paste"))
 
 
 @dp.message_handler(state=State.send_paste)
@@ -214,7 +214,9 @@ async def _paste(message: types.Message, state: FSMContext):
 @dp.message_handler(commands=["make_paste"])
 async def make_paste(message: types.Message) -> Button.buttons:
     #   try:
-    print(postgres.info)
+    if not bind:
+        await postgres.connect(helps.POSTGRES)
+
     s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
     print(s)
     return await message.answer(text=lazy_get_text("какой формат?"),

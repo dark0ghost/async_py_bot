@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from main import dp,bot
+from core import dp,bot
 from aiogram import types
 
 

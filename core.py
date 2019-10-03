@@ -5,7 +5,7 @@ from typing import List
 
 from gino import Gino
 
-import help
+import helps
 import aiohttp
 import logging
 import asyncio
@@ -13,7 +13,7 @@ import filter
 import uvloop
 
 from model.com.pastebin import Pastebin
-from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, db_pg, CheckerEmail, CatApi, IoJsonBox
+from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -26,13 +26,13 @@ from State import States
 
 print("build")
 # start set
-postgres: Gino = db_pg.db_pg
+postgres = db_pg.Postgres()
 
 BASE_DIR: str = (os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/bot"
 
-checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=help.smtp_host,
-                                                                    port=help.smtp_port, password=help.smtp_password,
-                                                                    login=help.smtp_login)
+checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=helps.smtp_host,
+                                                                    port=helps.smtp_port, password=helps.smtp_password,
+                                                                    login=helps.smtp_login)
 
 
 checker_mail.change_len_code(new_len_code=5)
@@ -47,7 +47,7 @@ catApi = CatApi.CatApi(session=session)
 
 debug = True
 
-pastebin: Pastebin = Pastebin.Pastebin(token=help.pastebian, session=session)
+pastebin: Pastebin = Pastebin.Pastebin(token=helps.pastebian, session=session)
 
 cb = cb_api.CenterBankApi(session)
 
@@ -91,7 +91,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
                 async with session.get("https://www.telegram.org", proxy=proxy) as response:
                     log.debug(f"{proxy} valid")
                     proxy_list.append(proxy)
-                    help.good_proxy.append(proxy)
+                    helps.good_proxy.append(proxy)
 
         except Exception as e:
             logging.exception(e)
@@ -102,9 +102,9 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
         await setproxy()
 
 
+
 async def task():
-    await postgres.set_bind(help.POSTGRES)
-    await postgres.gino.create_all()
+    bind = await postgres.connect(url=helps.POSTGRES)
 
     global lang
 
@@ -117,12 +117,12 @@ async def task():
 fix :
 RuntimeError: There is no current event loop in thread 'MainThread'.
 """
-loop: AbstractEventLoop = uvloop.new_event_loop()
-asyncio.set_event_loop(loop=loop)
+loop: AbstractEventLoop = asyncio.get_event_loop()
 
-bot = Bot(token=help.token, loop=loop,
+
+bot = Bot(token=helps.token, loop=loop,
           parse_mode=types.ParseMode.MARKDOWN,
-          proxy=help.good_proxy_link, proxy_auth=help.login)
+          proxy=helps.good_proxy_link, proxy_auth=helps.login)
 
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
