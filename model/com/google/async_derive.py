@@ -21,6 +21,3 @@ class GoogleDerivedBot:
                 print(file['name'])
 
 
-f = GoogleDerivedBot()
-asyncio.run(
-    f.list_files(user_data={'access_token': 'ya29.Il-UB9WR53OeAQAQORkHa7YbuOnSWr7XCCs3y6zZhND__UZHjasZJ8fLvW1yrW8Kze-ycd4o2Id3TsHZJm72plCEWiN0pga5K4sQFPiv8cvzuTjRWP3dHahG9ExtvuBAHw', "expires_at": "2020-04-05T16:55:26"}))
