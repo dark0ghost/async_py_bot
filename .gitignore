@@ -9,8 +9,8 @@ __pycache__
 .idea
 *.so
 config_pro.json
-/model/auth/templates/vue.js
-/model/auth/templates/jquery.js
+/modules/auth/templates/vue.js
+/modules/auth/templates/jquery.js
 
 
 # Distribution / packaging

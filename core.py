@@ -12,8 +12,8 @@ import asyncio
 import filter
 import uvloop
 
-from model.com.pastebin import Pastebin
-from model import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
+from modules.com.pastebin import Pastebin
+from modules import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -22,7 +22,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
 
 from State import States
-
+from modules.qrtag import QrTag
 
 print("build")
 # start set
@@ -60,6 +60,8 @@ State = States()
 Button: button.Button = button.Button()
 
 keyboard = keyboard.Keyboard
+
+qr = QrTag(session)
 
 proxy_list: List[str] = []
 

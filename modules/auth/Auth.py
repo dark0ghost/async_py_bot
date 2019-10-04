@@ -20,7 +20,7 @@ from typing import Dict
 
 from gino import Gino
 
-from model.db_pg import AccessToken, Postgres
+from modules.db_pg import AccessToken, Postgres
 from aioauth_client import (
     FacebookClient,
     GithubClient,
@@ -34,7 +34,7 @@ loop = uvloop.new_event_loop()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open(os.path.join(BASE_DIR.replace("model", ""), 'config_pro.json'), "r") as f:
+with open(os.path.join(BASE_DIR.replace("modules", ""), 'config_pro.json'), "r") as f:
     json = ujson.loads(f.read())
 key = json["key_accept"]
 routs = web.RouteTableDef()

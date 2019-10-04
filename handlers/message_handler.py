@@ -15,9 +15,9 @@ import helps
 import price
 
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres
-from model import async_proxy
-from model.db_pg import PastebinTable
+    pastebin, postgres, qr
+from modules import async_proxy
+from modules.db_pg import PastebinTable
 
 
 @dp.message_handler(commands=['start'])
@@ -140,7 +140,6 @@ async def V_mail(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(commands=["cat"])
 async def cat(message: types.Message) -> None:
-    print(os.path.abspath("staticfile/cat.jpg"))
     await catApi.get_photo()
     await bot.send_photo(chat_id=message.chat.id,
                          photo=open(os.path.abspath("staticfile/cat.jpg"), "rb"))
@@ -213,18 +212,29 @@ async def _paste(message: types.Message, state: FSMContext):
 
 @dp.message_handler(commands=["make_paste"])
 async def make_paste(message: types.Message) -> Button.buttons:
+    try:
+        await postgres.connect(helps.POSTGRES)
+        s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
+        return await message.answer(text=lazy_get_text("какой формат?"),
+                                    reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
+                                                                call_back=["pastebin",
+                                                                           "jsonbox"]))
 
-    await postgres.connect(helps.POSTGRES)
-
-    s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
-    print(s)
-    return await message.answer(text=lazy_get_text("какой формат?"),
-                                reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
-                                                            call_back=["pastebin",
-                                                                       "jsonbox"]))
-
-
-"""except Exception as e:
-        # await message.reply(text=lazy_get_text("no replay message"))
+    except Exception as e:
         await message.reply(e)
-        return None"""
+        return None
+
+
+@dp.message_handler(commands=["qr"])
+async def qr_make(message: types.Message) -> None:
+    await State.qr.set()
+    await message.answer(lazy_get_text("send link"))
+
+
+@dp.message_handler(state=State.qr)
+async def qr_make(message: types.Message, state: FSMContext) -> None:
+    with open(os.path.abspath(path=f"staticfile/{message.chat.id}.png"), "wb") as file:
+        file.write(os.path.abspath(await qr.create(data=message.text)))
+
+    await bot.send_photo(chat_id=message.chat.id, photo=open(f"staticfile/{message.chat.id}.png", "rb"))
+    await state.finish()

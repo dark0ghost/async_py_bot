@@ -14,3 +14,4 @@ class States(StatesGroup):
     save_json: State = State()
     search_json: State = State()
     send_paste: State = State()
+    qr: State = State()

@@ -3,7 +3,7 @@ import re
 
 from typing import Dict
 
-from model.exception_class import AuthError, NOConnect
+from modules.exception_class import AuthError, NOConnect
 
 
 class AuthPGU:

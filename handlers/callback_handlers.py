@@ -4,10 +4,10 @@ from typing import Dict
 import helps
 
 from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box, postgres
-from model import async_proxy
+from modules import async_proxy
 from aiogram import types
 
-from model.db_pg import PastebinTable
+from modules.db_pg import PastebinTable
 
 
 @dp.callback_query_handler(posts_cb.filter(action=['edit']))

@@ -4,8 +4,7 @@ from typing import Dict
 
 
 class GoogleDerivedBot:
-
-    async def list_files(self, user_data: Dict[str, str]):
+    async def list_files(user_data: Dict[str, str]):
         """
 
         :type user_data: object
@@ -19,5 +18,3 @@ class GoogleDerivedBot:
         async for page in full_res:
             for file in page['files']:
                 print(file['name'])
-
-
