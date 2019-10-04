@@ -18,8 +18,10 @@ class Postgres:
         :return:
         """
         self.bind = await self.db_pg.set_bind(url)
-        await self.db_pg.gino.create_all()
         return self.bind
+
+    async def make_migrate(self) -> Gino:
+        return await self.db_pg.gino.create_all()
 
     def return_bind(self) -> Gino:
         """

@@ -23,7 +23,7 @@ class IOJsonBox:
         """
         len_text = len(text)
         if 20 < len_text < 64:
-            url = self.api_link + token_urlsafe(len(text))
+            url = self.api_link + token_urlsafe(len_text)
         else:
             url = self.api_link + (token_urlsafe(29))
 

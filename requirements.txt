@@ -1,3 +1,4 @@
+aiogoogle
 aioauth-client==0.17.3
 aiocontextvars==0.2.2
 aiodns==2.0.0

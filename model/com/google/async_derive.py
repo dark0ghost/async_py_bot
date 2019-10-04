@@ -1,17 +1,26 @@
 import asyncio
-import hashlib
-import os
-import aiohttp
+from aiogoogle import Aiogoogle
+from typing import Dict
 
 
-class GoogleDerived:
-    def __init__(self, token: str, session: aiohttp.ClientSession):
-        self.token: str = token
-        self.api_link = "https://www.googleapis.com/drive/v3/"
-        self.session: aiohttp.ClientSession = session
-        self.state_token = hashlib.sha256(os.urandom(1024)).hexdigest()
-        self.session['state'] = self.state_token
+class GoogleDerivedBot:
 
-    async def connect(self):
-        async with self.session.get(self.api_link + "about?key={self.key}") as response:
-            print(await response.json())
+    async def list_files(self, user_data: Dict[str, str]):
+        """
+
+        :type user_data: object
+        """
+        async with Aiogoogle(user_creds=user_data) as aio_google:
+            drive_v3 = await aio_google.discover('drive', 'v3')
+            full_res = await aio_google.as_user(
+                drive_v3.files.list(),
+                full_res=True
+            )
+        async for page in full_res:
+            for file in page['files']:
+                print(file['name'])
+
+
+f = GoogleDerivedBot()
+asyncio.run(
+    f.list_files(user_data={'access_token': 'ya29.Il-UB9WR53OeAQAQORkHa7YbuOnSWr7XCCs3y6zZhND__UZHjasZJ8fLvW1yrW8Kze-ycd4o2Id3TsHZJm72plCEWiN0pga5K4sQFPiv8cvzuTjRWP3dHahG9ExtvuBAHw', "expires_at": "2020-04-05T16:55:26"}))

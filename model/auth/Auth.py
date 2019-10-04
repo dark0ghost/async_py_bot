@@ -20,7 +20,7 @@ from typing import Dict
 
 from gino import Gino
 
-from model.db_pg import AccessToken, db_pg
+from model.db_pg import AccessToken, Postgres
 from aioauth_client import (
     FacebookClient,
     GithubClient,
@@ -29,7 +29,7 @@ from aioauth_client import (
     TwitterClient
 )
 
-postgres: Gino = db_pg
+postgres = Postgres()
 loop = uvloop.new_event_loop()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -201,8 +201,7 @@ app.add_routes(routs)
 async def setup_session() -> None:
     pool = await create_pool(('localhost', 6379), db=0)
     aiohttp_session.setup(app, RedisStorage(pool))
-    await postgres.set_bind(json["POSTGRES"])
-    await postgres.gino.create_all()
+    await postgres.connect(json["POSTGRES"])
 
 
 async def shutdown(app_) -> None:
