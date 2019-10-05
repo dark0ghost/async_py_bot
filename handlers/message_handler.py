@@ -225,7 +225,7 @@ async def make_paste(message: types.Message) -> Button.buttons:
         return None
 
 
-@dp.message_handler(commands=["qr"])
+@dp.message_handler(commands=["qr_link"])
 async def qr_make(message: types.Message) -> None:
     await State.qr.set()
     await message.answer(lazy_get_text("send link"))
@@ -234,7 +234,8 @@ async def qr_make(message: types.Message) -> None:
 @dp.message_handler(state=State.qr)
 async def qr_make(message: types.Message, state: FSMContext) -> None:
     with open(os.path.abspath(path=f"staticfile/{message.chat.id}.png"), "wb") as file:
-        file.write(os.path.abspath(await qr.create(data=message.text)))
+        file.write(await qr.create(data=message.text))
 
     await bot.send_photo(chat_id=message.chat.id, photo=open(f"staticfile/{message.chat.id}.png", "rb"))
     await state.finish()
+
