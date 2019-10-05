@@ -238,4 +238,5 @@ async def qr_make(message: types.Message, state: FSMContext) -> None:
 
     await bot.send_photo(chat_id=message.chat.id, photo=open(f"staticfile/{message.chat.id}.png", "rb"))
     await state.finish()
+    os.remove(f"staticfile/{message.chat.id}.png")
 
