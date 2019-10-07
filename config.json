@@ -7,11 +7,11 @@
   "mes": {
     "start": "message start",
     "help": "message help",
-   "buy": "покупка произведена успешно",
+    "proxy": "public proxy for you",
+    "new_proxy": "new proxy",
+    "buy": "покупка произведена успешно",
     "error_pay": "покупка не произошла"
   },
-  "proxy": "public proxy for you",
-  "new_proxy": "new proxy",
   "good_proxy_link": "",
   "login": {
     "login": "",
@@ -20,7 +20,7 @@
   "smtp": {
     "login": "",
     "password": "",
-    "host": "",
+    "host": "smtp.gmail.com",
     "port": 587
   },
   "google": {
@@ -51,9 +51,18 @@
     "consumer_key": "",
     "consumer_secret": ""
   },
-  "school": {
-    "api_token": "",
-    "meta": ""
+  "key_accept": "",
+  "web": {
+    "host_api": "127.0.0.1",
+    "port": 5000,
+    "domain": "localhost:5000"
   },
-  "key_accept": ""
+  "redis": {
+    "host": "",
+    "port": 6379
+  },
+  "cat_api": {
+    "token": ""
+  },
+  "pastebin": ""
 }
