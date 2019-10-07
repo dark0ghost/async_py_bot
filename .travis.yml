@@ -4,3 +4,4 @@ rvm:
   -3.8
 env:
 - DB=postgresql
+
