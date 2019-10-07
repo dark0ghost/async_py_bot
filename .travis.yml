@@ -1,0 +1,6 @@
+language: python
+rvm:
+  -3.7.3
+  -3.8
+env:
+- DB=postgresql
