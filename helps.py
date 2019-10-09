@@ -39,6 +39,8 @@ cat_api = file_dict["cat_api"]["token"]
 
 pastebian = file_dict["pastebin"]
 
+proxy_use = file_dict["proxy_use"]
+
 
 async def get_link(bot: Bot, message: types.Message) -> str:
     """

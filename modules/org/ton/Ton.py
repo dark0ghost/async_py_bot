@@ -1,13 +1,12 @@
 import aiohttp
 import asyncio
 
-
 from typing import Dict
 
 from aiohttp_socks import SocksConnector
 
 
-class Ton:
+class TON:
     """
     this class use api  https://api.ton.sh/ and  https://toncenter.com/api/test/v1 and will use ton.org api
     use:
@@ -174,3 +173,10 @@ class Ton:
         await self.session.close()
         return True
 
+    async def new_session(self) -> aiohttp.ClientSession:
+        """
+
+        :return:
+        """
+        self.session = aiohttp.ClientSession()
+        return self.session

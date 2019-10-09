@@ -3,8 +3,6 @@ import os
 from asyncio.events import AbstractEventLoop
 from typing import List
 
-from gino import Gino
-
 import helps
 import aiohttp
 import logging
@@ -21,8 +19,11 @@ from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
 
+
 from State import States
+from modules.org.ton.Ton import TON
 from modules.qrtag import QrTag
+
 
 print("build")
 # start set
@@ -33,7 +34,6 @@ BASE_DIR: str = (os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + 
 checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=helps.smtp_host,
                                                                     port=helps.smtp_port, password=helps.smtp_password,
                                                                     login=helps.smtp_login)
-
 
 checker_mail.change_len_code(new_len_code=5)
 
@@ -47,7 +47,11 @@ catApi = CatApi.CatApi(session=session)
 
 debug = True
 
+proxy_use: str = helps.proxy_use
+
 pastebin: Pastebin = Pastebin.Pastebin(token=helps.pastebian, session=session)
+
+ton = TON(session=session)
 
 cb = cb_api.CenterBankApi(session)
 
@@ -104,7 +108,6 @@ async def setproxy(session: aiohttp.ClientSession) -> None:
         await setproxy()
 
 
-
 async def task():
     bind = await postgres.connect(url=helps.POSTGRES)
 
@@ -121,15 +124,17 @@ RuntimeError: There is no current event loop in thread 'MainThread'.
 """
 loop: AbstractEventLoop = asyncio.get_event_loop()
 
-
-bot = Bot(token=helps.token, loop=loop,
-          parse_mode=types.ParseMode.MARKDOWN,
-          proxy=helps.good_proxy_link, proxy_auth=helps.login)
+if proxy_use == "True":
+    bot = Bot(token=helps.token, loop=loop,
+              parse_mode=types.ParseMode.MARKDOWN,
+              proxy=helps.good_proxy_link, proxy_auth=helps.login)
+else:
+    bot = Bot(token=helps.token, loop=loop,
+              parse_mode=types.ParseMode.MARKDOWN, proxy="socks5://207.180.238.12:1080")
 
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
-
 
 asyncio.run(task())
 
@@ -146,4 +151,3 @@ async def shutdown(dispatcher: Dispatcher):
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
     await session.close()
-    await postgres.pop_bind().close()

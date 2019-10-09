@@ -15,3 +15,4 @@ class States(StatesGroup):
     search_json: State = State()
     send_paste: State = State()
     qr: State = State()
+    wait_wallet: State = State()

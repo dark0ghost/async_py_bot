@@ -1,3 +1,4 @@
+aiofiles
 aiogoogle
 aioauth-client==0.17.3
 aiocontextvars==0.2.2

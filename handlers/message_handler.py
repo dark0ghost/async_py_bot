@@ -1,10 +1,10 @@
 # This Python file uses the following encoding: utf-8
-import html
+
 import os
 from pprint import pformat
-from typing import List, Any
+from typing import List
 
-import asyncio
+import aiofiles
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.types import User
@@ -15,7 +15,7 @@ import helps
 import price
 
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, qr
+    pastebin, postgres, qr, ton
 from modules import async_proxy
 from modules.db_pg import PastebinTable
 
@@ -74,9 +74,9 @@ async def check_language(message: types.Message) -> None:
 
 @dp.message_handler(text=lazy_get_text(singular="курсы валют", enable_cache=False))
 async def get_val(message: types.Message) -> None:
-    date = await cb.build_list_coin()
-    await message.reply(text=lazy_get_text(singular="доступные валюты", enable_cache=False),
-                        reply_markup=Button.buttons(Button, text=list(date.keys()), call_back=list(date.keys())))
+    date = list((await cb.build_list_coin()).keys())
+    await message.reply(text=lazy_get_text(singular=lazy_get_text("доступные валюты"), enable_cache=False),
+                        reply_markup=Button.buttons(Button, text=date, call_back=date))
 
 
 @dp.message_handler(commands=["re"])
@@ -87,12 +87,11 @@ async def remove_board(message: types.Message) -> None:
 @dp.message_handler(commands=["log"])
 async def log(message: types.Message) -> None:
     if filter.is_master(message):
-        await bot.send_document(message.chat.id, document=open("./log_base.log"))
+        await bot.send_document(message.chat.id, document=await aiofiles.open("./log_base.log", "rb"))
 
 
 @dp.message_handler(commands=['buy'])
 async def buy(message: types.Message) -> None:
-    print("buy")
     await bot.send_invoice(message.chat.id, title='donate',
                            description='donate',
                            provider_token=helps.PAYMENTS_PROVIDER_TOKEN,
@@ -140,9 +139,14 @@ async def V_mail(message: types.Message, state: FSMContext) -> None:
 
 @dp.message_handler(commands=["cat"])
 async def cat(message: types.Message) -> None:
-    await catApi.get_photo()
-    await bot.send_photo(chat_id=message.chat.id,
-                         photo=open(os.path.abspath("staticfile/cat.jpg"), "rb"))
+    f = await catApi.get_photo()
+    print(f)
+    if f == "png" or f == "jpg":
+        await bot.send_photo(chat_id=message.chat.id,
+                             photo=await aiofiles.open(os.path.abspath("staticfile/cat.jpg"), "rb"))
+    else:
+        await bot.send_chat_action(chat_id=message.chat.id,
+                                   photo=await aiofiles.open(os.path.abspath("staticfile/cat.gif"), "rb"))
 
 
 @dp.message_handler(commands=["json"])
@@ -214,7 +218,7 @@ async def _paste(message: types.Message, state: FSMContext):
 async def make_paste(message: types.Message) -> Button.buttons:
     try:
         await postgres.connect(helps.POSTGRES)
-        s = await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
+        await PastebinTable.create(paste=message.reply_to_message.text, chat_id=message.chat.id)
         return await message.answer(text=lazy_get_text("какой формат?"),
                                     reply_markup=Button.buttons(text=["pastebin", "jsonbox"],
                                                                 call_back=["pastebin",
@@ -233,10 +237,27 @@ async def qr_make(message: types.Message) -> None:
 
 @dp.message_handler(state=State.qr)
 async def qr_make(message: types.Message, state: FSMContext) -> None:
-    with open(os.path.abspath(path=f"staticfile/{message.chat.id}.png"), "wb") as file:
-        file.write(await qr.create(data=message.text))
+    with aiofiles.open(os.path.abspath(path=f"staticfile/{message.chat.id}.png"), "wb") as file:
+        await file.write(await qr.create(data=message.text))
 
-    await bot.send_photo(chat_id=message.chat.id, photo=open(f"staticfile/{message.chat.id}.png", "rb"))
+    await bot.send_photo(chat_id=message.chat.id, photo=await aiofiles.open(f"staticfile/{message.chat.id}.png", "rb"))
     await state.finish()
     os.remove(f"staticfile/{message.chat.id}.png")
 
+
+@dp.message_handler(commands=["Ton"], commands_prefix=["!"])
+async def ton_keyboard(message: types.Message):
+    return await message.answer(text=lazy_get_text("keyboard TON navigation"),
+                                reply_markup=keyboard.keyboards(texts=["balans wallet ton"]))
+
+
+@dp.message_handler(text="balans wallet ton")
+async def balans(message: types.Message):
+    await message.reply("send wallet")
+    await State.wait_wallet.set()
+
+
+@dp.message_handler(state=State.wait_wallet)
+async def balanc_wallet(message: types.Message, state: FSMContext):
+    await bot.send_message(message.chat.id, text=(await ton.getAddressBalance(address=message.text))/10**9)
+    await state.finish()

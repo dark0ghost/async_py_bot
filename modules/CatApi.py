@@ -1,4 +1,4 @@
-
+import aiofiles
 import aiohttp
 
 
@@ -18,12 +18,18 @@ class CatApi:
         async with self.session.get(
                 "https://api.thecatapi.com/v1/images/search?limit=5&page=10&order=Desc") as response:
             json = await response.json()
-            print(json[1]["url"])
+
             async with self.session.get(json[0]["url"]) as response_photo:
-                with open("./staticfile/cat.jpg", "wb") as f:
-                    f.write(await response_photo.read())
-                return "/staticfile/cat.jpg"
+                if "jpg" in json[1]["url"]:
+                    async with aiofiles.open("./staticfile/cat.jpg", "wb") as f:
+                        await f.write(await response_photo.read())
+                    return "jpg"
 
-
-
-
+                elif "png" in json[1]["url"]:
+                    async with aiofiles.open("./staticfile/cat.png", "wb") as f:
+                        await f.write(await response_photo.read())
+                    return "png"
+                else:
+                    async with aiofiles.open("./staticfile/cat.gif", "wb") as f:
+                        await f.write(await response_photo.read())
+                    return "gif"

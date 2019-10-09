@@ -19,6 +19,15 @@ class Keyboard:
         return greet_kb
 
     @staticmethod
+    def keyboards(texts: List[str]) -> ReplyKeyboardMarkup:
+        greet_kb = ReplyKeyboardMarkup(resize_keyboard=True)
+        for i in texts:
+            greet_kb.add(i)
+        return greet_kb
+
+
+
+    @staticmethod
     def remove_keyboard() -> ReplyKeyboardRemove:
         """
 

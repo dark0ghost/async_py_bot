@@ -5,6 +5,7 @@ import aiohttp
 import asyncio
 
 
+
 class QrTag:
     def __init__(self, session: aiohttp.ClientSession = None) -> None:
         """
@@ -15,7 +16,7 @@ class QrTag:
         self.session: aiohttp.ClientSession = session
         self.sync_data: bytes = None
 
-    async def create(self, data: Any, size: object = 12, form: object = "png", is_sync: bool = False) -> bytes:
+    async def create(self, data: Any, size: int = 12, form: str = "png", is_sync: bool = False) -> bytes:
         """
 
         :param is_sync:
