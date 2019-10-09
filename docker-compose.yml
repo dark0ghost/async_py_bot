@@ -18,11 +18,13 @@ services:
     volumes:
       - "./postgres/data:/var/lib/postgresql/data/pgdata"
     env_file:
-      - ./pg.evn
+      - pg.env
     restart:
         always
     ports:
         - 5432:5432
+
+
 
   redis:
     container_name: redis

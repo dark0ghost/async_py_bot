@@ -83,7 +83,7 @@ else:
 
 # start def
 
-async def setproxy(session: aiohttp.ClientSession) -> List[str]:
+async def setproxy(session: aiohttp.ClientSession) -> None:
     proxy_list = []
     connector = ProxyConnector()
     li = await async_proxy.main(session)
@@ -93,7 +93,7 @@ async def setproxy(session: aiohttp.ClientSession) -> List[str]:
                 async with session.get("https://www.telegram.org", proxy=proxy) as response:
                     log.debug(f"{proxy} valid")
                     proxy_list.append(proxy)
-                    helps.good_proxy.append(proxy)
+
 
         except Exception as e:
             logging.exception(e)
