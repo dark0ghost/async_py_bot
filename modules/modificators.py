@@ -6,6 +6,6 @@ class override:
         func.__doc__ = "this override  method"
 
 
-class privet:
+class private:
     def __call__(self, func: Callable, *args, **kwargs):
-        func.__doc__ = "this override  method"
+        func.__doc__ = "this private  method"
