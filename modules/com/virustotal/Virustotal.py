@@ -19,6 +19,7 @@ class Virustotal:
 
      asyncio.run(start())
     """
+
     def __init__(self, api_key: str, session: aiohttp.ClientSession = None, is_public: bool = True) -> None:
         """
 
@@ -58,27 +59,61 @@ class Virustotal:
         if self.is_public and self.limit == self.limit_max:
             await asyncio.sleep(60)
             self.limit: int = 0
+        self.limit += 1
         async with self.session.get(
                 url=f"{self.api_link}file/report?apikey={self.api_key}&resource={resource}&allinfo={str(allinfo).lower()}") as response:
             return await response.json()
 
-    async def file_scan(self, name_file: str, file: aiofiles.open):
+    async def file_scan(self, name_file: str, file: aiofiles.open) -> Dict[str, str]:
+        """
+
+        :param name_file:
+        :param file:
+        :return:
+        """
         if self.is_public and self.limit == self.limit_max:
             await asyncio.sleep(60)
             self.limit: int = 0
-
+        self.limit += 1
         async with self.session.post(url=f"{self.api_link}file/scan", data={'file': (name_file, file)},
                                      params={"apikey": self.api_key,
                                              "Content-Type": "text/json; charset=utf-8"}) as response:
             return await response.json()
 
+    async def file_scan_upload_url(self, name_file: str, file: aiofiles.open) -> Dict[str, str]:
+        if not self.is_public:
+            async with self.session.get(url=f"{self.api_link}file/scan/upload_url",
+                                        params={"apikey": self.api_key,
+                                                "Content-Type": "text/json; charset=utf-8"}) as response:
+                dict_response: Dict[str, str] = await response.json()
+                url_response: str = dict_response['upload_url']
 
-async def start():
-    d = Virustotal(api_key="d18b539a5554ce134f9d4fb2bd16a38fadb2d282ac17aab58da67ccfd78decda")
-    await d.new_session()
-    async with aiofiles.open("db_pg.py") as reponse:
-        print(await d.file_scan(name_file="db_pg.py", file=reponse))
-    await d.close()
+                files = {'file': (name_file, file)}
+                async with self.session.post(url=url_response, json=files) as rep:
+                    return await rep.json()
+
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-scan-upload-url")
+
+    async def file_rescan(self, link: str):
+        if self.is_public and self.limit == self.limit_max:
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        params = {'apikey': self.api_key, 'resource': link}
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        async with self.session.post(url=f"{self.api_link}file/rescan", params=params, headers=headers) as response:
+            return await response.json()
+
+    async def file_download(self, hash: str):
+        if self.is_public and self.limit == self.limit_max:
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        params = {'apikey': self.api_key, 'hash': hash}
+        async with self.session.get(url=f"{self.api_link}file/download", params=params) as response:
+            return await response.json()
 
 
-asyncio.run(start())
+
+
+
