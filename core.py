@@ -13,7 +13,7 @@ import asyncio
 import filter
 import uvloop
 
-from modules.Base import Base
+
 from modules.com.pastebin import Pastebin
 from modules import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -27,7 +27,7 @@ from aiogram.utils.callback_data import CallbackData
 from State import States
 from modules.org.ton.Ton import TON
 from modules.qrtag import QrTag
-
+from set_loop import loop
 
 print("build")
 # start set
@@ -128,7 +128,8 @@ async def task():
 fix :
 RuntimeError: There is no current event loop in thread 'MainThread'.
 """
-loop: AbstractEventLoop = asyncio.get_event_loop()
+
+
 
 if proxy_use == "True":
     bot = Bot(token=helps.token, loop=loop,

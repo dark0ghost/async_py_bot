@@ -5,7 +5,7 @@ from aiogram import types
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from typing import Tuple, Any, Callable
 
-from modules import User
+from modules.User import User
 from modules.modificators import override
 
 I18N_DOMAIN = 'mybot'
@@ -19,9 +19,6 @@ todo: release i18n in v3.0
 # Setup i18n middleware
 
 log = logging.getLogger(__name__)
-
-
-
 
 
 class ACLMiddleware(I18nMiddleware):
@@ -48,6 +45,6 @@ class ACLMiddleware(I18nMiddleware):
         return lang
 
 
-i18n = I18nMiddleware(I18N_DOMAIN, LOCALES_DIR)
+i18n = ACLMiddleware(I18N_DOMAIN, LOCALES_DIR)
 
 lazy_gettext = i18n.lazy_gettext

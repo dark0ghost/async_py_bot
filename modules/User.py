@@ -2,13 +2,13 @@ from aiogram import types
 from aiogram.types import User
 
 
-from modules.Base import Base
+
 from modules.db_pg import Postgres
 from modules.db_session import db_session
 from modules.utils import aiowrap
 
 
-class User(Base):
+class User(Postgres.db_pg.Model):
     __tablename__ = 'users'
     id = Postgres.db_pg.Column(Postgres.db_pg.Integer, unique=True, nullable=False, primary_key=True)
     locale = Postgres.db_pg.Column(Postgres.db_pg.String(length=2), default=None)
@@ -41,3 +41,9 @@ class User(Base):
     def count(cls):
         with db_session() as session:
             return session.query(Postgres.bind.func.count(cls.id)).scalar()
+
+    @classmethod
+    def get(cls, session, whereclause):
+        return session.query(cls).filter(whereclause).first()
+
+

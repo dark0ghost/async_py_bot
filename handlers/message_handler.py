@@ -6,6 +6,7 @@ from typing import List
 
 import aiofiles
 from aiogram import types
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.types import User
 from aiogram.types.message import ContentTypes
@@ -145,8 +146,8 @@ async def cat(message: types.Message) -> None:
         await bot.send_photo(chat_id=message.chat.id,
                              photo=await aiofiles.open(os.path.abspath("staticfile/cat.jpg"), "rb"))
     else:
-        await bot.send_chat_action(chat_id=message.chat.id,
-                                   photo=await aiofiles.open(os.path.abspath("staticfile/cat.gif"), "rb"))
+        await bot.send_animation(chat_id=message.chat.id,
+                                 animation=os.path.abspath("staticfile/cat.gif"))
 
 
 @dp.message_handler(commands=["json"])
@@ -258,6 +259,18 @@ async def balans(message: types.Message):
 
 
 @dp.message_handler(state=State.wait_wallet)
-async def balanc_wallet(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, text=(await ton.getAddressBalance(address=message.text))/10**9)
+async def balans_wallet(message: types.Message, state: FSMContext):
+    try:
+        await bot.send_message(message.chat.id, text=(await ton.getAddressBalance(address=message.text)) / 10 ** 9)
+    except:
+        await message.answer("wallet Not found")
     await state.finish()
+
+class d:
+    class conf:
+        def get(*args):
+            return args
+
+@dp.message_handler(commands=["speed"], commands_prefix=["!"])
+async def test_speed(message: types.Message):
+    pass
