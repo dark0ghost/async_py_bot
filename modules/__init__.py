@@ -1,3 +1,3 @@
-from modules import IoJsonBox, CatApi, CheckerEmail, Crypto_Price
+from modules import IoJsonBox, CatApi, CheckerEmail, CryptoPrice
 
-__all__ = [IoJsonBox.IOJsonBox, CheckerEmail.CheckerEmail, CatApi.CatApi, Crypto_Price.CryptoPrice]
+__all__ = [IoJsonBox.IOJsonBox, CheckerEmail.CheckerEmail, CatApi.CatApi, CryptoPrice.CryptoPrice]

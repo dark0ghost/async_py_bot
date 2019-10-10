@@ -15,7 +15,7 @@ import uvloop
 
 
 from modules.com.pastebin import Pastebin
-from modules import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
+from modules import async_proxy, button, keyboard, i18n, CbApi, CryptoPrice, CheckerEmail, CatApi, IoJsonBox, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -45,7 +45,7 @@ session: aiohttp.ClientSession = aiohttp.ClientSession()
 
 io_json_box: IoJsonBox = IoJsonBox.IOJsonBox(session)
 
-crypto_price: Crypto_Price.CryptoPrice = Crypto_Price.CryptoPrice(session)
+crypto_price: CryptoPrice.CryptoPrice = CryptoPrice.CryptoPrice(session)
 
 catApi = CatApi.CatApi(session=session)
 
@@ -57,7 +57,7 @@ pastebin: Pastebin = Pastebin.Pastebin(token=helps.pastebian, session=session)
 
 ton = TON(session=session)
 
-cb = cb_api.CenterBankApi(session)
+cb = CbApi.CenterBankApi(session)
 
 logging.basicConfig(filename="log_base.log", level=logging.INFO)
 

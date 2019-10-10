@@ -10,3 +10,4 @@ class override:
 class private:
     def __call__(self, func: Callable, *args, **kwargs):
         func.__doc__ = "this private  method"
+        return func
