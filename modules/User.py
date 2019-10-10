@@ -1,12 +1,11 @@
 from aiogram import types
 from aiogram.types import User
 
+
 from modules.Base import Base
 from modules.db_pg import Postgres
-
-
-
-
+from modules.db_session import db_session
+from modules.utils import aiowrap
 
 
 class User(Base):
@@ -41,4 +40,4 @@ class User(Base):
     @aiowrap
     def count(cls):
         with db_session() as session:
-            return session.query(sa.func.count(cls.id)).scalar()
+            return session.query(Postgres.bind.func.count(cls.id)).scalar()

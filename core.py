@@ -1,7 +1,10 @@
 # This Python file uses the following encoding: utf-8
+import contextlib
 import os
 from asyncio.events import AbstractEventLoop
 from typing import List
+
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 import helps
 import aiohttp
@@ -10,6 +13,7 @@ import asyncio
 import filter
 import uvloop
 
+from modules.Base import Base
 from modules.com.pastebin import Pastebin
 from modules import async_proxy, button, keyboard, i18n, cb_api, Crypto_Price, CheckerEmail, CatApi, IoJsonBox, db_pg
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -79,6 +83,8 @@ lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext
 
 lang: List[str] = []
 
+Session_db: scoped_session = None
+
 if debug:
     storage = MemoryStorage()
 else:
@@ -110,10 +116,10 @@ async def setproxy(session: aiohttp.ClientSession) -> None:
 
 async def task():
     bind = await postgres.connect(url=helps.POSTGRES)
+    await postgres.make_migrate()
 
-    global lang
 
-    # lang = await
+
 
 
 # end def

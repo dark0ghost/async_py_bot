@@ -1,7 +1,7 @@
-from gino.declarative import declarative_base
+from gino.declarative import Model
 
 
-class Base(declarative_base()):
+class Base(Model):
     __abstract__ = True
 
     @classmethod

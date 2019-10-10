@@ -3,9 +3,10 @@ from pathlib import Path
 
 from aiogram import types
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
-from typing import Tuple, Any
+from typing import Tuple, Any, Callable
 
 from modules import User
+from modules.modificators import override
 
 I18N_DOMAIN = 'mybot'
 BASE_DIR = Path(__file__).parent
@@ -20,6 +21,9 @@ todo: release i18n in v3.0
 log = logging.getLogger(__name__)
 
 
+
+
+
 class ACLMiddleware(I18nMiddleware):
     def get_tg_lang(self, tg_user: types.User) -> str:
         lang = tg_user.language_code
@@ -29,6 +33,7 @@ class ACLMiddleware(I18nMiddleware):
             lang = 'en'
         return lang
 
+    @override()
     async def get_user_locale(self, action: str, args: Tuple[Any]):
         tg_user = types.User.get_current()
         *_, data = args
@@ -42,9 +47,7 @@ class ACLMiddleware(I18nMiddleware):
         lang = user.locale or self.get_tg_lang(tg_user)
         return lang
 
+
 i18n = I18nMiddleware(I18N_DOMAIN, LOCALES_DIR)
 
 lazy_gettext = i18n.lazy_gettext
-
-
-
