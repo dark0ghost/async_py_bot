@@ -1,7 +1,9 @@
+from datetime import datetime
+
 import aiofiles
 import aiohttp
 
-from typing import Dict
+from typing import Dict, Optional
 
 import asyncio
 
@@ -34,6 +36,13 @@ class Virustotal:
             self.limit: int = 0
             self.limit_max: int = 4
 
+    def is_limit(self) -> bool:
+        """
+
+        :return:
+        """
+        return self.is_public and self.limit == self.limit_max
+
     async def new_session(self) -> aiohttp.ClientSession:
         """
 
@@ -56,7 +65,7 @@ class Virustotal:
         :param allinfo:
         :return:
         """
-        if self.is_public and self.limit == self.limit_max:
+        if self.is_limit():
             await asyncio.sleep(60)
             self.limit: int = 0
         self.limit += 1
@@ -71,7 +80,7 @@ class Virustotal:
         :param file:
         :return:
         """
-        if self.is_public and self.limit == self.limit_max:
+        if self.is_limit():
             await asyncio.sleep(60)
             self.limit: int = 0
         self.limit += 1
@@ -81,6 +90,12 @@ class Virustotal:
             return await response.json()
 
     async def file_scan_upload_url(self, name_file: str, file: aiofiles.open) -> Dict[str, str]:
+        """
+
+        :param name_file:
+        :param file:
+        :return:
+        """
         if not self.is_public:
             async with self.session.get(url=f"{self.api_link}file/scan/upload_url",
                                         params={"apikey": self.api_key,
@@ -94,8 +109,13 @@ class Virustotal:
 
         raise RuntimeError("is private api https://developers.virustotal.com/reference#file-scan-upload-url")
 
-    async def file_rescan(self, link: str):
-        if self.is_public and self.limit == self.limit_max:
+    async def file_rescan(self, link: str) -> Dict[str, str]:
+        """
+
+        :param link:
+        :return:
+        """
+        if self.is_limit():
             await asyncio.sleep(60)
             self.limit: int = 0
         self.limit += 1
@@ -104,16 +124,161 @@ class Virustotal:
         async with self.session.post(url=f"{self.api_link}file/rescan", params=params, headers=headers) as response:
             return await response.json()
 
-    async def file_download(self, hash: str):
-        if self.is_public and self.limit == self.limit_max:
+    async def file_download(self, hash_file: str) -> Dict[str, str]:
+        """
+        :param hash_file:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'hash': hash_file}
+            async with self.session.get(url=f"{self.api_link}file/download", params=params) as response:
+                return await response.json()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-download")
+
+    async def file_behaviour(self, hash_files: str) -> Dict[str, str]:
+        """
+
+        :param hash_files:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'hash': hash_files}
+            async with self.session.get(url=f"{self.api_link}file/behaviour", params=params) as response:
+                return await response.json()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-behaviour")
+
+    async def file_network_traffic(self, hash_file) -> Dict[str, str]:
+        """
+
+        :param hash_file:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'hash': hash_file}
+            async with self.session.get(url=f"{self.api_link}file/network-traffic", params=params) as response:
+                return await response.json()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-network-traffic")
+
+    async def file_feed(self, package: str) -> bytes:
+        """
+
+        :param package:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'package': package}
+            async with self.session.get(url=f"{self.api_link}file/feed", params=params, stream=True,
+                                        allow_redirects=True) as response:
+                async with aiofiles.open('package.tar.bz2', 'wb') as file:
+                    await file.write(await response.read())
+                    return await response.read()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-feed")
+
+    async def file_clusters(self, date: datetime) -> Dict[str, str]:
+        """
+
+        :param date:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'date': date}
+            async with self.session.get(url=f"{self.api_link}file/clusters", params=params) as response:
+                return await response.json()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-clusters")
+
+    async def file_search(self, query: str) -> Dict[str, str]:
+        """
+
+        :param query:
+        :return:
+        """
+        if not self.is_public:
+            params = {'apikey': self.api_key, 'query': query}
+            async with self.session.get(url=f"{self.api_link}file/search", params=params) as response:
+                return await response.json()
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-search")
+
+    async def url_report(self, resource: str, allinfo: bool = False, scan: int = 0) -> Dict[str, str]:
+        """
+
+        :param resource:
+        :param allinfo:
+        :param scan:
+        :return:
+        """
+        if self.is_limit():
             await asyncio.sleep(60)
             self.limit: int = 0
         self.limit += 1
-        params = {'apikey': self.api_key, 'hash': hash}
-        async with self.session.get(url=f"{self.api_link}file/download", params=params) as response:
+        params = {'apikey': self.api_key, 'resourse': resource, "allinfo": str(allinfo).lower(), "scan": scan}
+        async with self.session.get(url=f"{self.api_link}url/report", params=params) as response:
             return await response.json()
 
+    async def url_feed(self) -> None:
+        """
+        not aio version
+        :return:
+        """
+        raise RuntimeError("is private api https://developers.virustotal.com/reference#file-feed")
 
+    async def domain_report(self, domain: str) -> Dict[str, str]:
+        """
 
+        :param domain:
+        :return:
+        """
+        if self.is_limit():
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        params = {'apikey': self.api_key, 'domain': domain}
+        async with self.session.get(url=f"{self.api_link}domain/report", params=params) as response:
+            return await response.json()
 
+    async def ip_address_report(self, ip: str) -> Dict[str, str]:
+        """
 
+        :param ip:
+        :return:
+        """
+        if self.is_limit():
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        params = {'apikey': self.api_key, 'ip': ip}
+        async with self.session.get(url=f"{self.api_link}ip-address/report", params=params) as response:
+            return await response.json()
+
+    async def comments_get(self, resource: str, before: Optional[datetime] = None) -> Dict[str, str]:
+        """
+
+        :param resource:
+        :param before:
+        :return:
+        """
+        if self.is_limit():
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        if before is None:
+            params = {'apikey': self.api_key, 'resource': resource}
+        else:
+            params = {'apikey': self.api_key, 'resource': resource, "before": before}
+
+        async with self.session.get(url=f"{self.api_link}comments/get", params=params) as response:
+            return await response.json()
+
+    async def comments_put(self, resource: str, comments: str):
+        """
+
+        :param resource:
+        :param comments:
+        :return:
+        """
+        if self.is_limit():
+            await asyncio.sleep(60)
+            self.limit: int = 0
+        self.limit += 1
+        params = {'apikey': self.api_key, 'resource': resource, "comments": comments}
+        async with self.session.post(url=f"{self.api_link}comments/put", params=params) as response:
+            return await response.json()

@@ -1,18 +1,16 @@
 # This Python file uses the following encoding: utf-8
 import contextlib
 import os
-from asyncio.events import AbstractEventLoop
+
 from typing import List
 
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session
 
 import helps
 import aiohttp
 import logging
 import asyncio
 import filter
-import uvloop
-
 
 from modules.com.pastebin import Pastebin
 from modules import async_proxy, button, keyboard, i18n, CbApi, CryptoPrice, CheckerEmail, CatApi, IoJsonBox, db_pg
@@ -23,8 +21,8 @@ from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
 
-
 from State import States
+from modules.com.virustotal.Virustotal import Virustotal
 from modules.org.ton.Ton import TON
 from modules.qrtag import QrTag
 from set_loop import loop
@@ -71,6 +69,8 @@ keyboard = keyboard.Keyboard
 
 qr = QrTag(session)
 
+virustotal = Virustotal(session=session, api_key=helps.virustotal)
+
 proxy_list: List[str] = []
 
 posts_cb: CallbackData = CallbackData('post', 'id', 'action')
@@ -116,10 +116,7 @@ async def setproxy(session: aiohttp.ClientSession) -> None:
 
 async def task():
     bind = await postgres.connect(url=helps.POSTGRES)
-    await postgres.make_migrate()
-
-
-
+    # await postgres.make_migrate()
 
 
 # end def
@@ -128,8 +125,6 @@ async def task():
 fix :
 RuntimeError: There is no current event loop in thread 'MainThread'.
 """
-
-
 
 if proxy_use == "True":
     bot = Bot(token=helps.token, loop=loop,

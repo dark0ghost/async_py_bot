@@ -71,3 +71,9 @@ class Button:
         inline_kb.add(InlineKeyboardButton(text=server, url=link_beta))
         inline_kb.add(inline_btn)
         return inline_kb
+
+    def link_buttons(self, text: List[str], link: List[str]) -> InlineKeyboardMarkup:
+        inline_kb: InlineKeyboardMarkup = InlineKeyboardMarkup()
+        for val, i in enumerate(link):
+            inline_kb.add(InlineKeyboardButton(text=text[val], url=i))
+        return inline_kb

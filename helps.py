@@ -41,6 +41,7 @@ pastebian = file_dict["pastebin"]
 
 proxy_use = file_dict["proxy_use"]
 
+virustotal = file_dict["virustotal"]
 
 async def get_link(bot: Bot, message: types.Message) -> str:
     """
@@ -53,3 +54,5 @@ async def get_link(bot: Bot, message: types.Message) -> str:
 
     link: str = f"t.me/{link_bot}/?ref={message.chat.id}"
     return link
+
+

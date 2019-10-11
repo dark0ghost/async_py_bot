@@ -6,7 +6,7 @@ from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from typing import Tuple, Any, Callable
 
 from modules.Users import Users
-from modules.modificators import override
+from modules.modificators import override,private
 
 I18N_DOMAIN = 'mybot'
 BASE_DIR = Path(__file__).parent
@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 
 
 class ACLMiddleware(I18nMiddleware):
+    @private()
     def get_tg_lang(self, tg_user: types.User) -> str:
         lang = tg_user.language_code
         if lang:

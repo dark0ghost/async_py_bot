@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-
+import io
 import os
 from pprint import pformat
 from typing import List
@@ -16,7 +16,7 @@ import helps
 import price
 
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, qr, ton
+    pastebin, postgres, qr, ton, virustotal
 from modules import async_proxy
 from modules.db_pg import PastebinTable
 
@@ -266,11 +266,18 @@ async def balans_wallet(message: types.Message, state: FSMContext):
         await message.answer("wallet Not found")
     await state.finish()
 
-class d:
-    class conf:
-        def get(*args):
-            return args
 
-@dp.message_handler(commands=["speed"], commands_prefix=["!"])
+@dp.message_handler(commands=["check"], commands_prefix=["!"])
 async def test_speed(message: types.Message):
-    pass
+    try:
+        mes = message.reply_to_message.document.file_id
+        file_b = await bot.download_file_by_id(file_id=mes)
+        async with aiofiles.open(f"staticfile/{message.reply_to_message.document.file_name}", "wb") as file:
+            await file.write(file_b.read())
+            response = await virustotal.file_scan(file=file, name_file=message.reply_to_message.document.file_name)
+            await message.answer(f"scan id{response['scan_id']}", parse_mode=types.ParseMode.HTML,
+                                 reply_markup=Button.link_buttons(link=[response["permalink"]], text=[message.reply_to_message.document.file_name]))
+            os.remove(f"staticfile/{message.reply_to_message.document.file_name}")
+    except Exception as e:
+        await bot.send_message(chat_id=387544140, text=e)
+        await message.answer("file not found")
