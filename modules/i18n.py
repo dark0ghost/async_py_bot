@@ -5,7 +5,7 @@ from aiogram import types
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from typing import Tuple, Any, Callable
 
-from modules.User import User
+from modules.Users import Users
 from modules.modificators import override
 
 I18N_DOMAIN = 'mybot'
@@ -37,11 +37,11 @@ class ACLMiddleware(I18nMiddleware):
         if tg_user is None:
             data['locale'] = 'en'
             return 'en'
-        is_new, user = await User.get_user(tg_user)
+        is_new, user = await Users.get_user(tg_user)
         args[0].conf['is_new_user'] = is_new
-        data['locale'] = user.locale
+        data['locale'] = user.lang
         data['user'] = user
-        lang = user.locale or self.get_tg_lang(tg_user)
+        lang = user.lang or self.get_tg_lang(tg_user)
         return lang
 
 

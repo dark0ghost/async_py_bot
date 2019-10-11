@@ -1,5 +1,6 @@
 import contextvars
 import functools
+from asyncio import AbstractEventLoop
 from concurrent.futures.thread import ThreadPoolExecutor
 
 import asyncio
@@ -33,3 +34,18 @@ def aiowrap(func: Callable) -> object:
         return loop.run_in_executor(_executor, ctx_func)
 
     return wrapping
+
+
+class Aiowrap:
+    def __init__(self, loop: AbstractEventLoop) -> None:
+        self.loop = loop
+
+    def __call__(self, func: Callable, *args, **kwargs) -> AbstractEventLoop:
+        @functools.wraps(func)
+        def wrapping(_executor=None, *args, **kwargs):
+            new_func = functools.partial(func, *args, **kwargs)
+            ctx = contextvars.copy_context()
+            ctx_func = functools.partial(ctx.run, new_func)
+            return loop.run_in_executor(_executor, ctx_func)
+
+        return wrapping

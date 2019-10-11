@@ -31,20 +31,11 @@ class Postgres:
         return self.bind
 
 
-class User(Postgres.db_pg.Model):
-    __tablename__ = 'users_bot'
-
-    id = Postgres.db_pg.Column(Postgres.db_pg.Integer(), primary_key=True)
-    nickname = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default='noname')
-    email = Postgres.db_pg.Column(Postgres.db_pg.Unicode())
-    _meta = Postgres.db_pg.Column(Postgres.db_pg.Unicode(), default="none")
-
-
 class UserLang(Postgres.db_pg.Model):
     __tablename__ = 'users_lang'
 
-    id = Postgres.db_pg.Column(Postgres.db_pg.Integer(), primary_key=True)
-    lang = Postgres.db_pg.Column(Postgres.db_pg.Unicode())
+    id = Postgres.db_pg.Column(Postgres.db_pg.Integer(), unique=True, nullable=False, primary_key=True)
+    lang = Postgres.db_pg.Column(Postgres.db_pg.String(length=2), default=None)
 
 
 class AccessToken(Postgres.db_pg.Model):
