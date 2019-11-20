@@ -1,0 +1,68 @@
+{
+  "token": "",
+  "PAYMENTS_PROVIDER_TOKEN":"",
+  "TOKEN_QIWI": "",
+  "POSTGRES": "",
+  "lang":["ru","en"],
+  "mes": {
+    "start": "message start",
+    "help": "message help",
+    "proxy": "public proxy for you",
+    "new_proxy": "new proxy",
+    "buy": "покупка произведена успешно",
+    "error_pay": "покупка не произошла"
+  },
+  "good_proxy_link": "",
+  "login": {
+    "login": "",
+    "password": ""
+  },
+  "smtp": {
+    "login": "",
+    "password": "",
+    "host": "smtp.gmail.com",
+    "port": 587
+  },
+  "google": {
+    "key": "",
+    "config": {
+      "apiKey": "",
+      "authDomain": "",
+      "databaseURL": "",
+      "projectId": "",
+      "storageBucket": "",
+      "messagingSenderId": "",
+      "appId": ""
+    },
+    "firebase": {
+      "id": "",
+      "socket": ""
+    }
+  },
+  "github": {
+    "client_id": "",
+    "client_secret": ""
+  },
+  "facebook": {
+    "client_id": "",
+    "client_secret": ""
+  },
+  "twitter": {
+    "consumer_key": "",
+    "consumer_secret": ""
+  },
+  "key_accept": "",
+  "web": {
+    "host_api": "127.0.0.1",
+    "port": 5000,
+    "domain": "localhost:5000"
+  },
+  "redis": {
+    "host": "",
+    "port": 6379
+  },
+  "cat_api": {
+    "token": ""
+  },
+  "pastebin": ""
+}
