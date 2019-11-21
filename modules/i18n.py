@@ -31,7 +31,7 @@ class ACLMiddleware(I18nMiddleware):
             lang = 'en'
         return lang
 
-    @override()
+    """"@override()
     async def get_user_locale(self, action: str, args: Tuple[Any]):
         tg_user = types.User.get_current()
         *_, data = args
@@ -44,6 +44,7 @@ class ACLMiddleware(I18nMiddleware):
         data['user'] = user
         lang = user.lang or self.get_tg_lang(tg_user)
         return lang
+        """
 
 
 i18n = ACLMiddleware(I18N_DOMAIN, LOCALES_DIR)

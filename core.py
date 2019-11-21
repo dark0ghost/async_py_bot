@@ -138,7 +138,7 @@ dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
 
-#asyncio.run(task())
+asyncio.run(task())
 
 
 # end set
