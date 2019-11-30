@@ -4,6 +4,8 @@ import aiohttp
 
 from typing import Dict
 
+from aiohttp_socks import SocksConnector
+
 
 class CryptoPrice:
     def __init__(self, session: aiohttp.ClientSession) -> None:
@@ -189,7 +191,8 @@ class CryptoPrice:
             return await response.json()
 
     async def current_data(self, coin: str, localization: str = '', tickers: bool = False, market_data: bool = False,
-                           community_data: bool = False, developer_data: bool = False, sparkline: bool = False) -> Dict[str, str]:
+                           community_data: bool = False, developer_data: bool = False, sparkline: bool = False) -> Dict[
+        str, str]:
         """
         Get current data (name, price, market, ... including exchange tickers) for a coin
         :param sparkline:
@@ -206,7 +209,8 @@ class CryptoPrice:
             return await response.json()
 
     async def coins_markets(self, vs_currency: str = "usd", order: str = "market_cap_desc", per_page: int = 100,
-                            page: int = 1, sparkline: bool = "false", price_change_percentage: str = "24h") -> Dict[str, str]:
+                            page: int = 1, sparkline: bool = "false", price_change_percentage: str = "24h") -> Dict[
+        str, str]:
         """
         Use this to obtain all the coins market data (price, market cap, volume)
         :param vs_currency:
@@ -259,3 +263,15 @@ class CryptoPrice:
                 self.api_link + "simple/supported_vs_currencies"
         ) as response:
             return await response.json()
+
+    async def open_session(self, proxy: str = None) -> aiohttp.ClientSession:
+        if proxy is None:
+            self.session = aiohttp.ClientSession()
+            return self.session
+        connector = SocksConnector.from_url(proxy)
+        self.session = aiohttp.ClientSession(connector=connector)
+        return self.session
+
+    async def close(self) -> None:
+        await self.session.close()
+        return
