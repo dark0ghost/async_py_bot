@@ -1,11 +1,11 @@
 import aiohttp
-from typing import Dict
+import typing
 
 from aiohttp_socks import SocksConnector
 
 
 class Pastebin:
-    lang: Dict[str, str] = {
+    lang: typing.Dict[str, str] = {
         "4cs": "4CS",
         "6502acme": "6502 ACME Cross Assembler",
         "6502kickass": "6502 Kick Assembler",
@@ -50,7 +50,7 @@ class Pastebin:
         "cmake": "CMake"
     }
 
-    def __init__(self, token: str, session: aiohttp.ClientSession) -> None:
+    def __init__(self, token: str, session: typing.Optional[aiohttp.ClientSession] = None) -> None:
         """
         :param token:
         :param session:
@@ -60,22 +60,36 @@ class Pastebin:
         self.session: aiohttp.ClientSession = session
         self.paste_no_paste_object = -1
         self.paste_no_data_in_object = -2
-        self.data: Dict[str, str] = {}
+        self.data: typing.Dict[str, str] = {}
 
     def generate_data(self, paste: str, paste_name: str = None, language: str = "python", paste_date: str = 'N',
-                      is_private: str = "0") -> Dict[str, str]:
-        self.data: Dict[str, str] = {'api_option': "paste",
-                                     'api_dev_key': self.api_dev_key,
-                                     'api_paste_private': is_private,
-                                     'api_paste_name': paste_name,
-                                     'api_paste_expire_date': paste_date,
-                                     'api_paste_format': language,
-                                     'api_user_key': self.api_dev_key,
-                                     'api_paste_code': paste
-                                     }
+                      is_private: str = "0") -> typing.Dict[str, str]:
+        """
+
+        :param paste:
+        :param paste_name:
+        :param language:
+        :param paste_date:
+        :param is_private:
+        :return:
+        """
+        self.data: typing.Dict[str, str] = {'api_option': "paste",
+                                            'api_dev_key': self.api_dev_key,
+                                            'api_paste_private': is_private,
+                                            'api_paste_name': paste_name,
+                                            'api_paste_expire_date': paste_date,
+                                            'api_paste_format': language,
+                                            'api_user_key': self.api_dev_key,
+                                            'api_paste_code': paste
+                                            }
         return self.data
 
-    async def send_paste(self, data: Dict[str, str] = None) -> str:
+    async def send_paste(self, data: typing.Dict[str, str] = None) -> str:
+        """
+
+        :param data:
+        :return:
+        """
         if data is not None:
             async with self.session.post(url=self.api_url, data=self.data) as response:
                 return await response.text(encoding="UTF-8")
@@ -84,6 +98,11 @@ class Pastebin:
                 return await response.text(encoding="UTF-8")
 
     async def open_session(self, proxy: str = None) -> aiohttp.ClientSession:
+        """
+
+        :param proxy:
+        :return:
+        """
         if proxy is None:
             self.session = aiohttp.ClientSession()
             return self.session
@@ -92,5 +111,11 @@ class Pastebin:
         return self.session
 
     async def close(self) -> None:
+        """
+
+        :return:
+        """
         await self.session.close()
         return
+
+

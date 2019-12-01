@@ -64,5 +64,10 @@
   "cat_api": {
     "token": ""
   },
-  "pastebin": ""
+  "pastebin": "",
+  "virustotal": "",
+  "proxy_use": false,
+  "wallet": {
+    "ton": ""
+  }
 }

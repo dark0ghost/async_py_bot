@@ -43,7 +43,7 @@ async def cmd_language(message: types.Message, state: FSMContext) -> None:
 async def wait_language(message: types.Message, state: FSMContext, user: User) -> None:
     # track('command', message.from_user, command='done_language')
     if message.text in lang:
-        await user.set_language(message.text)
+        #await user.set_language(message.text)
         lazy_get_text.ctx_locale.set(message.text)
         await message.reply(lazy_get_text('New language is: <b>English</b>'), reply_markup=types.ReplyKeyboardRemove())
         await state.finish()
