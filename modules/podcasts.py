@@ -9,6 +9,9 @@ from aiohttp_socks import SocksConnector
 
 class Podcasts:
     def __init__(self, session: typing.Optional[aiohttp.ClientSession] = None):
+        """
+
+        """
         self.session = session
         self.api: str = ""
 

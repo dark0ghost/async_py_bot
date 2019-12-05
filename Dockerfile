@@ -5,7 +5,7 @@ RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 ADD . /usr/src/app
 
-RUN  apt-get install python3-distutils
+RUN  apt-get install --no-install-recommends -ypython3-distutils
 RUN pip install --upgrade pip
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
