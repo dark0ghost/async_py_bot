@@ -20,19 +20,32 @@ class Etherscan:
     action_tokentx: str = "tokentx"
     action_getminedblock: str = "getminedblock"
 
+
+
     def __init__(self, api_key: str, session: typing.Optional[aiohttp.ClientSession] = None):
+        """
+
+        @param api_key:
+        @param session:
+        """
 
         self.session = session
         self.api: str = api_key
 
     def is_limit_time(self) -> bool:
+        """
 
+        @rtype: object
+        """
         then = datetime.datetime.now()
         delta = self.now - then
         return delta.seconds > 1
 
     async def open_session(self, proxy: typing.Optional[str] = None) -> aiohttp.ClientSession:
+        """
 
+        @type proxy: object
+        """
         if proxy is None:
             self.session = aiohttp.ClientSession()
             return self.session
@@ -41,6 +54,10 @@ class Etherscan:
         return self.session
 
     async def close(self) -> None:
+        """
+
+        @return:
+        """
         await self.session.close()
         return
 

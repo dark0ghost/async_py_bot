@@ -1,10 +1,10 @@
 # This Python file uses the following encoding: utf-8
 import hashlib
 
-from aiogram import types
-from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, pastebin,io_json_box
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
+
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, async_proxy, session,Button
 
 
 @dp.inline_handler()
@@ -14,12 +14,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     :param inline_query:
     :return:
     """
-    # id affects both preview and content,
-    # so it has to be unique for each result
-    # (Unique identifier for this result, 1-64 Bytes)
-    # you can set your unique id's
-    # but for example i'll generate it based on text because I know, that
-    # only text will be passed in this example
+
     text = inline_query.query
     res = await bank_api.build_list_coin()
     crypto = await crypto_price.coin_list()
@@ -57,6 +52,16 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name}:{price} btc ').format(name=text, price=(1 / price)),
             input_message_content=input_content
         )
+    elif text == "proxy":
+        proxy_url = await async_proxy.main(session)
+        input_content = InputTextMessageContent(f"proxy for you: {proxy_url[0]}")
+        item = InlineQueryResultArticle(
+            id=result_id,
+            title=f"{proxy_url[0]}",
+            input_message_content=input_content
+
+        )
+        
 
     else:
 

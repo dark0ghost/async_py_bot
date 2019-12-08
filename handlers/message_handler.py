@@ -59,7 +59,6 @@ async def process_start_command(message: types.Message) -> None:
 @dp.message_handler(commands=['proxy'])
 async def check_language(message: types.Message) -> None:
     proxy_list = await async_proxy.main(session)
-    print(message.chat.id)
     await bot.send_message(message.chat.id, text=proxy_list[0],
                            reply_markup=Button.edit_proxy(proxy=proxy_list[0], text_button="not valid?",
                                                           callback="edit"))
@@ -275,7 +274,7 @@ async def test_speed(message: types.Message):
         async with aiofiles.open(f"staticfile/{message.reply_to_message.document.file_name}", "wb") as file:
             await file.write(file_b.read())
             response = await virustotal.file_scan(file=file, name_file=message.reply_to_message.document.file_name)
-            await message.answer(f"scan id{response['scan_id']}", parse_mode=types.ParseMode.HTML,
+            await message.answer(f"scan ` id{response['scan_id']}`", parse_mode=types.ParseMode.HTML,
                                  reply_markup=Button.link_buttons(link=[response["permalink"]], text=[message.reply_to_message.document.file_name]))
             os.remove(f"staticfile/{message.reply_to_message.document.file_name}")
     except Exception as e:
