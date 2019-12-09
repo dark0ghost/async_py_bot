@@ -1,10 +1,11 @@
 # This Python file uses the following encoding: utf-8
 import hashlib
+from typing import List
 
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
-from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, async_proxy, session,Button
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, async_proxy, session, Button
 
 
 @dp.inline_handler()
@@ -19,6 +20,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     res = await bank_api.build_list_coin()
     crypto = await crypto_price.coin_list()
     result_id: str = hashlib.md5(text.encode()).hexdigest()
+    result_list: List[InlineQueryResultArticle] = []
     if text in res.keys():
         input_content = InputTextMessageContent(lazy_get_text("""название {name}\n`стоимость 1 {name} - {valvue}₽`\n__дата {date}\n по данным центробанка (https://www.cbr.ru)__
         """).format(name=text, valvue=res[text]["valvue"], date=bank_api.date))
@@ -28,6 +30,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name} - {valvue}').format(name=text, valvue=res[text]["valvue"]),
             input_message_content=input_content
         )
+        result_list.append(item)
     elif text in crypto:
         id_coin = crypto[text]["id"]
         price = (await crypto_price.simple_price(ids=id_coin, vs_currestring="rub"))[id_coin]["rub"]
@@ -54,15 +57,15 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
         )
     elif text == "proxy":
         proxy_url = await async_proxy.main(session)
+
         input_content = InputTextMessageContent(f"proxy for you: {proxy_url[0]}")
+
         item = InlineQueryResultArticle(
             id=result_id,
             title=f"{proxy_url[0]}",
-            input_message_content=input_content
-
+            input_message_content=input_content,
+            reply_markup=Button.proxy(proxy_url)
         )
-        
-
     else:
 
         input_content = InputTextMessageContent(
@@ -74,4 +77,6 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             input_message_content=input_content
         )
 
-    return await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
+    result_list.append(item)
+
+    return await bot.answer_inline_query(inline_query.id, results=result_list, cache_time=1)

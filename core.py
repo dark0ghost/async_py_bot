@@ -26,6 +26,7 @@ from modules.com.virustotal.Virustotal import Virustotal
 from modules.org.ton.TON import TON
 from modules.qrtag import QrTag
 from set_loop import loop
+from aiograph import Telegraph
 
 print("build")
 # start set
@@ -38,6 +39,8 @@ checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mai
                                                                     login=helps.smtp_login)
 
 checker_mail.change_len_code(new_len_code=5)
+
+telegraph = Telegraph()
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
@@ -116,6 +119,7 @@ async def setproxy(session: aiohttp.ClientSession) -> None:
 
 async def task():
     bind = await postgres.connect(url=helps.POSTGRES)
+    await telegraph.create_account((await bot.get_me())["first_name"])
     # await postgres.make_migrate()
 
 
@@ -125,6 +129,8 @@ async def task():
 fix :
 RuntimeError: There is no current event loop in thread 'MainThread'.
 """
+loop = asyncio.get_event_loop()
+asyncio.set_event_loop(loop)
 
 if proxy_use:
     bot = Bot(token=helps.token, loop=loop,
@@ -138,7 +144,8 @@ dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
 
-asyncio.run(task())
+
+loop.run_until_complete(task())
 
 
 # end set
