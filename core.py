@@ -125,12 +125,7 @@ async def task():
 
 # end def
 
-"""
-fix :
-RuntimeError: There is no current event loop in thread 'MainThread'.
-"""
-loop = asyncio.get_event_loop()
-asyncio.set_event_loop(loop)
+
 
 if proxy_use:
     bot = Bot(token=helps.token, loop=loop,
