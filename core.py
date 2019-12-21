@@ -4,12 +4,10 @@ import os
 
 from typing import List
 
-from sqlalchemy.orm import scoped_session
 
 import helps
 import aiohttp
 import logging
-import asyncio
 import filter
 
 from modules.com.pastebin import Pastebin
@@ -86,7 +84,7 @@ lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext
 
 lang: List[str] = []
 
-Session_db: scoped_session = None
+#Session_db: scoped_session = None
 
 if debug:
     storage = MemoryStorage()
@@ -107,7 +105,6 @@ async def setproxy(session: aiohttp.ClientSession) -> None:
                     log.debug(f"{proxy} valid")
                     proxy_list.append(proxy)
 
-
         except Exception as e:
             logging.exception(e)
             log.info(f"warning {proxy} not valid")
@@ -126,7 +123,6 @@ async def task():
 # end def
 
 
-
 if proxy_use:
     bot = Bot(token=helps.token, loop=loop,
               parse_mode=types.ParseMode.MARKDOWN,
@@ -138,7 +134,6 @@ else:
 dp = Dispatcher(bot, storage=storage)
 dp.middleware.setup(LoggingMiddleware())
 dp.middleware.setup(i18n.i18n)
-
 
 loop.run_until_complete(task())
 
