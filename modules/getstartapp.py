@@ -1,5 +1,6 @@
 import aiohttp
 from aiohttp_socks import SocksConnector
+from typing import Dict
 
 
 class GetStartApp:
@@ -18,6 +19,11 @@ class GetStartApp:
         self.session = session
 
     async def open_session(self, proxy: str = None) -> aiohttp.ClientSession:
+        """
+
+        @param proxy:
+        @return:
+        """
         if proxy is None:
             self.session = aiohttp.ClientSession()
             return self.session
@@ -26,12 +32,21 @@ class GetStartApp:
         return self.session
 
     async def close(self) -> None:
+        """
+
+        @return:
+        """
         await self.session.close()
         return
 
-    async def get_data(self) -> str:
+    async def get_data(self) -> Dict[str, str]:
+        """
+
+        @return: Dict[str, str]
+        """
         async with self.session.get(self.api) as response:
+            print(self.api)
             return await response.json()
 
-
-f = GetStartApp()
+    async def parse(self) -> Dict[str, str]:
+        pass

@@ -7,7 +7,6 @@ from aiohttp_socks import SocksConnector
 
 
 class Etherscan:
-
     delay: int = 5
     time_delay: int = 1
     now: datetime.datetime = datetime.datetime.now()
@@ -19,8 +18,6 @@ class Etherscan:
     action_txlistinternal: str = "txlistinternal"
     action_tokentx: str = "tokentx"
     action_getminedblock: str = "getminedblock"
-
-
 
     def __init__(self, api_key: str, session: typing.Optional[aiohttp.ClientSession] = None):
         """
@@ -60,5 +57,3 @@ class Etherscan:
         """
         await self.session.close()
         return
-
-# async def
