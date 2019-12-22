@@ -13,7 +13,7 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-RUN sh -ac 'cd /usr/src/app && python3 start_poling.py && cd /model/auth/ && python3 Auth.py'
+RUN sh -ac 'cd /usr/src/app && python3 start_polling.py'
 
 
 RUN echo "run"
