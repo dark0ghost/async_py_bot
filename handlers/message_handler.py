@@ -16,8 +16,7 @@ import helps
 import price
 
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, qr, ton, virustotal
-from modules import async_proxy
+    pastebin, postgres, qr, ton, virustotal, proxy_class
 from modules.db_pg import PastebinTable
 
 
@@ -58,7 +57,7 @@ async def process_start_command(message: types.Message) -> None:
 
 @dp.message_handler(commands=['proxy'])
 async def check_language(message: types.Message) -> None:
-    proxy_list = await async_proxy.main(session)
+    proxy_list = await proxy_class.main()
     await bot.send_message(message.chat.id, text=proxy_list[0],
                            reply_markup=Button.edit_proxy(proxy=proxy_list[0], text_button="not valid?",
                                                           callback="edit"))
@@ -67,7 +66,7 @@ async def check_language(message: types.Message) -> None:
 
 @dp.message_handler(commands=['proxy_all'])
 async def check_language(message: types.Message) -> None:
-    proxy_list: List[str] = await async_proxy.main(session=session)
+    proxy_list: List[str] = await proxy_class.main()
     await bot.send_message(message.chat.id, text=lazy_get_text("text"),
                            reply_markup=Button.proxy(proxy_list))
 
@@ -140,7 +139,6 @@ async def V_mail(message: types.Message, state: FSMContext) -> None:
 @dp.message_handler(commands=["cat"])
 async def cat(message: types.Message) -> None:
     f = await catApi.get_photo()
-    print(f)
     if f == "png" or f == "jpg":
         await bot.send_photo(chat_id=message.chat.id,
                              photo=await aiofiles.open(os.path.abspath("staticfile/cat.jpg"), "rb"))
@@ -274,7 +272,7 @@ async def test_speed(message: types.Message):
         async with aiofiles.open(f"staticfile/{message.reply_to_message.document.file_name}", "wb") as file:
             await file.write(file_b.read())
             response = await virustotal.file_scan(file=file, name_file=message.reply_to_message.document.file_name)
-            await message.answer(f"scan ` id{response['scan_id']}`", parse_mode=types.ParseMode.HTML,
+            await message.answer(f"scan ` id{response['scan_id']}`", parse_mode=types.ParseMode.MARKDOWN,
                                  reply_markup=Button.link_buttons(link=[response["permalink"]], text=[message.reply_to_message.document.file_name]))
             os.remove(f"staticfile/{message.reply_to_message.document.file_name}")
     except Exception as e:

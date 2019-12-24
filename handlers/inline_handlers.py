@@ -5,7 +5,7 @@ from typing import List
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
-from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, async_proxy, session, Button
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, proxy_class, session, Button
 
 
 @dp.inline_handler()
@@ -56,7 +56,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             input_message_content=input_content
         )
     elif text == "proxy":
-        proxy_url = await async_proxy.main(session)
+        proxy_url = await proxy_class.main()
 
         input_content = InputTextMessageContent(f"proxy for you: {proxy_url[0]}")
 

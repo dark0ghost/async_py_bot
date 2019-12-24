@@ -84,7 +84,7 @@ lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext
 
 lang: List[str] = []
 
-#Session_db: scoped_session = None
+proxy_class = async_proxy.Proxy(session=session)
 
 if debug:
     storage = MemoryStorage()
@@ -94,10 +94,10 @@ else:
 
 # start def
 
-async def setproxy(session: aiohttp.ClientSession) -> None:
+async def setproxy() -> None:
     proxy_list = []
     connector = ProxyConnector()
-    li = await async_proxy.main(session)
+    li = await proxy_class.main()
     for proxy in li:
         try:
             async with aiohttp.ClientSession(connector=connector, request_class=ProxyClientRequest) as session:

@@ -3,8 +3,7 @@ from typing import Dict
 
 import helps
 
-from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box, postgres
-from modules import async_proxy
+from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box, postgres, proxy_class
 from aiogram import types
 
 from modules.db_pg import PastebinTable
@@ -17,7 +16,7 @@ async def back(query: types.CallbackQuery):
     :return:
     """
     if len(proxy_list) < 1:
-        [proxy_list.append(i) for i in await async_proxy.main(session=session)]
+        [proxy_list.append(i) for i in await proxy_class.main()]
     else:
         await query.message.edit_text(text=helps.mes["new_proxy"],
                                       reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
@@ -32,7 +31,6 @@ async def pastebin_(query: types.CallbackQuery) -> None:
     link = await pastebin.send_paste(data=h)
     await query.message.edit_text(text=link)
     await paste.delete()
-
 
 
 @dp.callback_query_handler(posts_cb.filter(action=["jsonbox"]))
