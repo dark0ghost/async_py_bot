@@ -12,7 +12,9 @@ config_pro.json
 /modules/auth/templates/vue.js
 /modules/auth/templates/jquery.js
 /modules/auth/templates/page
-
+*.sql
+*.sqlite
+*.sqlite3
 
 # Distribution / packaging
 .Python
@@ -34,6 +36,16 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.png
+*.jpg
+*.gif
+*.docx
+*.pdf
+*.doc
+*.xml
+*.xlx
+/staticfile/*
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
