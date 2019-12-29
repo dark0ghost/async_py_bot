@@ -17,6 +17,9 @@ class Etherscan:
     action_tokentx: str = "tokentx"
     action_getminedblock: str = "getminedblock"
 
+    class BadRequest(Exception):
+        pass
+
     def __init__(self, api_key: str, session: typing.Optional[aiohttp.ClientSession] = None) -> None:
         """
 
@@ -202,12 +205,52 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_estimateGas&to=&value={valvue}&gasPrice={gasprice}&gas={gas}&apikey={self.api}") as response:
             return await response.json()
 
+    async def ether_balance_single_address(self, address: str) -> typing.Dict[str, str]:
+        """
+        Get Ether Balance for a single Address
+        @param address:
+        @return:
+        """
+        async with self.session.get(f"https://api.etherscan.io/api?module=account&action=balance&address={address}"
+                                    f"&tag=latest&&apikey={self.api}") as response:
+            return await response.json()
+
+    async def ether_balance_multiple_addresses(self, list_adders: typing.List[typing.Union[str, int]]) -> \
+            typing.Dict[str, str]:
+        """
+        Get Ether Balance for multiple Addresses in a single call
+        Separate addresses by comma, up to a maxium of 20 accounts in a single batch
+        @param list_adders:
+        @return:
+        """
+        if len(list_adders) <= 20:
+            data: str = ",".join(list_adders)
+            async with self.session.get(
+                    f"https://api.etherscan.io/api?module=account&action=balancemulti&address={data}&tag=latest&apikey={self.api}") as response:
+                return await response.json()
+        await self.session.close()
+        raise self.BadRequest("max len 20")
+
+    async def list_of_normal_transactions(self, address: str, start_block: int = 0, end_block: int = 99999999) -> \
+            typing.Dict[str, str]:
+        """
+        Get a list of 'Normal' Transactions By Address [Optional Parameters] startblock: starting blockNo to retrieve
+        results, endblock: ending blockNo to retrieve results
+        @param end_block:
+        @param start_block:
+        @param address:
+        @return:
+        """
+        async with self.session.get(
+                f"http://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={start_block}&endblock={end_block}&sort=asc&apikey={self.api}") as response:
+            return await response.json()
+
 
 import asyncio
 
 
 async def main():
-    f = Etherscan(api_key="KK8G6CQ1XG8NT2P5KTVVNUWTB98SCMCZ8Q")
+    f = Etherscan(api_key="")
     await f.open_session()
 
     print(await f.eth_blockNumber())
@@ -226,6 +269,10 @@ async def main():
     print(await f.eth_gasPrice())
     print(
         await f.eth_estimateGas(to="0xf0160428a8552ac9bb7e050d90eeade4ddd52843", gasprice="0x051da038cc", gas=0xffffff))
+    print(await f.ether_balance_single_address("0x2a6e46570566659dd87939e20f0857b26c966749"))
+    print(await f.ether_balance_multiple_addresses(["0xAEEF46DB4855E25702F8237E8f403FddcaF931C0",
+                                                    "0x2a6e46570566659dd87939e20f0857b26c966749"]))
+    print(await f.list_of_normal_transactions("0x2A6E45970566659DD87939E20f0857B26c966749"))
 
     await f.close()
 
