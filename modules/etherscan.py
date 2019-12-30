@@ -1,7 +1,6 @@
 import aiohttp
 import typing
 import datetime
-import asyncio
 
 from aiohttp_socks import SocksConnector
 
@@ -59,7 +58,7 @@ class Etherscan:
         await self.session.close()
         return
 
-    async def eth_blockNumber(self) -> typing.Dict[str, str]:
+    async def eth_blockNumber(self) -> typing.Dict[str, typing.Any]:
         """
         Returns the number of most recent block
         @return:
@@ -68,7 +67,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey={self.api}") as respsonse:
             return await respsonse.json()
 
-    async def eth_getBlockByNumber(self, block: str) -> typing.Dict[str, str]:
+    async def eth_getBlockByNumber(self, block: str) -> typing.Dict[str, typing.Any]:
         """
         Returns information about a block by block number
         @param block:
@@ -78,7 +77,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag={block}f&boolean=true&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getUncleByBlockNumberAndIndex(self, block: str) -> typing.Dict[str, str]:
+    async def eth_getUncleByBlockNumberAndIndex(self, block: str) -> typing.Dict[str, typing.Any]:
         """
         Returns information about a uncle by block number
         @param block:
@@ -89,7 +88,7 @@ class Etherscan:
                 response:
             return await response.json()
 
-    async def eth_getBlockTransactionCountByNumber(self, block: str) -> typing.Dict[str, str]:
+    async def eth_getBlockTransactionCountByNumber(self, block: str) -> typing.Dict[str, typing.Any]:
         """
         Returns the number of transactions in a block from a block matching the given block number
         @param block:
@@ -100,7 +99,7 @@ class Etherscan:
                 response:
             return await response.json()
 
-    async def eth_getTransactionByHash(self, hash: str) -> typing.Dict[str, str]:
+    async def eth_getTransactionByHash(self, hash: str) -> typing.Dict[str, typing.Any]:
         """
         Returns the information about a transaction requested by transaction hash
         @param hash:
@@ -110,7 +109,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash={hash}&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getTransactionByBlockNumberAndIndex(self, block: str) -> typing.Dict[str, str]:
+    async def eth_getTransactionByBlockNumberAndIndex(self, block: str) -> typing.Dict[str, typing.Any]:
         """
         Returns information about a transaction by block number and transaction index position
         @param block:
@@ -121,7 +120,7 @@ class Etherscan:
                 f"={block}f&index=0x0&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getTransactionCount(self, address: str) -> typing.Dict[str, str]:
+    async def eth_getTransactionCount(self, address: str) -> typing.Dict[str, typing.Any]:
         """
         Returns the number of transactions sent from an address
         @param address:
@@ -131,7 +130,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_getTransactionCount&address={address}&tag=latest&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_sendRawTransaction(self, hex_: str) -> typing.Dict[str, str]:
+    async def eth_sendRawTransaction(self, hex_: str) -> typing.Dict[str, typing.Any]:
         """
         Creates new message call transaction or a contract creation for signed transactions
         @param hex_:
@@ -141,17 +140,17 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex={hex_}&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getTransactionReceipt(self, hash: str) -> typing.Dict[str, str]:
+    async def eth_getTransactionReceipt(self, __hash: str) -> typing.Dict[str, typing.Any]:
         """
         Returns the receipt of a transaction by transaction hash
-        @param hash:
+        @param __hash:
         @return:
         """
         async with self.session.get(
-                f"https://api.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash={hash}&apikey={self.api}") as response:
+                f"https://api.etherscan.io/api?module=proxy&action=eth_getTransactionReceipt&txhash={__hash}&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_call(self, to: str, data: str) -> typing.Dict[str, str]:
+    async def eth_call(self, to: str, data: str) -> typing.Dict[str, typing.Any]:
         """
         Executes a new message call immediately without creating a transaction on the block chain
         @param to:
@@ -162,7 +161,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_call&to={to}&data={data}&tag=latest&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getCode(self, address: str) -> typing.Dict[str, str]:
+    async def eth_getCode(self, address: str) -> typing.Dict[str, typing.Any]:
         """
         Returns code at a given address
         @param address:
@@ -172,7 +171,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_getCode&address={address}&tag=latest&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_getStorageAt(self, address: str) -> typing.Dict[str, str]:
+    async def eth_getStorageAt(self, address: str) -> typing.Dict[str, typing.Any]:
         """
         (**experimental)
         Returns the value from a storage position at a given address
@@ -183,7 +182,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_getStorageAt&address={address}&position=0x0&tag=latest&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_gasPrice(self) -> typing.Dict[str, str]:
+    async def eth_gasPrice(self) -> typing.Dict[str, typing.Any]:
         """
         Returns the current price per gas in wei
         @return:
@@ -192,7 +191,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_gasPrice&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_estimateGas(self, to: str, gasprice: str, gas: int, valvue: int = 0xff22) -> typing.Dict[str, str]:
+    async def eth_estimateGas(self, to: str, gasprice: str, gas: int, valvue: int = 0xff22) -> typing.Dict[str, typing.Any]:
         """
         Makes a call or transaction, which won't be added to the blockchain and returns the used gas, which can be used for estimating the used gas
         @param gas:
@@ -205,7 +204,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_estimateGas&to=&value={valvue}&gasPrice={gasprice}&gas={gas}&apikey={self.api}") as response:
             return await response.json()
 
-    async def ether_balance_single_address(self, address: str) -> typing.Dict[str, str]:
+    async def ether_balance_single_address(self, address: str) ->typing.Dict[str, typing.Any]:
         """
         Get Ether Balance for a single Address
         @param address:
@@ -215,8 +214,8 @@ class Etherscan:
                                     f"&tag=latest&&apikey={self.api}") as response:
             return await response.json()
 
-    async def ether_balance_multiple_addresses(self, list_adders: typing.List[typing.Union[str, int]]) -> \
-            typing.Dict[str, str]:
+    async def ether_balance_multiple_addresses(self, list_adders: typing.List[str]) -> \
+            typing.Dict[str, typing.Any]:
         """
         Get Ether Balance for multiple Addresses in a single call
         Separate addresses by comma, up to a maxium of 20 accounts in a single batch
@@ -231,19 +230,72 @@ class Etherscan:
         await self.session.close()
         raise self.BadRequest("max len 20")
 
-    async def list_of_normal_transactions(self, address: str, start_block: int = 0, end_block: int = 99999999) -> \
-            typing.Dict[str, str]:
+    async def list_of_normal_transactions(self, address: str, start_block: int = 0, end_block: int = 99999999,
+                                          offset: typing.Optional[int] = None) -> \
+            typing.Dict[str, typing.Any]:
         """
         Get a list of 'Normal' Transactions By Address [Optional Parameters] startblock: starting blockNo to retrieve
         results, endblock: ending blockNo to retrieve results
+        (Returned 'isError' values: 0=No Error, 1=Got Error)
+        (Returns up to a maximum of the last 10000 transactions only)
+        or
+        (To get paginated results use offset=<max records to return>)
+
+
+        @param offset:
         @param end_block:
         @param start_block:
         @param address:
         @return:
         """
+        if offset is None:
+            async with self.session.get(
+                    f"http://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={start_block}&endblock={end_block}&sort=asc&apikey={self.api}") as response:
+                return await response.json()
         async with self.session.get(
-                f"http://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={start_block}&endblock={end_block}&sort=asc&apikey={self.api}") as response:
+                f"http://api.etherscan.io/api?module=account&action=txlist&address={address}&startblock={start_block}&endblock={end_block}&sort=asc&apikey={self.api}&offset={offset}") as response:
             return await response.json()
+
+    async def list_of_internal_transactions_by_address(self, address: str, start_block: int = 0,
+                                                       end_block: int = 2702578,
+                                                       offset: typing.Optional[int] = None, page: int = 1) -> \
+            typing.Dict[str, typing.Any]:
+        """
+        [Optional Parameters] startblock: starting blockNo to retrieve results, endblock: ending blockNo to retrieve results
+        (Returned 'isError' values: 0=No Error, 1=Got Error)
+        (Returns up to a maximum of the last 10000 transactions only)
+        or
+        (To get paginated results use page=<page number> and offset=<max records to return>)
+
+        @param address:
+        @param start_block:
+        @param end_block:
+        @param offset:
+        @param page:
+        @return:
+        """
+
+        if offset is None:
+            async with self.session.get(
+                    f"http://api.etherscan.io/api?module=account&action=txlistinternal&address={address}3&startblock={start_block}&endblock={end_block}&sort=asc&apikey={self.api}") as response:
+                return await response.json()
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=account&action=txlistinternal&address={address}&startblock={start_block}&endblock={end_block}&page={page}&offset={offset}&sort=asc&apikey={self.api}") as response:
+            return await response.json()
+
+    async def internal_transactions_by_transaction_hash(self, __hash: str) -> typing.Dict[str, typing.Any]:
+        """
+        (Returned 'isError' values: 0=Ok, 1=Rejected/Cancelled)
+        (Returns up to a maximum of the last 10000 transactions only)
+        @param __hash:
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=account&action=txlistinternal&txhash={__hash}&apikey={self.api}") as response:
+            return await response.json()
+
+    async def list_of_ERC20_token_transfer_events__by_address(self)-> typing.Dict[str, typing.Any]:
+        pass
 
 
 import asyncio
@@ -273,6 +325,11 @@ async def main():
     print(await f.ether_balance_multiple_addresses(["0xAEEF46DB4855E25702F8237E8f403FddcaF931C0",
                                                     "0x2a6e46570566659dd87939e20f0857b26c966749"]))
     print(await f.list_of_normal_transactions("0x2A6E45970566659DD87939E20f0857B26c966749"))
+    print(await f.list_of_normal_transactions("0x2A6E45970566659DD87939E20f0857B26c966749"))
+    print(await f.list_of_normal_transactions("0x2A6E45970566659DD87939E20f0857B26c966749", 10))
+    print(await f.list_of_internal_transactions_by_address("0x2A6E45970566659DD87939E20f0857B26c966749"))
+    print(await f.list_of_internal_transactions_by_address("0x2A6E45970566659DD87939E20f0857B26c966749", 10))
+    print(await f.internal_transactions_by_transaction_hash("0x40eb908387324f2b575b4879cd9d7188f69c8fc9d87c901b9e2daaea4b442170"))
 
     await f.close()
 
