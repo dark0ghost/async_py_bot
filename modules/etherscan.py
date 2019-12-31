@@ -29,6 +29,12 @@ class Etherscan:
         self.session = session
         self.api: str = api_key
 
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}({self.api})"
+
+    def __hash__(self) -> int:
+        return hash(self.api + self.__str__())
+
     def is_limit_time(self) -> bool:
         """
 
@@ -191,7 +197,8 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_gasPrice&apikey={self.api}") as response:
             return await response.json()
 
-    async def eth_estimateGas(self, to: str, gasprice: str, gas: int, valvue: int = 0xff22) -> typing.Dict[str, typing.Any]:
+    async def eth_estimateGas(self, to: str, gasprice: str, gas: int, valvue: int = 0xff22) -> typing.Dict[
+        str, typing.Any]:
         """
         Makes a call or transaction, which won't be added to the blockchain and returns the used gas, which can be used for estimating the used gas
         @param gas:
@@ -204,7 +211,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=proxy&action=eth_estimateGas&to=&value={valvue}&gasPrice={gasprice}&gas={gas}&apikey={self.api}") as response:
             return await response.json()
 
-    async def ether_balance_single_address(self, address: str) ->typing.Dict[str, typing.Any]:
+    async def ether_balance_single_address(self, address: str) -> typing.Dict[str, typing.Any]:
         """
         Get Ether Balance for a single Address
         @param address:
@@ -294,7 +301,7 @@ class Etherscan:
                 f"https://api.etherscan.io/api?module=account&action=txlistinternal&txhash={__hash}&apikey={self.api}") as response:
             return await response.json()
 
-    async def list_of_ERC20_token_transfer_events__by_address(self)-> typing.Dict[str, typing.Any]:
+    async def list_of_ERC20_token_transfer_events__by_address(self) -> typing.Dict[str, typing.Any]:
         pass
 
 
@@ -302,7 +309,7 @@ import asyncio
 
 
 async def main():
-    f = Etherscan(api_key="")
+    f = Etherscan(api_key="KK8G6CQ1XG8NT2P5KTVVNUWTB98SCMCZ8Q")
     await f.open_session()
 
     print(await f.eth_blockNumber())
@@ -329,7 +336,10 @@ async def main():
     print(await f.list_of_normal_transactions("0x2A6E45970566659DD87939E20f0857B26c966749", 10))
     print(await f.list_of_internal_transactions_by_address("0x2A6E45970566659DD87939E20f0857B26c966749"))
     print(await f.list_of_internal_transactions_by_address("0x2A6E45970566659DD87939E20f0857B26c966749", 10))
-    print(await f.internal_transactions_by_transaction_hash("0x40eb908387324f2b575b4879cd9d7188f69c8fc9d87c901b9e2daaea4b442170"))
+    print(await f.internal_transactions_by_transaction_hash(
+        "0x40eb908387324f2b575b4879cd9d7188f69c8fc9d87c901b9e2daaea4b442170"))
+    print(hash(f))
+    print(f)
 
     await f.close()
 
