@@ -11,7 +11,6 @@ from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, proxy_cla
 @dp.inline_handler()
 async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     """
-
     :param inline_query:
     :return:
     """
@@ -33,7 +32,6 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name}  {valvue}').format(name=text, valvue=res[text]["valvue"]),
             input_message_content=input_content
         )
-        result_list.append(item)
     elif text in crypto:
         id_coin = crypto[text]["id"]
         price = (await crypto_price.simple_price(ids=id_coin, vs_currestring="rub"))[id_coin]["rub"]
