@@ -4,7 +4,8 @@ aiocontextvars==0.2.2
 aiodns==2.0.0
 aiofiles==0.4.0
 aiogoogle==0.1.16
-aiogram==2.3
+aiogram==2.5.1
+aiograph==0.2
 aiohttp==3.6.1
 aiohttp-jinja2==1.1.2
 aiohttp-session==2.8.0
@@ -28,6 +29,7 @@ cchardet==2.1.4
 certifi==2019.6.16
 cffi==1.12.3
 chardet==3.0.4
+CheckerMailPy==1.0.0
 contextvars==2.4
 cryptography==2.7
 faces==0.1
@@ -47,6 +49,8 @@ Keras-Preprocessing==1.1.0
 Markdown==3.1.1
 MarkupSafe==1.1.1
 multidict==4.5.2
+mypy==0.761
+mypy-extensions==0.4.3
 numpy==1.17.4
 oauthlib==3.1.0
 opt-einsum==3.1.0
@@ -69,7 +73,9 @@ tensorflow-estimator==2.0.1
 termcolor==1.1.0
 tinycss==0.4
 tonyg-rfc3339==0.1
+typed-ast==1.4.0
 typing==3.7.4.1
+typing-extensions==3.7.4.1
 ujson==1.35
 uvloop==0.13.0
 Werkzeug==0.16.0
