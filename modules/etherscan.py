@@ -6,15 +6,6 @@ from aiohttp_socks import SocksConnector
 
 
 class Etherscan:
-    delay: int = 5
-    time_delay: int = 1
-    now: datetime.datetime = datetime.datetime.now()
-    action_balance: str = "balance"
-    action_balancemulti: str = "balancemulti"
-    action_txlist: str = "txlist"
-    action_txlistinternal: str = "txlistinternal"
-    action_tokentx: str = "tokentx"
-    action_getminedblock: str = "getminedblock"
 
     class BadRequest(Exception):
         pass
