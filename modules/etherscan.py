@@ -300,7 +300,7 @@ import asyncio
 
 
 async def main():
-    f = Etherscan(api_key="KK8G6CQ1XG8NT2P5KTVVNUWTB98SCMCZ8Q")
+    f = Etherscan(api_key="")
     await f.open_session()
 
     print(await f.eth_blockNumber())
