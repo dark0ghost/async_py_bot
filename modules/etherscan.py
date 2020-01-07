@@ -5,7 +5,7 @@ import datetime
 from aiohttp_socks import SocksConnector
 
 
-class Etherscan:
+class EtherScan(object):
     """
     @see
     DOC FOR USE :
@@ -437,17 +437,118 @@ class Etherscan:
         if not (page is None):
             link += f"page={page}"
         async with self.session.get(link) as response:
+
+            return await response.json()
+
+    @staticmethod
+    def event_log_doc() -> str:
+        return """
+         The Event Log API was designed to provide an alternative to the native eth_getLogs. Below are the list of supported filter parameters:
+         fromBlock, toBlock, address
+         topic0, topic1, topic2, topic3 (32 Bytes per topic)
+         topic0_1_opr (and|or between topic0 & topic1), topic1_2_opr (and|or between topic1 & topic2), topic2_3_opr (and|or between topic2 & topic3), topic0_2_opr (and|or between topic0 & topic2), topic0_3_opr (and|or between topic0 & topic3), topic1_3_opr (and|or between topic1 & topic3)
+         - FromBlock & ToBlock accepts the blocknumber (integer, NOT hex) or 'latest' (earliest & pending is NOT supported yet)
+         - Topic Operator (opr) choices are either 'and' or 'or' and are restricted to the above choices only
+         - FromBlock & ToBlock parameters are required
+         - An address and/or topic(X) parameters are required, when multiple topic(X) parameters are used the topicX_X_opr (and|or operator) is also required
+         - For performance & security considerations, only the first 1000 results are return. So please narrow down the filter parameters
+        """
+
+    async def event_Logs_from_block_number(self, address: str, from_block: typing.Union[int, str] = 379224,
+                                           to_block: str = "latest",
+                                           topic0: str = "0xf63780e752c6a54a94fc52715dbc5518a3b4c3c2833d301a204226548a2a8545") -> \
+            typing.Dict[str, str]:
+        """
+        Here are some examples of how this filter maybe used: Get Event Logs from block number 379224 to 'latest'
+        Block, where log address = 0x33990122638b9132ca29c723bdf037f1a891a70c and topic[0] =
+        0xf63780e752c6a54a94fc52715dbc5518a3b4c3c2833d301a204226548a2a8545
+        @param address:
+        @param from_block:
+        @param to_block:
+        @param topic0:
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock={from_block}&toBlock={to_block}&address={address}&topic0={topic0}&apikey={self.api}") as response:
+            return await response.json()
+
+    async def event_logs_from_block_number_to_block(self, address: str, from_block: typing.Union[int, str] = 379224,
+                                                    to_block: typing.Union[str, int] = 400000,
+                                                    topic0: str = "0xf63780e752c6a54a94fc52715dbc5518a3b4c3c2833d301a204226548a2a8545",
+                                                    topic0_1_opr: str = "and",
+                                                    topic1: str = "0x72657075746174696f6e00000000000000000000000000000000000000000000"
+                                                    ) -> typing.Dict[str, typing.Any]:
+        """
+        Get Event Logs from block number 379224 to block 400000 , where log address =
+        0x33990122638b9132ca29c723bdf037f1a891a70c, topic[0] =
+        0xf63780e752c6a54a94fc52715dbc5518a3b4c3c2833d301a204226548a2a8545 'AND' topic[1] =
+        0x72657075746174696f6e00000000000000000000000000000000000000000000
+        @param address:
+        @param from_block:
+        @param to_block:
+        @param topic0:
+        @param topic0_1_opr:
+        @param topic1:
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock={from_block}&toBlock={to_block}&address={address}&topic0={topic0}&topic0_1_opr={topic0_1_opr}&topic1={topic1}&apikey={self.api}") as response:
+            return await response.json()
+
+    async def estimation_of_confirmation_time(self, gas_price: typing.Union[str, int] = 2000000000) -> typing.Dict[
+        str, typing.Any]:
+        """
+        (Result returned in seconds, gasprice value in Wei)
+        @param gas_price:
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice={gas_price}&apikey={self.api}") as response:
+            return await response.json()
+
+    async def gas_oracle(self) -> typing.Dict[str, typing.Any]:
+        """
+        Get Gas Oracle
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey={self.api}") as response:
+            return await response.json()
+
+    async def total_supply_of_ether(self) -> typing.Dict[str, typing.Any]:
+        """
+        (Result returned in Wei, to get value in Ether divide resultAbove/1000000000000000000)
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=stats&action=ethsupply&apikey={self.api}") as response:
+            return await response.json()
+
+    async def ether_last_price(self) -> typing.Dict[str, typing.Any]:
+        """
+
+        @return:
+        """
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=stats&action=ethprice&apikey={self.api}") as response:
+            return await response.json()
+
+    async def ethereum_nodes_size(self, start_date: str = "2019-02-01", end_date: str = "2019-02-28", sync_mode: str  = "archive") -> typing.Dict[
+        str, typing.Any]:
+        """
+        [Parameters] startdate and enddate format 'yyyy-MM-dd', clienttype value is 'geth' or 'parity', syncmode value is 'default' or 'archive'
+        (The chainsize return in bytes.)
+        @param sync_mode:
+        @param start_date:
+        @param end_date:
+        @return:
+        """
+
+        async with self.session.get(
+                f"https://api.etherscan.io/api?module=stats&action=chainsize&startdate={start_date}&enddate={end_date}&clienttype=geth&syncmode={sync_mode}&sort=asc&apikey={self.api}") as response:
             return await response.json()
 
 
-import asyncio
 
 
-async def main():
-    f = Etherscan(api_key="")
-    await f.open_session()
-    print(await f.list_of_blocks_mined_by_address("0x9dd134d14d1e65f84b706d6f205cd5b1cd03a46b",page=1,offset=1))
-    await f.close()
 
-
-asyncio.run(main())
