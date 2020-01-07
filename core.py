@@ -125,7 +125,7 @@ async def task():
 
 if proxy_use:
     bot = Bot(token=helps.token, loop=loop,
-              parse_mode=types.ParseMode.MARKDOWN_V2,
+              parse_mode=types.ParseMode.HTML,
               proxy=helps.good_proxy_link, proxy_auth=helps.login)
 else:
     bot = Bot(token=helps.token, loop=loop,
