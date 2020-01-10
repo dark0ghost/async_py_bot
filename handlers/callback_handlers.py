@@ -17,11 +17,11 @@ async def back(query: types.CallbackQuery):
     """
     if len(proxy_list) < 1:
         [proxy_list.append(i) for i in await proxy_class.main()]
-    else:
-        await query.message.edit_text(text=helps.mes["new_proxy"],
+
+    await query.message.edit_text(text=helps.mes["new_proxy"],
                                       reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
                                                                      callback="edit"))
-        proxy_list.pop(0)
+    proxy_list.pop(0)
 
 
 @dp.callback_query_handler(posts_cb.filter(action=["pastebin"]))
