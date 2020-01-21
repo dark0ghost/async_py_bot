@@ -1,9 +1,12 @@
+from abc import ABC
+
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
+import helps
 
 
 class Base_bot_filter(BoundFilter):
-    key = ' '
+    key = 'is_master'
 
     def __init__(self, is_admin=False):
         self.is_admin = is_admin
@@ -12,5 +15,11 @@ class Base_bot_filter(BoundFilter):
         pass
 
 
-def is_master(message: types.Message):
-    return message.chat.id == 387544140
+class MasterFilter(BoundFilter):
+    key = 'is_master'
+
+    def __init__(self, is_admin=False):
+        self.is_admin = is_admin
+
+    def check(self, message: types.Message):
+        return message.chat.id == helps.master

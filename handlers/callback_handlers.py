@@ -1,11 +1,9 @@
 # This Python file uses the following encoding: utf-8
-from typing import Dict
 
-import helps
-
-from core import posts_cb, proxy_list, Button, dp, session, pastebin, io_json_box, postgres, proxy_class
 from aiogram import types
 
+import helps
+from core import posts_cb, proxy_list, Button, dp, pastebin, io_json_box, postgres, proxy_class
 from modules.db_pg import PastebinTable
 
 

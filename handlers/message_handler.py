@@ -1,12 +1,9 @@
 # This Python file uses the following encoding: utf-8
-import io
 import os
-from pprint import pformat
 from typing import List
 
 import aiofiles
 from aiogram import types
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import FSMContext
 from aiogram.types import User
 from aiogram.types.message import ContentTypes
@@ -14,9 +11,8 @@ from aiogram.types.message import ContentTypes
 import filter
 import helps
 import price
-
-from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, session, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, qr, ton, virustotal, proxy_class
+from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, lang, checker_mail, catApi, io_json_box, \
+    pastebin, postgres, qr, ton, virustotal, proxy_class, ether_api
 from modules.db_pg import PastebinTable
 
 
@@ -42,7 +38,7 @@ async def cmd_language(message: types.Message, state: FSMContext) -> None:
 async def wait_language(message: types.Message, state: FSMContext, user: User) -> None:
     # track('command', message.from_user, command='done_language')
     if message.text in lang:
-        #await user.set_language(message.text)
+        # await user.set_language(message.text)
         lazy_get_text.ctx_locale.set(message.text)
         await message.reply(lazy_get_text('New language is: <b>English</b>'), reply_markup=types.ReplyKeyboardRemove())
         await state.finish()
@@ -167,13 +163,8 @@ async def save_json(message: types.Message, state: FSMContext) -> None:
 @dp.message_handler(commands=["search_json"])
 async def search_json(message: types.Message) -> None:
     try:
-        await message.reply(
-            (pformat(await io_json_box.get_data_link(url=message.reply_to_message.text))).replace(",", ",\n").replace(
-                "'", "").replace(
-                "{",
-                "{\n").replace(
-                "}", "\n}").replace("[\n", "").replace("]", "\n]"),
-            parse_mode=types.ParseMode.MARKDOWN)
+        await message.reply(helps.format_dict(await io_json_box.get_data_link(url=message.reply_to_message.text)),
+                            parse_mode=types.ParseMode.MARKDOWN)
 
     except Exception:
         await State.search_json.set()
@@ -185,10 +176,7 @@ async def search_json(message: types.Message) -> None:
 async def save_json(message: types.Message, state: FSMContext) -> None:
     if message.text != "no search":
         await message.reply(
-            (pformat(await io_json_box.get_data_link(url=message.text))).replace(",", ",\n").replace("'", "").replace(
-                "{",
-                "{\n").replace(
-                "}", "\n}").replace("[\n", "").replace("]", "\n]"),
+            helps.format_dict(await io_json_box.get_data_link(url=message.text)),
             parse_mode=types.ParseMode.MARKDOWN, reply_markup=keyboard.remove_keyboard())
     else:
         await message.reply(lazy_get_text("ok"), reply_markup=keyboard.remove_keyboard())
@@ -273,8 +261,16 @@ async def test_speed(message: types.Message):
             await file.write(file_b.read())
             response = await virustotal.file_scan(file=file, name_file=message.reply_to_message.document.file_name)
             await message.answer(f"scan ` id{response['scan_id']}`", parse_mode=types.ParseMode.MARKDOWN,
-                                 reply_markup=Button.link_buttons(link=[response["permalink"]], text=[message.reply_to_message.document.file_name]))
+                                 reply_markup=Button.link_buttons(link=[response["permalink"]],
+                                                                  text=[message.reply_to_message.document.file_name]))
             os.remove(f"staticfile/{message.reply_to_message.document.file_name}")
     except Exception as e:
-        await bot.send_message(chat_id=387544140, text=e)
+        await bot.send_message(chat_id=helps.master, text=e)
         await message.answer("file not found")
+
+
+@dp.message_handler(commands=["price"], commands_prefix=["!"])
+async def eth_price(message: types.Message):
+    await message.reply(
+        helps.format_dict(await ether_api.ether_last_price())
+    )

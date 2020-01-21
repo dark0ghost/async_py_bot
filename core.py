@@ -4,6 +4,7 @@ import os
 
 from typing import List
 
+import typing
 
 import helps
 import aiohttp
@@ -11,7 +12,7 @@ import logging
 import filter
 
 from modules.com.pastebin import Pastebin
-from modules import async_proxy, button, keyboard, i18n, CbApi, CryptoPrice, CheckerEmail, CatApi, IoJsonBox, db_pg
+from modules import async_proxy, button, keyboard, i18n, CbApi, CryptoPrice, CheckerEmail, CatApi, IoJsonBox, db_pg, etherscan
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from aiogram import Bot, Dispatcher, types
@@ -48,6 +49,9 @@ crypto_price: CryptoPrice.CryptoPrice = CryptoPrice.CryptoPrice(session)
 
 catApi = CatApi.CatApi(session=session)
 
+ether_api: etherscan.EtherScan = etherscan.EtherScan(api_key=helps.ether_api, session=session)
+
+
 debug = True
 
 proxy_use: str = helps.proxy_use
@@ -68,17 +72,18 @@ Button: button.Button = button.Button()
 
 keyboard = keyboard.Keyboard
 
-qr = QrTag(session)
+qr: QrTag = QrTag(session)
 
-virustotal = Virustotal(session=session, api_key=helps.virustotal)
+virustotal: Virustotal = Virustotal(session=session, api_key=helps.virustotal)
 
 proxy_list: List[str] = []
 
 posts_cb: CallbackData = CallbackData('post', 'id', 'action')
 
-Button.posts_cb = posts_cb
+Button.posts_cb= posts_cb
 
 Base_filter: filter.Base_bot_filter = filter.Base_bot_filter()
+Master_filter: filter.MasterFilter = filter.MasterFilter()
 
 lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext
 
@@ -86,6 +91,9 @@ lang: List[str] = []
 
 proxy_class = async_proxy.Proxy(session=session)
 
+"""
+check debug on debug mode
+"""
 if debug:
     storage = MemoryStorage()
 else:
@@ -95,6 +103,10 @@ else:
 # start def
 
 async def setproxy() -> None:
+    """
+    check  proxy and add to list
+    @return:
+    """
     proxy_list = []
     connector = ProxyConnector()
     li = await proxy_class.main()
@@ -115,6 +127,11 @@ async def setproxy() -> None:
 
 
 async def task():
+    """
+    connect to postgresql
+    and telegraph
+    @return:
+    """
     bind = await postgres.connect(url=helps.POSTGRES)
     await telegraph.create_account((await bot.get_me())["first_name"])
     # await postgres.make_migrate()

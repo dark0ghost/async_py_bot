@@ -1,10 +1,12 @@
 # This Python file uses the following encoding: utf-8
+from pprint import pformat
+
 import aiohttp
 import ujson as json
 
 from aiogram import Bot, types
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from typing import Tuple, Dict, Union
+from typing import Tuple, Dict, Union, Any
 
 # or config.json
 with open("config_pro.json", "r") as file:
@@ -28,7 +30,7 @@ login: aiohttp.BasicAuth = aiohttp.BasicAuth(login=file_dict["login"]["login"], 
 smtp_login: str = file_dict["smtp"]["login"]
 smtp_password: str = file_dict["smtp"]["password"]
 smtp_host: str = file_dict["smtp"]["host"]
-smtp_port: str = file_dict["smtp"]["port"]
+smtp_port: int = int(file_dict["smtp"]["port"])
 
 key: str = file_dict["key_accept"]
 
@@ -43,6 +45,10 @@ proxy_use = file_dict["proxy_use"]
 
 virustotal = file_dict["virustotal"]
 
+master = file_dict["master"]
+ether_api: Union[str, slice] = file_dict["etcherscan"]["token"]
+
+
 async def get_link(bot: Bot, message: types.Message) -> str:
     """
      return ref link
@@ -56,3 +62,21 @@ async def get_link(bot: Bot, message: types.Message) -> str:
     return link
 
 
+def format_dict(object: Dict[Any, Any]):
+    """
+    format json for more reding
+    @param object:
+    @return:
+    """
+    return pformat(
+        object
+    ) \
+        .replace(",", ",\n") \
+        .replace("'", "") \
+        .replace(
+        "{",
+        "{\n") \
+        .replace(
+        "}", "\n}") \
+        .replace("[\n", "") \
+        .replace("]", "\n]")
