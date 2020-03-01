@@ -1,4 +1,4 @@
-FROM Debian:10
+FROM Debian:lastets
 FROM python:3.7.4
 
 RUN mkdir /usr/src/app
