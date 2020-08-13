@@ -47,6 +47,8 @@ deleted keyboard
 |name|version |
 | ------------- | ------------- |
 |Python |3.7|
+|docker| 19.03.12|
+|docker-compose| 1.21.0|
 |GCC|9|
 |aiogram| 2.5|
 |uvloop|0.13.0|
