@@ -57,7 +57,7 @@ deleted keyboard
 |aiosmtplib|1.1.0|
 |faces|0.1|
 
-#about
+# about
 ```
 this repository shows how you can work with aviogram v2, but remember using global variables will lead to UB
 project frozen
