@@ -60,6 +60,6 @@ deleted keyboard
 # about
 ```
 this repository shows how you can work with aviogram v2, but remember using global variables will lead to UB
-project frozen
+*project frozen*
 ```
 
