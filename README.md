@@ -42,3 +42,16 @@ deleted keyboard
 ```text
 /json -> send link on cloud json or sate state and wait u json
 ```
+
+# dependencies
+|name|version |
+| ------------- | ------------- |
+|Python |3.7|
+|GCC|9|
+|aiogram| 2.5|
+|uvloop|0.13.0|
+|beautifulsoup4|4.8.0|
+|aiofiles|0.4.0|
+|aiosmtplib|1.1.0|
+|faces|0.1|
+
