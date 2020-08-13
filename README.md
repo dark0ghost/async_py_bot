@@ -1,17 +1,18 @@
 # async_py_bot
 
-# start docker-compose:
+# start with docker-compose:
 ```bash
+cd async_py_bot
 docker-compose up
 ```
 # bash up: 
 linux:
 ```bash 
-python3 start_poling.py
+python3 async_py_bot/start_poling.py
 ```
 windows:
 ```bash
-python start_poling.py
+python async_py_bot/start_poling.py
 ```
 # funtions bot:
 
