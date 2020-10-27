@@ -31,7 +31,7 @@ cffi==1.12.3
 chardet==3.0.4
 CheckerMailPy==1.0.0
 contextvars==2.4
-cryptography==2.7
+cryptography==3.2
 faces==0.1
 gast==0.2.2
 gino==0.8.3
