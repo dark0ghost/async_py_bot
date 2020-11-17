@@ -1,5 +1,5 @@
 # async_py_bot
-
+[![GitHub watchers](https://img.shields.io/github/watchers/dark0ghost/async_py_bot?style=social&label=Watch&maxAge=2592000)](https://github.com/dark0ghost/async_py_bot/watchers/)
 # start with docker-compose:
 ```bash
 cd async_py_bot
