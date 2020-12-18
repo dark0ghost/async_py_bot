@@ -69,5 +69,9 @@
   "proxy_use": false,
   "wallet": {
     "ton": ""
+  },
+  "master": "",
+  "etcherscan":{
+    "token": ""
   }
 }

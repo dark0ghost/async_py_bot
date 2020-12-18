@@ -9,7 +9,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from typing import Tuple, Dict, Union, Any
 
 # or config.json
-with open("config_pro.json", "r") as file:
+with open("config.json", "r") as file:
     file_dict: Dict[str, str] = json.loads(file.read())
 
 token: str = file_dict["token"]

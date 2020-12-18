@@ -2,12 +2,9 @@ import contextvars
 import functools
 from asyncio import AbstractEventLoop
 from concurrent.futures.thread import ThreadPoolExecutor
-
-import asyncio
-from aiogram.utils.callback_data import CallbackData
-
-import uvloop
 from typing import Callable
+
+from aiogram.utils.callback_data import CallbackData
 
 from set_loop import loop
 
@@ -40,7 +37,7 @@ class Aiowrap:
     def __init__(self, loop: AbstractEventLoop) -> None:
         self.loop = loop
 
-    def __call__(self, func: Callable, *args, **kwargs) -> AbstractEventLoop:
+    def __call__(self, func: Callable, *args, **kwargs) -> _executor:
         @functools.wraps(func)
         def wrapping(_executor=None, *args, **kwargs):
             new_func = functools.partial(func, *args, **kwargs)

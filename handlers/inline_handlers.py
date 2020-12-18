@@ -5,7 +5,7 @@ from typing import List
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
-from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, proxy_class, session, Button
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, proxy_class, Button
 
 
 @dp.inline_handler()

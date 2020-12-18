@@ -1,31 +1,27 @@
 # This Python file uses the following encoding: utf-8
-import contextlib
+import logging
 import os
-
 from typing import List
 
-import typing
-
-import helps
 import aiohttp
-import logging
-import filter
-
-from modules.com.pastebin import Pastebin
-from modules import async_proxy, button, keyboard, i18n, CbApi, CryptoPrice, CheckerEmail, CatApi, IoJsonBox, db_pg, etherscan
+from aiogram import Bot, Dispatcher, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
-from aiogram import Bot, Dispatcher, types
-from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils.callback_data import CallbackData
+from aiograph import Telegraph
+from aiosocksy.connector import ProxyConnector, ProxyClientRequest
 
-from State import States
-from modules.com.virustotal.Virustotal import Virustotal
-from modules.org.ton.TON import TON
+import filter
+import helps
+from modules import async_proxy, button, keyboard, i18n, ab_api, crypto_price, checker_email, cat_api, io_json_box, \
+    db_pg, etherscan
+from modules.com.pastebin import pastebin
+from modules.com.virustotal.virustotal import Virustotal
+from modules.org.ton.ton import TON
 from modules.qrtag import QrTag
 from set_loop import loop
-from aiograph import Telegraph
+from state import States
 
 print("build")
 # start set
@@ -33,21 +29,20 @@ postgres = db_pg.Postgres()
 
 BASE_DIR: str = (os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/bot"
 
-checker_mail: CheckerEmail.CheckerEmail = CheckerEmail.CheckerEmail(hostname_mail=helps.smtp_host,
-                                                                    port=helps.smtp_port, password=helps.smtp_password,
-                                                                    login=helps.smtp_login)
-
+checker_mail: checker_email.CheckerEmail = checker_email.CheckerEmail(hostname_mail=helps.smtp_host,
+                                                                      port=helps.smtp_port, password=helps.smtp_password,
+                                                                      login=helps.smtp_login)
 checker_mail.change_len_code(new_len_code=5)
 
 telegraph = Telegraph()
 
 session: aiohttp.ClientSession = aiohttp.ClientSession()
 
-io_json_box: IoJsonBox = IoJsonBox.IOJsonBox(session)
+io_json_box: io_json_box = io_json_box.IOJsonBox(session)
 
-crypto_price: CryptoPrice.CryptoPrice = CryptoPrice.CryptoPrice(session)
+crypto_price = crypto_price.CryptoPrice(session)
 
-catApi = CatApi.CatApi(session=session)
+catApi = cat_api.CatApi(session=session)
 
 ether_api: etherscan.EtherScan = etherscan.EtherScan(api_key=helps.ether_api, session=session)
 
@@ -56,11 +51,11 @@ debug = True
 
 proxy_use: str = helps.proxy_use
 
-pastebin: Pastebin = Pastebin.Pastebin(token=helps.pastebian, session=session)
+pastebin: pastebin = pastebin.Pastebin(token=helps.pastebian, session=session)
 
 ton = TON(session=session)
 
-cb = CbApi.CenterBankApi(session)
+cb = ab_api.CenterBankApi(session)
 
 logging.basicConfig(filename="log_base.log", level=logging.INFO)
 
@@ -101,13 +96,12 @@ else:
 
 
 # start def
-
 async def setproxy() -> None:
     """
     check  proxy and add to list
     @return:
     """
-    proxy_list = []
+    proxy_box = []
     connector = ProxyConnector()
     li = await proxy_class.main()
     for proxy in li:
@@ -115,13 +109,13 @@ async def setproxy() -> None:
             async with aiohttp.ClientSession(connector=connector, request_class=ProxyClientRequest) as session:
                 async with session.get("https://www.telegram.org", proxy=proxy) as response:
                     log.debug(f"{proxy} valid")
-                    proxy_list.append(proxy)
+                    proxy_box.append(proxy)
 
         except Exception as e:
             logging.exception(e)
             log.info(f"warning {proxy} not valid")
 
-    if len(proxy_list) < 2:
+    if len(proxy_box) < 2:
         log.info(f"log new rec")
         await setproxy()
 
@@ -134,12 +128,9 @@ async def task():
     """
     bind = await postgres.connect(url=helps.POSTGRES)
     await telegraph.create_account((await bot.get_me())["first_name"])
-    # await postgres.make_migrate()
 
 
 # end def
-
-
 if proxy_use:
     bot = Bot(token=helps.token, loop=loop,
               parse_mode=types.ParseMode.HTML,
@@ -156,11 +147,8 @@ loop.run_until_complete(task())
 
 
 # end set
-
-
 async def shutdown(dispatcher: Dispatcher):
     """
-
     :param dispatcher:
     :return:
     """

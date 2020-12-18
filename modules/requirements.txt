@@ -1,12 +1,11 @@
 aiocontextvars==0.2.2
 aiodns==2.0.0
-aiogram==2.3
-aiohttp==3.5.4
+aiogram==2.11.2
+aiohttp==3.6.1
 aiohttp-socks==0.2.2
 aioredis==1.2.0
 aiosocks==0.2.6
 aiosocksy==0.1.2
-aiosqlite==0.10.0
 async-timeout==3.0.1
 asyncio==3.4.3
 asyncpg==0.18.3

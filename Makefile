@@ -1,4 +1,3 @@
 
-
 start :
-	docker run  postgres redis bot
+	docker-compose run -d postgres redis bot

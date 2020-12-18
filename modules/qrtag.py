@@ -1,9 +1,8 @@
+import asyncio
 from asyncio import AbstractEventLoop
-from typing import Any, Dict
+from typing import Any, Optional
 
 import aiohttp
-import asyncio
-
 
 
 class QrTag:
@@ -14,7 +13,7 @@ class QrTag:
         """
         self.api_link: str = "https://qrtag.net/api/"
         self.session: aiohttp.ClientSession = session
-        self.sync_data: bytes = None
+        self.sync_data: Optional[bytes] = None
 
     async def create(self, data: Any, size: int = 12, form: str = "png", is_sync: bool = False) -> bytes:
         """

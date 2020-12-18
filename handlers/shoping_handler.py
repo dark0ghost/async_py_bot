@@ -1,10 +1,8 @@
 # This Python file uses the following encoding: utf-8
-from core import dp,bot
+from core import dp, bot
 from aiogram import types
 
-
 import price
-
 
 
 @dp.shipping_query_handler()

@@ -7,10 +7,11 @@ from modules.db_pg import UserLang, Postgres
 
 postgres = Postgres
 
+
 class Users:
     @staticmethod
     async def get_user(tg_user: types.User) -> typing.Tuple[bool, typing.Union[User, typing.Any]]:
-        await postgres.connect(postgres,url=helps.POSTGRES)
+        await postgres.connect(postgres, url=helps.POSTGRES)
         user = await UserLang.query.where(UserLang.id == tg_user["id"]).gino.first()
         is_new = False
         if user is None:
