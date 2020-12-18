@@ -18,7 +18,6 @@ from modules.db_pg import PastebinTable
 
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: types.Message) -> None:
-    m = message.get_args()
     await State.get_mail.set()
     await bot.send_message(message.chat.id, text=helps.mes['start'],
                            reply_markup=keyboard.keyboard_all(lazy_get_text("отмена")))
@@ -26,7 +25,6 @@ async def process_start_command(message: types.Message) -> None:
 
 @dp.message_handler(commands=['language'])
 async def cmd_language(message: types.Message, state: FSMContext) -> None:
-    # track('command', message.from_user, command='language')
     await state.set_state('wait_language')
     await message.reply(
         lazy_get_text('Choose the language in which you are more comfortable to communicate'),
@@ -38,7 +36,6 @@ async def cmd_language(message: types.Message, state: FSMContext) -> None:
 async def wait_language(message: types.Message, state: FSMContext, user: User) -> None:
     # track('command', message.from_user, command='done_language')
     if message.text in lang:
-        # await user.set_language(message.text)
         lazy_get_text.ctx_locale.set(message.text)
         await message.reply(lazy_get_text('New language is: <b>English</b>'), reply_markup=types.ReplyKeyboardRemove())
         await state.finish()
@@ -95,7 +92,6 @@ async def buy(message: types.Message) -> None:
                            photo_height=512,  # !=0/None or picture won't be shown
                            photo_width=512,
                            photo_size=512,
-                           # is_flexible=1,  # True If you need to set up Shipping Fee
                            prices=price.price,
                            start_parameter='time-machine-example',
                            payload='HAPPY FRIDAYS COUPON')

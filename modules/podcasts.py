@@ -1,9 +1,6 @@
-import aiohttp
 import typing
-from bs4 import BeautifulSoup
 
-import asyncio
-
+import aiohttp
 from aiohttp_socks import SocksConnector
 
 

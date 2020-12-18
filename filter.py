@@ -1,5 +1,3 @@
-from abc import ABC
-
 from aiogram import types
 from aiogram.dispatcher.filters import BoundFilter
 import helps

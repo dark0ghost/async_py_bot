@@ -5,7 +5,7 @@ from aiogram import types
 from aiogram.contrib.middlewares.i18n import I18nMiddleware
 from typing import Tuple, Any, Callable
 
-from modules.Users import Users
+from modules.users import Users
 
 
 I18N_DOMAIN = 'mybot'
