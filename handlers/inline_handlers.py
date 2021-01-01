@@ -17,7 +17,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
     text = inline_query.query
     res = await bank_api.build_list_coin()
     crypto = await crypto_price.coin_list()
-    result_id: str = hashlib.md5(text.encode()).hexdigest()
+    result_id: str = hashlib.sha256(text.encode()).hexdigest()
     result_list: List[InlineQueryResultArticle] = []
     if text in res.keys():
         input_content = InputTextMessageContent(lazy_get_text(
