@@ -1,5 +1,9 @@
 # async_py_bot
 [![GitHub watchers](https://img.shields.io/github/watchers/dark0ghost/async_py_bot?style=social&label=Watch&maxAge=2592000)](https://github.com/dark0ghost/async_py_bot/watchers/)
+[![GitHub issues](https://img.shields.io/github/issues/dark0ghost/async_py_bot)](https://github.com/dark0ghost/async_py_bot/issues)
+[![GitHub release](https://img.shields.io/github/release/dark0ghost/async_py_bot)](https://github.com/dark0ghost/async_py_bot/releases/)
+[![Github all releases](https://img.shields.io/github/downloads/dark0ghost/async_py_bot/total.svg)](https://github.com/dark0ghost/async_py_bot/releases/)
+
 # start with docker-compose:
 ```bash
 cd async_py_bot
