@@ -40,7 +40,6 @@ pastebian = os.environ.get("pastebin")
 
 virustotal = os.environ.get("virustotal")
 
-#master = file_dict["master"]
 ether_api: Union[str, slice] = os.environ.get("etcherscan")
 
 

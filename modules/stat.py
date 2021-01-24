@@ -1,16 +1,16 @@
 import logging
-from dataclasses import dataclass
+import os
 from datetime import datetime
 from enum import Enum
+
 from aioinflux import InfluxDBClient, InfluxDBWriteError
 
 
-@dataclass
 class EvnDB:
-    STATS_DB: str
-    STATS_HOST: str
-    STATS_USER: str
-    STATS_PASS: str
+    STATS_DB: str = os.environ.get("STATS_DB")
+    STATS_HOST: str = os.environ.get("STATS_HOST")
+    STATS_USER: str = os.environ.get("STATS_USER")
+    STATS_PASS: str = os.environ.get("STATS_PASS")
 
 
 class Command(Enum):
@@ -19,6 +19,9 @@ class Command(Enum):
     STOP = "/stop"
     PING = "/ping"
     HELP = "/help"
+    JSONBOX = "jsonbox"
+    PASTEBIN = "pastebin"
+    LANGUAGE='language'
 
 
 async def detect(id_user: int, command: Command):
@@ -32,9 +35,8 @@ async def detect(id_user: int, command: Command):
         }
     }
     try:
-        async with InfluxDBClient(host=DBParams.STATS_HOST, db=DBParams.STATS_DB,
-                                  username=DBParams.STATS_USER, password=DBParams.STATS_PASS) as client:
+        async with InfluxDBClient(host=EvnDB.STATS_HOST, db=EvnDB.STATS_DB,
+                                  username=EvnDB.STATS_USER, password=EvnDB.STATS_PASS) as client:
             await client.write(data)
-    except InfluxDBWriteError as ex:
-        logging.error(f"InfluxDB write error: {str(ex)}")
-
+    except InfluxDBWriteError as e:
+        logging.error(f"InfluxDB write error: {e}")

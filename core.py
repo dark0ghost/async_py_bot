@@ -72,7 +72,6 @@ posts_cb: CallbackData = CallbackData('post', 'id', 'action')
 
 Button.posts_cb = posts_cb
 
-Base_filter: filter.Base_bot_filter = filter.Base_bot_filter()
 Master_filter: filter.MasterFilter = filter.MasterFilter()
 
 lazy_get_text: i18n.lazy_gettext = i18n.lazy_gettext

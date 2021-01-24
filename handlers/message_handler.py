@@ -14,6 +14,7 @@ import price
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, lang, checker_mail, catApi, io_json_box, \
     pastebin, postgres, qr, ton, virustotal, ether_api
 from modules.db_pg import PastebinTable
+from modules.stat import detect, Command
 
 
 @dp.message_handler(commands=['start'])
@@ -21,6 +22,7 @@ async def process_start_command(message: types.Message) -> None:
     await State.get_mail.set()
     await bot.send_message(message.chat.id, text=helps.mes['start'],
                            reply_markup=keyboard.keyboard_all(lazy_get_text("отмена")))
+    await detect(message.from_user.id, Command.START)
 
 
 @dp.message_handler(commands=['language'])
@@ -30,6 +32,7 @@ async def cmd_language(message: types.Message, state: FSMContext) -> None:
         lazy_get_text('Choose the language in which you are more comfortable to communicate'),
         reply_markup=keyboard.get_lang(lang)
     )
+    await detect(message.from_user.id, Command.LANGUAGE)
 
 
 @dp.message_handler(state='wait_language')
@@ -46,27 +49,12 @@ async def wait_language(message: types.Message, state: FSMContext, user: User) -
 @dp.message_handler(commands=['help'])
 async def process_start_command(message: types.Message) -> None:
     await bot.send_message(message.chat.id, text=helps.mes["help"], )
-
-
-@dp.message_handler(commands=['proxy'])
-async def check_language(message: types.Message) -> None:
-    proxy_list = await proxy_class.main()
-    await bot.send_message(message.chat.id, text=proxy_list[0],
-                           reply_markup=Button.edit_proxy(proxy=proxy_list[0], text_button="not valid?",
-                                                          callback="edit"))
-    proxy_list.pop(0)
-
-
-@dp.message_handler(commands=['proxy_all'])
-async def check_language(message: types.Message) -> None:
-    proxy_list: List[str] = await proxy_class.main()
-    await bot.send_message(message.chat.id, text=lazy_get_text("text"),
-                           reply_markup=Button.proxy(proxy_list))
+    await detect(message.from_user.id, Command.HELP)
 
 
 @dp.message_handler(text=lazy_get_text(singular="курсы валют", enable_cache=False))
 async def get_val(message: types.Message) -> None:
-    date = list((await cb.build_list_coin()).keys())
+    date:  list[str] = list((await cb.build_list_coin()).keys())
     await message.reply(text=lazy_get_text(singular=lazy_get_text("доступные валюты"), enable_cache=False),
                         reply_markup=Button.buttons(Button, text=date, call_back=date))
 
@@ -78,7 +66,7 @@ async def remove_board(message: types.Message) -> None:
 
 @dp.message_handler(commands=["log"])
 async def log(message: types.Message) -> None:
-    if filter.is_master(message):
+    if message.from_user.id == os.environ.get("MASTER"):
         await bot.send_document(message.chat.id, document=await aiofiles.open("./log_base.log", "rb"))
 
 
