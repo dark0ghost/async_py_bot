@@ -1,31 +1,27 @@
 # This Python file uses the following encoding: utf-8
 from pprint import pformat
+from typing import Tuple, Dict, Union, Any
+import os
 
 import aiohttp
 import ujson as json
-
 from aiogram import Bot, types
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from typing import Tuple, Dict, Union, Any
 
 # or config.json
 with open("config.json", "r") as file:
-    file_dict: Dict[str, str] = json.loads(file.read())
+    file_dict = json.loads(file.read())
 
-token: str = file_dict["token"]
+token: str = os.environ.get("TOKEN")
 
-PAYMENTS_PROVIDER_TOKEN: str = file_dict["PAYMENTS_PROVIDER_TOKEN"]
+PAYMENTS_PROVIDER_TOKEN: str = os.environ.get("PAYMENTS_PROVIDER_TOKEN")
 
-TOKEN_QIWI: str = file_dict["TOKEN_QIWI"]
+TOKEN_QIWI: str = os.environ.get("TOKEN_QIWI")
 
-POSTGRES: str = file_dict["POSTGRES"]
+POSTGRES: str = os.environ.get("POSTGRES")
 
 lang: Tuple[str, str, str] = tuple(file_dict['lang'])
 
 mes: Dict[str, str] = file_dict["mes"]
-
-good_proxy_link: str = file_dict["good_proxy_link"]
-login: aiohttp.BasicAuth = aiohttp.BasicAuth(login=file_dict["login"]["login"], password=file_dict["login"]["password"])
 
 smtp_login: str = file_dict["smtp"]["login"]
 smtp_password: str = file_dict["smtp"]["password"]
@@ -37,16 +33,14 @@ key: str = file_dict["key_accept"]
 google_token: str = file_dict["google"]["key"]
 domain = file_dict["web"]["domain"]
 
-cat_api = file_dict["cat_api"]["token"]
+cat_api = os.environ.get("cat_api")
 
-pastebian = file_dict["pastebin"]
+pastebian = os.environ.get("pastebin")
 
-proxy_use = file_dict["proxy_use"]
 
-virustotal = file_dict["virustotal"]
+virustotal = os.environ.get("virustotal")
 
-master = file_dict["master"]
-ether_api: Union[str, slice] = file_dict["etcherscan"]["token"]
+ether_api: Union[str, slice] = os.environ.get("etcherscan")
 
 
 async def get_link(bot: Bot, message: types.Message) -> str:
