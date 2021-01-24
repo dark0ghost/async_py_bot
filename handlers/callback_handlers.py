@@ -3,23 +3,8 @@
 from aiogram import types
 
 import helps
-from core import posts_cb, proxy_list, Button, dp, pastebin, io_json_box, postgres, proxy_class
+from core import posts_cb, dp, pastebin, io_json_box, postgres
 from modules.db_pg import PastebinTable
-
-
-@dp.callback_query_handler(posts_cb.filter(action=['edit']))
-async def back(query: types.CallbackQuery):
-    """
-    :param query:
-    :return:
-    """
-    if len(proxy_list) < 1:
-        [proxy_list.append(i) for i in await proxy_class.main()]
-
-    await query.message.edit_text(text=helps.mes["new_proxy"],
-                                      reply_markup=Button.edit_proxy(text_button="не работает?", proxy=proxy_list[0],
-                                                                     callback="edit"))
-    proxy_list.pop(0)
 
 
 @dp.callback_query_handler(posts_cb.filter(action=["pastebin"]))

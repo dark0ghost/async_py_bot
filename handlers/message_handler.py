@@ -12,7 +12,7 @@ import filter
 import helps
 import price
 from core import dp, bot, State, Button, keyboard, lazy_get_text, cb, lang, checker_mail, catApi, io_json_box, \
-    pastebin, postgres, qr, ton, virustotal, proxy_class, ether_api
+    pastebin, postgres, qr, ton, virustotal, ether_api
 from modules.db_pg import PastebinTable
 
 

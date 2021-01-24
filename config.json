@@ -1,8 +1,4 @@
 {
-  "token": "",
-  "PAYMENTS_PROVIDER_TOKEN":"",
-  "TOKEN_QIWI": "",
-  "POSTGRES": "",
   "lang":["ru","en"],
   "mes": {
     "start": "message start",
@@ -12,7 +8,6 @@
     "buy": "покупка произведена успешно",
     "error_pay": "покупка не произошла"
   },
-  "good_proxy_link": "",
   "login": {
     "login": "",
     "password": ""
@@ -61,17 +56,5 @@
     "host": "",
     "port": 6379
   },
-  "cat_api": {
-    "token": ""
-  },
-  "pastebin": "",
-  "virustotal": "",
-  "proxy_use": false,
-  "wallet": {
-    "ton": ""
-  },
-  "master": "",
-  "etcherscan":{
-    "token": ""
-  }
+  "master": ""
 }

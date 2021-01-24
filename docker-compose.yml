@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile:
         Dockerfile
+    env_file:
+       bot.evn
     restart:
        on-failure
     volumes:
@@ -23,7 +25,6 @@ services:
     ports:
         - 5432:5432
 
-
   redis:
     container_name: redis
     image:
@@ -39,6 +40,30 @@ services:
     volumes:
       - ../data/redis:/data
     restart: always
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: "influxdb"
+    restart: always
+    volumes:
+      - "influxdb:/var/lib/influxdb"
+    environment: # см. файл .env (в репозитории - .env_dist)
+      - INFLUXDB_DB=${DB}
+      - INFLUXDB_ADMIN_USER=${DB_ADMIN_USER}  # Этот юзер нужен для создания базы
+      - INFLUXDB_ADMIN_USER_PASSWORD=${DB_ADMIN_PASS}
+      - INFLUXDB_USER=${DB_USER}  # Этот юзер для записи в БД и чтения со стороны Grafana
+      - INFLUXDB_USER_PASSWORD=${DB_PASS}
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+
+  grafana:
+      image: grafana/grafana:7.3.4
+      container_name: "grafana"
+      volumes:
+        - "grafana-data:/var/lib/grafana"
+      environment:
+        - GF_DATE_FORMATS_DEFAULT_TIMEZONE=browser
+      ports:
+        - "3000:3000"
 
   adminer:
     image:

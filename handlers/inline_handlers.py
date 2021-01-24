@@ -5,7 +5,7 @@ from typing import List
 from aiogram.types import InlineQuery, \
     InputTextMessageContent, InlineQueryResultArticle
 
-from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, proxy_class, Button
+from core import dp, bot, lazy_get_text, cb as bank_api, crypto_price, Button
 
 
 @dp.inline_handler()
@@ -56,19 +56,7 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text('{name} {price} btc ').format(name=text, price=(1 / price)),
             input_message_content=input_content
         )
-    elif text == "proxy":
-        proxy_url = await proxy_class.main()
-
-        input_content = InputTextMessageContent(f"proxy for you {proxy_url[0]}")
-
-        item = InlineQueryResultArticle(
-            id=result_id,
-            title=f"{proxy_url[0]}",
-            input_message_content=input_content,
-            reply_markup=Button.proxy(proxy_url)
-        )
     else:
-
         input_content = InputTextMessageContent(
             lazy_get_text("нет такой валюты\nдоступные {name}").format(name=list(res.keys())))
         result_id: str = hashlib.md5(text.encode()).hexdigest()
@@ -77,7 +65,5 @@ async def inline_echo(inline_query: InlineQuery) -> InlineQueryResultArticle:
             title=lazy_get_text("нет такой валюты"),
             input_message_content=input_content
         )
-
     result_list.append(item)
-
     return await bot.answer_inline_query(inline_query.id, results=result_list, cache_time=1)
