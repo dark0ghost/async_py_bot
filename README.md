@@ -3,6 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/dark0ghost/async_py_bot)](https://github.com/dark0ghost/async_py_bot/issues)
 [![GitHub release](https://img.shields.io/github/release/dark0ghost/async_py_bot)](https://github.com/dark0ghost/async_py_bot/releases/)
 [![Github all releases](https://img.shields.io/github/downloads/dark0ghost/async_py_bot/total.svg)](https://github.com/dark0ghost/async_py_bot/releases/)
+[![GitHub code size](https://img.shields.io/github/languages/code-size/dark0ghost/async_py_bot?style=flat)](https://github.com/dark0ghost/async_py_bot)
 
 # start with docker-compose:
 ```bash

@@ -54,7 +54,7 @@ async def process_start_command(message: types.Message) -> None:
 
 @dp.message_handler(text=lazy_get_text(singular="курсы валют", enable_cache=False))
 async def get_val(message: types.Message) -> None:
-    date:  list[str] = list((await cb.build_list_coin()).keys())
+    date: list[str] = list((await cb.build_list_coin()).keys())
     await message.reply(text=lazy_get_text(singular=lazy_get_text("доступные валюты"), enable_cache=False),
                         reply_markup=Button.buttons(Button, text=date, call_back=date))
 
@@ -213,27 +213,6 @@ async def qr_make(message: types.Message, state: FSMContext) -> None:
     await bot.send_photo(chat_id=message.chat.id, photo=await aiofiles.open(f"staticfile/{message.chat.id}.png", "rb"))
     await state.finish()
     os.remove(f"staticfile/{message.chat.id}.png")
-
-
-@dp.message_handler(commands=["Ton"], commands_prefix=["!"])
-async def ton_keyboard(message: types.Message):
-    return await message.answer(text=lazy_get_text("keyboard TON navigation"),
-                                reply_markup=keyboard.keyboards(texts=["balans wallet ton"]))
-
-
-@dp.message_handler(text="balans wallet ton")
-async def balans(message: types.Message):
-    await message.reply("send wallet")
-    await State.wait_wallet.set()
-
-
-@dp.message_handler(state=State.wait_wallet)
-async def balans_wallet(message: types.Message, state: FSMContext):
-    try:
-        await bot.send_message(message.chat.id, text=(await ton.getAddressBalance(address=message.text)) / 10 ** 9)
-    except:
-        await message.answer("wallet Not found")
-    await state.finish()
 
 
 @dp.message_handler(commands=["check"], commands_prefix=["!"])
