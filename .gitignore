@@ -1,3 +1,6 @@
+*.db
+/grafana
+/influxdb
 *.db3
 postgres/
 *.log
