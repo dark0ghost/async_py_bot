@@ -62,7 +62,7 @@ services:
       container_name: "grafana"
       restart: always
       volumes:
-        - "./grafana/data:/var/lib/grafana"
+        - "/grafana:/var/lib/grafana"
       environment:
         - GF_DATE_FORMATS_DEFAULT_TIMEZONE=browser
       ports:
