@@ -19,7 +19,7 @@ windows:
 ```bash
 python async_py_bot/start_poling.py
 ```
-# funtions bot:
+### Functions bot:
 
 # 1 start
 ```
@@ -48,23 +48,44 @@ deleted keyboard
 ```text
 /json -> send link on cloud json or sate state and wait u json
 ```
+### About EVN
+|name|description|
+| ------------- | ------------- |
+|STATS_DB|The name of the database in which the metric will be stored|
+|STATS_HOST|Database address|
+|STATS_USER|The user who will interact with the database|
+|STATS_PASS|Password from **STATS_USER**|
+|TOKEN|Bot token|
+|PAYMENTS_PROVIDER_TOKEN|Token for payments system in bot |
+|TOKEN_QIWI| Token from Qiwi |
+|POSTGRES|link for postgres; example: postgress://user:password@localhost:port|
+|virustotal|Token from virustotal.com|
+|etcherscan|Token from etcherscan.io|
+|pastebin|Token from pastebin.com|
+|cat_api|Token from thecatapi.com|
+|MASTER|id admin user|
 
-# dependencies
+### Dependencies
 |name|version |
 | ------------- | ------------- |
-|Python |3.7|
+|Python |3.7 (support 3.9)|
 |docker| 19.03.12|
 |docker-compose| 1.21.0|
-|GCC|9|
-|aiogram| 2.5|
-|uvloop|0.13.0|
-|beautifulsoup4|4.8.0|
-|aiofiles|0.4.0|
-|aiosmtplib|1.1.0|
-|faces|0.1|
+|GCC|9 (support 10)|
+|aiofiles|0.6.0|
+|aiogram|2.11.2|
+|aiohttp|3.7.3|
+|aiohttp-socks|0.5.5|
+|aioinflux|0.9.0|
+|aioredis|1.3.1|
+|aiosmtplib|1.1.4|
+|aiosocksy|0.1.2|
+|gino|1.0.1|
+|ujson|4.0.2|
 
-# about
+
+# About
 ```
-this repository shows how you can work with aviogram v2, but remember using global variables will lead to UB
+This repository shows how you can work with aviogram v2
 ```
 __project frozen__
